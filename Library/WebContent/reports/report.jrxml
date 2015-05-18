@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="windows-1251"?>
+	<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN"
+	           "http://jasperReports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport name="report" >
+		
+
+	 
+	 <style
+	    name="Normal"
+	    isDefault="true"
+	    pdfFontName="times.ttf"
+	    pdfEncoding="cp1251"
+	    border="Thin" 
+	     
+	/>
+	
+	
+	<parameter name="toDay" class="java.lang.String"/>
+	<parameter name="title" class="java.lang.String"/>
+	<parameter name="period" class="java.lang.String"/>
+	<parameter name="givenSummary" class="java.lang.String"/>
+	<parameter name="returnedSummary" class="java.lang.String"/>
+	
+	<parameter name="titleLibrarian" class="java.lang.String"/>
+	<parameter name="titleOperation" class="java.lang.String"/>
+	<parameter name="titleDate" class="java.lang.String"/>
+	<parameter name="titleStart" class="java.lang.String"/>
+	<parameter name="titleEnd" class="java.lang.String"/>
+	<parameter name="titleInventory" class="java.lang.String"/>
+	<parameter name="titleBook" class="java.lang.String"/>
+	<parameter name="titleUser" class="java.lang.String"/>
+	
+	
+	<field name="librarian" class="java.lang.String" />
+	<field name="operation" class="java.lang.String" />
+	<field name="date" class="java.util.Date" />
+	<field name="start" class="java.util.Date" />
+	<field name="end" class="java.util.Date" />
+	<field name="inventoryNumber" class="java.lang.Integer" />
+	<field name="book" class="java.lang.String" />
+	<field name="user" class="java.lang.String" />
+	
+   
+	
+   
+   
+   	
+   <title>
+    <band height="60" >
+    	<textField isBlankWhenNull="true" bookmarkLevel="1">
+      		<reportElement x="0" y="0" width="550" height="20" />
+      		<box  border="None" /> 
+      		<textElement textAlignment="Left" verticalAlignment="Middle" />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{toDay}]]>
+      		</textFieldExpression>
+        </textField>
+      
+      <textField isBlankWhenNull="true" bookmarkLevel="1">
+      		<reportElement x="0" y="20" width="550" height="20" />
+      		<box  border="None" /> 
+      		<textElement textAlignment="Center" verticalAlignment="Middle"  >
+              <font size="14" isBold="true" />
+            </textElement>
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{title}]]>
+      		</textFieldExpression>
+        </textField>
+    
+      
+      
+      <textField isBlankWhenNull="true" bookmarkLevel="1">
+      		<reportElement x="0" y="40" width="550" height="20" />
+      		<box  border="None" /> 
+      		<textElement textAlignment="Center" verticalAlignment="Middle" />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{period}]]>
+      		</textFieldExpression>
+      		 
+        </textField>
+       
+      
+      
+    </band>
+  </title>
+  
+    <columnHeader>
+    <band height="20">
+	   <textField isBlankWhenNull="true" bookmarkLevel="1">
+      		<reportElement x="0" y="0" width="100" height="20"/>
+      		<textElement textAlignment="Center" verticalAlignment="Middle"  />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{titleLibrarian}]]>
+      		</textFieldExpression>
+        </textField>
+        <textField isBlankWhenNull="true" bookmarkLevel="1">
+      		<reportElement x="100" y="0" width="60" height="20"/>
+      		<textElement textAlignment="Center" verticalAlignment="Middle"  />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{titleOperation}]]>
+      		</textFieldExpression>
+        </textField>
+        <textField isBlankWhenNull="true" bookmarkLevel="1">
+      		 <reportElement x="160" y="0" width="50" height="20"/>
+      		<textElement textAlignment="Center" verticalAlignment="Middle"  />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{titleDate}]]>
+      		</textFieldExpression>
+        </textField>
+         <textField isBlankWhenNull="true" bookmarkLevel="1">
+      		<reportElement x="210" y="0" width="50" height="20"/>
+      		<textElement textAlignment="Center" verticalAlignment="Middle"  />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{titleStart}]]>
+      		</textFieldExpression>
+         </textField>
+         <textField isBlankWhenNull="true" bookmarkLevel="1">
+      		<reportElement x="260" y="0" width="50" height="20"/>
+      		<textElement textAlignment="Center" verticalAlignment="Middle"  />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{titleEnd}]]>
+      		</textFieldExpression>
+         </textField>
+         <textField isBlankWhenNull="true" bookmarkLevel="1">
+      		<reportElement x="310" y="0" width="50" height="20"/>
+      		<textElement textAlignment="Center" verticalAlignment="Middle"  />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{titleInventory}]]>
+      		</textFieldExpression>
+         </textField>              
+         <textField isBlankWhenNull="true" bookmarkLevel="1">
+      		<reportElement x="360" y="0" width="100" height="20"/>
+      		<textElement textAlignment="Center" verticalAlignment="Middle"  />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{titleBook}]]>
+      		</textFieldExpression>
+         </textField>   
+         <textField isBlankWhenNull="true" bookmarkLevel="1">
+      		 <reportElement x="460" y="0" width="100" height="20"/>
+      		<textElement textAlignment="Center" verticalAlignment="Middle"  />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{titleUser}]]>
+      		</textFieldExpression>
+         </textField>   
+           
+    </band>
+  </columnHeader>
+  
+   <detail>
+    <band height="20" isSplitAllowed="true" >
+      <textField>
+        <reportElement x="0" y="0" width="100" height="20" />
+        <textElement verticalAlignment="Middle" textAlignment="Center"/>
+        <textFieldExpression class="java.lang.String">
+          <![CDATA[$F{librarian}]]>
+        </textFieldExpression>
+      </textField>
+      <textField>
+        <reportElement x="100" y="0" width="60" height="20" />
+        <textElement verticalAlignment="Middle" textAlignment="Center"/>
+        <textFieldExpression class="java.lang.String">
+          <![CDATA[$F{operation}]]>
+        </textFieldExpression>
+      </textField>
+      <textField>
+        <reportElement x="160" y="0" width="50" height="20" />
+        <textElement verticalAlignment="Middle" textAlignment="Center"/>
+        <textFieldExpression class="java.util.Date">
+          <![CDATA[$F{date}]]>
+        </textFieldExpression>
+      </textField>
+      <textField>
+        <reportElement x="210" y="0" width="50" height="20" />
+        <textElement verticalAlignment="Middle" textAlignment="Center"/>
+        <textFieldExpression class="java.util.Date">
+          <![CDATA[$F{start}]]>
+        </textFieldExpression>
+      </textField>
+      <textField>
+        <reportElement x="260" y="0" width="50" height="20" />
+        <textElement verticalAlignment="Middle" textAlignment="Center"/>
+        <textFieldExpression class="java.util.Date">
+          <![CDATA[$F{end}]]>
+        </textFieldExpression>
+      </textField>
+      <textField>
+        <reportElement x="310" y="0" width="50" height="20" />
+        <textElement verticalAlignment="Middle" textAlignment="Center"/>
+        <textFieldExpression class="java.lang.Integer">
+          <![CDATA[$F{inventoryNumber}]]>
+        </textFieldExpression>
+      </textField>
+      <textField>
+        <reportElement x="360" y="0" width="100" height="20" />
+        <textElement verticalAlignment="Middle" textAlignment="Center"/>
+        <textFieldExpression class="java.lang.String">
+          <![CDATA[$F{book}]]>
+        </textFieldExpression>
+      </textField>
+      <textField>
+        <reportElement x="460" y="0" width="100" height="20" />
+        <textElement verticalAlignment="Middle" textAlignment="Center"/>
+        <textFieldExpression class="java.lang.String">
+          <![CDATA[$F{user}]]>
+        </textFieldExpression>
+      </textField>
+      
+     </band>
+  </detail>
+
+
+  <pageFooter >
+    <band height="15" >
+    	
+      <staticText >
+       
+        <reportElement x="0" y="0" width="40" height="15"/>
+         <box  border="None" /> 
+        <textElement/>
+        <text><![CDATA[Page:]]></text>
+      </staticText>
+      <textField>
+      	
+        <reportElement x="40" y="0" width="100" height="15"/>
+        <box  border="None" /> 
+        <textElement/>
+        <textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+      </textField>
+    </band>
+  </pageFooter>
+
+	
+	<summary>
+   		 <band height="40" >
+    
+      	
+      	
+      	<textField isBlankWhenNull="true" bookmarkLevel="1">
+      		<reportElement x="0" y="0" width="500" height="20" />
+      		<box  border="None" /> 
+      		<textElement textAlignment="Left" verticalAlignment="Middle" />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{givenSummary}]]>
+      		</textFieldExpression>
+        </textField>
+        
+        <textField isBlankWhenNull="true" bookmarkLevel="1">
+      		<reportElement x="0" y="20" width="500" height="20" />
+      		<box  border="None" /> 
+      		<textElement textAlignment="Left" verticalAlignment="Middle" />
+      		<textFieldExpression class="java.lang.String">
+      			<![CDATA[$P{returnedSummary}]]>
+      		</textFieldExpression>
+        </textField>
+      	
+      	
+      	
+      	
+    </band>
+    </summary>
+	
+	<noData>
+	<band height="40" >
+		 <staticText>
+        	<reportElement x="180" y="0" width="200" height="20" />
+        	<text><![CDATA[No data]]></text>
+     	 </staticText>
+
+      </band>
+	</noData>
+	    
+	  
+
+
+	</jasperReport>

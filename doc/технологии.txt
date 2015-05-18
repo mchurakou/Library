@@ -1,0 +1,7 @@
+-Struts 2, tiles
+-Ajax
+-jQuery(DOM, alerts, diallog, loading, buttons, menus, jqGrid)
+- JSON
+
+
+ native2ascii -encoding CP1251 in.txt out.txt

@@ -1,0 +1,5 @@
+1) Хабибулин И. Самоучитель Java. Серия "Самоучитель". - СПб.: BHV-Санкт-Петербург, 2002 - 464 с.: ил. 
+2) Эккель Б. Философия Java. Библиотека программиста. - СПб. 2009 - 640 с.
+3) Brown D. Struts 2 in Action. - Manning Publications, 2008 - 450 с.
+4) Crane D. Ajax - Ajax In Action. - Manning Publications Co., 2006 - 681 c.
+5) Katz Y. jQuery in Action. - Manning Publications, 2010 - 475 c. 
