@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+		"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+		"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="base" template="/WEB-INF/view/verticalTemplate.jsp">
+		<put-attribute name="head" value="" />
+		<put-attribute name="title" value="Library" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="" />
+		<put-attribute name="bottomBlock" value="" />
+		<put-attribute name="footer" value="/WEB-INF/view/footer.jsp" />
+	</definition>
+
+	<definition name="tiles_login" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/login_head.tile" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/login.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_registration" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/login_head.tile" />
+		<put-attribute name="navigation" value="" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/registration.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+		
+	<definition name="tiles_profile" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/menu_head.tile" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/profile.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_users" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/menu_table_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/users.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_book_descriptions" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/menu_table_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/bookDescriptions.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_information" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/menu_head.tile" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/information.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_real_books" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/books_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/realBooks.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_give_book" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/books_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/giveBook.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_return_book" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/books_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/returnBook.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_debts" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/books_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/debts.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_ebooks" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/ebooks_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/eBooks.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_ebooks_for_user" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/ebooks_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/eBooks_for_user.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_real_books_for_user" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/books_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/realBooks_for_user.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_all_debts" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/books_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/all_debts.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_statistic" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/statistic_head.tile" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/statistic.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_departments" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/menu_table_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/departments.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_book_categories" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/menu_table_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/bookCategories.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_languages" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/menu_table_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/languages.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_user_categories" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/menu_table_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/userCategories.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	<definition name="tiles_divisions" extends="base">
+		<put-attribute name="head" value="/WEB-INF/view/menu_table_head.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
+		<put-attribute name="topBlock" value="" />
+		<put-attribute name="middleBlock" value="/WEB-INF/view/divisions.jsp" />
+		<put-attribute name="bottomBlock" value="" />
+	</definition>
+	
+	
+	
+	
+	
+	
+	
+	
+		
+	<definition name="tiles_error" extends="base">
+		<put-attribute name="middleBlock" value="/WEB-INF/view/error.jsp" />
+	</definition>
+	
+	
+</tiles-definitions>

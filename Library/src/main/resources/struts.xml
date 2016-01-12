@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+		"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+   	
+   	<!-- For all -->		
+ 	<package name="default" namespace="/" extends="tiles-default">
+		<global-results>
+			<result name="error" type="tiles">tiles_error</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"	result="error" />
+		</global-exception-mappings>
+			
+		<action name="loginPage"  >
+			<result type="tiles">tiles_login</result>
+		</action>
+		
+		<action name="loginConfirm" class="com.mikalai.library.actions.UserAction" method="loginConfirm">
+			<result name="input" type="tiles">tiles_login</result>
+			<result name="user" type="redirectAction">
+				<param name="actionName">profile</param>
+			</result>
+			<result name="administrator" type="redirectAction">
+				<param name="actionName">userAdministration</param>
+			</result>
+			<result name="librarian" type="redirectAction">
+				<param name="actionName">profile</param>
+			</result>
+			
+		</action>
+		
+		<action name="registrationConfirm" class="com.mikalai.library.actions.UserAction" method="registrationConfirm">
+			<result name="input" type="tiles">tiles_registration</result>
+			<result name="success" type="tiles">tiles_login</result>
+		</action>
+		
+		<action name="registrationPage" class="com.mikalai.library.actions.UserAction" method="loadDepartments">
+			<result type="tiles">tiles_registration</result>
+		</action>
+		
+		<action name="changeLanguage" >
+				<result type="tiles">tiles_login</result>
+		</action>
+		
+		<action name="exit"  class="com.mikalai.library.actions.ExitAction">
+			<result name="success" type="tiles">tiles_login</result>
+		</action>
+	</package>
+	
+	
+	<!-- For all ajax com.mikalai.library.actions-->
+	<package name="ajaxActions" extends="json-default" namespace="/">
+
+		<interceptors>
+				
+				<interceptor-stack name="ajaxStack">
+					<interceptor-ref name="defaultStack" />
+				</interceptor-stack>
+	    </interceptors>
+		<default-interceptor-ref name="ajaxStack" />
+
+		<global-results>
+			<result name="login" type="redirect">
+				login
+			</result>
+			<result name="error" type="redirect">
+				error
+			</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"	result="error" />
+		</global-exception-mappings>
+		
+		<action name="prepareDivisions" class="com.mikalai.library.actions.HandBookAction" method="prepareDivisions">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		
+	</package>
+	
+	
+	
+	<!-- For users -->
+	<package name="userActions" namespace="/" extends="tiles-default">
+
+		<interceptors>
+				<interceptor name="loginInterceptor" class="com.mikalai.library.interceptors.LoginInterceptor" />
+				<interceptor-stack name="userStack">
+					<interceptor-ref name="loginInterceptor" />
+					<interceptor-ref name="defaultStack" />
+				</interceptor-stack>
+	    </interceptors>
+		<default-interceptor-ref name="userStack" />
+
+		<global-results>
+			<result name="error" type="tiles">tiles_error</result>
+			<result name="login" type="tiles">tiles_login</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"	result="error" />
+		</global-exception-mappings>
+		
+		<action name="profile" class="com.mikalai.library.actions.UserAction" method="profile">
+			<result name="success" type="tiles">tiles_profile</result>
+		</action>
+		
+		<action name="changeProfile" class="com.mikalai.library.actions.UserAction" method="changeProfile">
+			<result name="success" type="tiles">tiles_profile</result>
+		</action>
+		
+		
+		
+		<action name="information">
+			<result name="success" type="tiles">tiles_information</result>
+		</action>
+		
+		<action name="debts" class="com.mikalai.library.actions.DebtAction" method="debts">
+			<result name="success" type="tiles">tiles_debts</result>
+		</action>
+		
+		<action name="download" class="com.mikalai.library.actions.FileAction" method="download">
+				<result name="sendFile" type="stream">
+					<param name="contentType">APPLICATION/OCTET-STREAM</param>
+					<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				</result>
+		</action>
+		
+		<action name="eBooksForUser" class="com.mikalai.library.actions.ElectronicBookAction" method="eBooks">
+			<result name="success" type="tiles">tiles_ebooks_for_user</result>
+		</action>
+		
+		<action name="realBooksForUser" class="com.mikalai.library.actions.RealBookAction" method="realBooks" >
+			<result name="success" type="tiles">tiles_real_books_for_user</result>
+		</action>
+		
+		<action name="statistic" class="com.mikalai.library.actions.StatisticAction" method="statistic">
+			<result name="success" type="tiles">tiles_statistic</result>
+		</action>
+			
+	</package>
+	
+	<package name="UserAjaxActions" extends="json-default" namespace="/">
+
+		<interceptors>
+				<interceptor name="loginInterceptor" class="com.mikalai.library.interceptors.LoginInterceptor" />
+				<interceptor-stack name="userStack">
+					<interceptor-ref name="loginInterceptor" />
+					<interceptor-ref name="defaultStack" />
+				</interceptor-stack>
+	    </interceptors>
+		<default-interceptor-ref name="userStack" />
+
+		<global-results>
+			<result name="login" type="redirect">
+				login
+			</result>
+			<result name="error" type="redirect">
+				error
+			</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"	result="error" />
+		</global-exception-mappings>
+		
+		<action name="getUserDebtsForUser" class="com.mikalai.library.actions.DebtAction" method="prepareDebtsForUser">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="getElectronicBooksForUser" class="com.mikalai.library.actions.ElectronicBookAction" method="prepareElectronicBooksForUser">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="getRealBooksForUser" class="com.mikalai.library.actions.RealBookAction" method="prepareRealBooksForUser">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="addToQueue" class="com.mikalai.library.actions.QueueAction" method="addToQueue">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="deleteFromQueue" class="com.mikalai.library.actions.QueueAction" method="deleteFromQueue">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="getQueueForUser" class="com.mikalai.library.actions.QueueAction" method="prepareQueues">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="loadCommentsForUser" class="com.mikalai.library.actions.CommentAction" method="loadComments">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="addCommentForUser" class="com.mikalai.library.actions.CommentAction" method="addComment">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="deleteCommentForUser" class="com.mikalai.library.actions.CommentAction" method="deleteComment">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+			
+	</package>
+	
+	
+	<!-- For administrator -->
+	<package name="administratorActions" namespace="/" extends="tiles-default">
+		<interceptors>
+				<interceptor name="loginInterceptor" class="com.mikalai.library.interceptors.LoginInterceptor" />
+				<interceptor name="administratorInterceptor" class="com.mikalai.library.interceptors.AdministratorInterceptor" />
+				<interceptor-stack name="administratorStack">
+					<interceptor-ref name="loginInterceptor" />
+					<interceptor-ref name="administratorInterceptor" />
+					<interceptor-ref name="defaultStack" />
+				</interceptor-stack>
+	    </interceptors>
+		<default-interceptor-ref name="administratorStack" />
+
+		<global-results>
+			<result name="error" type="tiles">tiles_error</result>
+			<result name="login" type="tiles">tiles_login</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"	result="error" />
+		</global-exception-mappings>
+		
+		<action name="userAdministration" class="com.mikalai.library.actions.UserAction" >
+			<result name="success" type="tiles">tiles_users</result>
+		</action>
+		
+		<action name="departmentAdministration" class="com.mikalai.library.actions.HandBookAction" >
+			<result name="success" type="tiles">tiles_departments</result>
+		</action>
+		
+		<action name="bookCategoryAdministration" class="com.mikalai.library.actions.HandBookAction">
+			<result name="success" type="tiles">tiles_book_categories</result>
+		</action>
+		
+		<action name="languageAdministration" class="com.mikalai.library.actions.HandBookAction">
+			<result name="success" type="tiles">tiles_languages</result>
+		</action>
+		
+		<action name="userCategoryAdministration" class="com.mikalai.library.actions.HandBookAction">
+			<result name="success" type="tiles">tiles_user_categories</result>
+		</action>
+		
+		
+		<action name="divisionAdministration" class="com.mikalai.library.actions.HandBookAction" method="loadDepartments">
+			<result name="success" type="tiles">tiles_divisions</result>
+		</action>
+		
+			
+		
+		
+	</package>
+	
+	<package name="AdministratorAjaxActions" extends="json-default" namespace="/">
+
+		<interceptors>
+				<interceptor name="loginInterceptor" class="com.mikalai.library.interceptors.LoginInterceptor" />
+				<interceptor name="administratorInterceptor" class="com.mikalai.library.interceptors.AdministratorInterceptor" />
+				<interceptor-stack name="administratorStack">
+					<interceptor-ref name="loginInterceptor" />
+					<interceptor-ref name="administratorInterceptor" />
+					<interceptor-ref name="defaultStack" />
+				</interceptor-stack>
+	    </interceptors>
+		<default-interceptor-ref name="administratorStack" />
+
+		<global-results>
+			<result name="login" type="redirect">
+				login
+			</result>
+			<result name="error" type="redirect">
+				error
+			</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"	result="error" />
+		</global-exception-mappings>
+		
+		<action name="getUsers" class="com.mikalai.library.actions.UserAction" method="prepareUsers">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="getDepartments" class="com.mikalai.library.actions.HandBookAction" method="prepareDepartments">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="editUser" class="com.mikalai.library.actions.UserAction" method="editUser">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="editDepartment" class="com.mikalai.library.actions.HandBookAction" method="editDepartment">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="getBookCategories" class="com.mikalai.library.actions.HandBookAction" method="prepareBookCategories">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+
+		<action name="editBookCategory" class="com.mikalai.library.actions.HandBookAction" method="editBookCategory">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="getLanguages" class="com.mikalai.library.actions.HandBookAction" method="prepareLanguages">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="editLanguage" class="com.mikalai.library.actions.HandBookAction" method="editLanguage">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="getUserCategories" class="com.mikalai.library.actions.HandBookAction" method="prepareUserCategories">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="editUserCategory" class="com.mikalai.library.actions.HandBookAction" method="editUserCategory">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		
+		<action name="getDivisions" class="com.mikalai.library.actions.HandBookAction" method="getDivisions">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="editDivision" class="com.mikalai.library.actions.HandBookAction" method="editDivision">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		
+		
+		
+		
+		
+
+
+		
+	</package>
+
+	<!-- For librarian -->
+	<package name="librarianActions" namespace="/" extends="tiles-default">
+		<interceptors>
+				<interceptor name="loginInterceptor" class="com.mikalai.library.interceptors.LoginInterceptor" />
+				<interceptor name="librarianInterceptor" class="com.mikalai.library.interceptors.LibrarianInterceptor" />
+				<interceptor-stack name="librarianStack">
+					<interceptor-ref name="loginInterceptor" />
+					<interceptor-ref name="librarianInterceptor" />
+					<interceptor-ref name="defaultStack" />
+				</interceptor-stack>
+	    </interceptors>
+		<default-interceptor-ref name="librarianStack" />
+
+		<global-results>
+			<result name="error" type="tiles">tiles_error</result>
+			<result name="login" type="tiles">tiles_login</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"	result="error" />
+		</global-exception-mappings>
+		
+		
+		
+		<action name="bookDescriptions" class="com.mikalai.library.actions.BookDescriptionAction" method="bookDescriptions" >
+			<result name="success" type="tiles">tiles_book_descriptions</result>
+		</action>
+		
+		<action name="realBooks" class="com.mikalai.library.actions.RealBookAction" method="realBooks" >
+			<result name="success" type="tiles">tiles_real_books</result>
+		</action>
+		
+		<action name="giveBook" class="com.mikalai.library.actions.DebtAction" method="giveBook" >
+			<result name="success" type="tiles">tiles_give_book</result>
+		</action>
+		
+		<action name="returnBook" class="com.mikalai.library.actions.DebtAction" method="returnBook" >
+			<result name="success" type="tiles">tiles_return_book</result>
+		</action>
+		
+		<action name="eBooks" class="com.mikalai.library.actions.ElectronicBookAction" method="eBooks" >
+			<result name="success" type="tiles">tiles_ebooks</result>
+		</action>
+		
+		<action name="allDebts" class="com.mikalai.library.actions.DebtAction" method="debts">
+			<result name="success" type="tiles">tiles_all_debts</result>
+		</action>
+		
+		
+		
+		
+		
+	</package>
+	
+	<package name="LibrarianAjaxActions" extends="json-default" namespace="/">
+
+		<interceptors>
+				<interceptor name="loginInterceptor" class="com.mikalai.library.interceptors.LoginInterceptor" />
+				<interceptor name="librarianInterceptor" class="com.mikalai.library.interceptors.LibrarianInterceptor" />
+				<interceptor-stack name="librarianStack">
+					<interceptor-ref name="loginInterceptor" />
+					<interceptor-ref name="librarianInterceptor" />
+					<interceptor-ref name="defaultStack" />
+				</interceptor-stack>
+	    </interceptors>
+		<default-interceptor-ref name="librarianStack" />
+
+		<global-results>
+			<result name="login" type="redirect">
+				login
+			</result>
+			<result name="error" type="redirect">
+				error
+			</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"	result="error" />
+		</global-exception-mappings>
+		
+		<action name="getBookDescriptions" class="com.mikalai.library.actions.BookDescriptionAction" method="prepareBookDescriptions">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+				
+		<action name="editBookDescription" class="com.mikalai.library.actions.BookDescriptionAction" method="editBookDescription">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="getRealBooks" class="com.mikalai.library.actions.RealBookAction" method="prepareRealBooks">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="editRealBook" class="com.mikalai.library.actions.RealBookAction" method="editRealBook">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="addRealBook" class="com.mikalai.library.actions.RealBookAction" method="addRealBook">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="getUsersForLibrarian" class="com.mikalai.library.actions.UserAction" method="prepareActiveUsers">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="giveRealBook" class="com.mikalai.library.actions.DebtAction" method="giveRealBook" >
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="getUserDebtsForLibrarian" class="com.mikalai.library.actions.DebtAction" method="prepareDebtsForUser">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="returnRealBook" class="com.mikalai.library.actions.DebtAction" method="returnRealBook" >
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="uploadProgress" class="com.mikalai.library.actions.FileAction" method="uploadProgress">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="getElectronicBooksForLibrarian" class="com.mikalai.library.actions.ElectronicBookAction" method="prepareElectronicBooks">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="editElectronicBook" class="com.mikalai.library.actions.ElectronicBookAction" method="editElectronicBook">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="getQueueForLibrarian" class="com.mikalai.library.actions.QueueAction" method="prepareQueues">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="deleteFromQueueById" class="com.mikalai.library.actions.QueueAction" method="deleteFromQueueById">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="getAllDebts" class="com.mikalai.library.actions.DebtAction" method="prepareAllDebts">
+			<result type="json">
+				<param name="root">tableResult</param>
+			</result>
+		</action>
+		
+		<action name="loadComments" class="com.mikalai.library.actions.CommentAction" method="loadComments">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="loadCommentsForLibrarian" class="com.mikalai.library.actions.CommentAction" method="loadComments">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="addComment" class="com.mikalai.library.actions.CommentAction" method="addComment">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="deleteComment" class="com.mikalai.library.actions.CommentAction" method="deleteComment">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="getRealPrivileges" class="com.mikalai.library.actions.RealBookAction" method="getRealPrivileges">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="setRealPrivileges" class="com.mikalai.library.actions.RealBookAction" method="setRealPrivileges">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="getElectronicPrivileges" class="com.mikalai.library.actions.ElectronicBookAction" method="getElectronicPrivileges">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="setElectronicPrivileges" class="com.mikalai.library.actions.ElectronicBookAction" method="setElectronicPrivileges">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		
+		
+		
+			
+	</package>	
+	
+	<package name="ajaxfileupload" namespace="/" extends="ajaxfileupload-default">
+		<action name="upload" class="com.mikalai.library.actions.FileAction" method="upload">
+		<interceptor-ref name="fileUploadStack" /> 
+		
+		<result name="success" type="httpheader">
+			<param name="status">200</param>
+		</result>
+		</action>
+		
+		
+	</package>
+	
+	
+	
+	<package name="jasper" namespace="/" extends="jasperreports-default">
+		<result-types>
+    		<result-type name="jasper" class="org.apache.struts2.views.jasperreports.JasperReportsResult"/>
+	    </result-types>
+		
+		<interceptors>
+				<interceptor name="loginInterceptor" class="com.mikalai.library.interceptors.LoginInterceptor" />
+				<interceptor name="librarianInterceptor" class="com.mikalai.library.interceptors.LibrarianInterceptor" />
+				<interceptor-stack name="librarianStack">
+					<interceptor-ref name="loginInterceptor" />
+					<interceptor-ref name="librarianInterceptor" />
+					<interceptor-ref name="defaultStack" />
+				</interceptor-stack>
+	    </interceptors>
+		<default-interceptor-ref name="librarianStack" />
+
+		<global-results>
+			<result name="login" type="redirect">
+				login
+			</result>
+			<result name="error" type="redirect">
+				error
+			</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"	result="error" />
+		</global-exception-mappings>
+		
+	
+
+		
+	
+	
+  	  <action name="report" class="com.mikalai.library.actions.ReportAction">
+        <result name="success" type="jasper">
+            <param name="location">/reports/report_compile.jasper</param>
+            <param name="dataSource">records</param>
+            <param name="format">PDF</param>
+            <param name="reportParameters">reportParameters</param>
+        </result>
+    	</action>
+    
+	</package>
+	
+		
+	
+	
+		
+</struts>
