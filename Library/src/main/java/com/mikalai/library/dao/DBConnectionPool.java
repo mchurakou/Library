@@ -36,7 +36,6 @@ public class DBConnectionPool {
 		try {
 			Class.forName(Constants.DB_DRIVER);
 			con = DriverManager.getConnection(url,login,password);
-			//con = DriverManager.getConnection(url);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

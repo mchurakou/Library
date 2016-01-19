@@ -8,8 +8,7 @@ public class Constants {
 	
 	/*database constants*/
 	public static String DB_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	public static String URL_DB = "jdbc:sqlserver://localhost:1433;databaseName=library;integratedSecurity=false;";
-	//public static String URL_DB = "jdbc:sqlserver://localhost:1433;databaseName=library;integratedSecurity=true;";
+	public static String URL_DB = "jdbc:sqlserver://localhost:1433;databaseName=library";
 	public static int DB_MAX_CONNECTION = 10;
 	public static String DB_DBO = "dbo";
 	public static String DB_LOGIN  = "badbug";
