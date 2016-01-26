@@ -444,26 +444,60 @@
 		
 	</package>
 	
-	<package name="LibrarianAjaxActions" extends="json-default" namespace="/">
+	<package name="LibrarianAjaxActions" extends="struts-default" namespace="/">
+
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
+		</result-types>
+
 
 		<interceptors>
-				<interceptor name="loginInterceptor" class="com.mikalai.library.interceptors.LoginInterceptor" />
-				<interceptor name="librarianInterceptor" class="com.mikalai.library.interceptors.LibrarianInterceptor" />
-				<interceptor-stack name="librarianStack">
-					<interceptor-ref name="loginInterceptor" />
-					<interceptor-ref name="librarianInterceptor" />
-					<interceptor-ref name="defaultStack" />
-				</interceptor-stack>
-	    </interceptors>
-		<default-interceptor-ref name="librarianStack" />
+
+			<interceptor name="jsonValidation" class="org.apache.struts2.json.JSONValidationInterceptor"/>
+			<interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
+
+			<interceptor name="loginInterceptor" class="com.mikalai.library.interceptors.LoginInterceptor" />
+			<interceptor name="librarianInterceptor" class="com.mikalai.library.interceptors.LibrarianInterceptor" />
+
+
+			<interceptor-stack name="appStack">
+
+				<interceptor-ref name="exception">
+					<param name="logEnabled">true</param>
+				</interceptor-ref>
+
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="librarianInterceptor" />
+
+				<interceptor-ref name="alias"/>
+				<interceptor-ref name="servletConfig"/>
+				<interceptor-ref name="i18n"/>
+				<interceptor-ref name="prepare"/>
+				<interceptor-ref name="chain"/>
+				<interceptor-ref name="scopedModelDriven"/>
+				<interceptor-ref name="modelDriven"/>
+				<interceptor-ref name="fileUpload"/>
+				<interceptor-ref name="checkbox"/>
+				<interceptor-ref name="datetime"/>
+				<interceptor-ref name="multiselect"/>
+				<interceptor-ref name="json"/>
+				<interceptor-ref name="staticParams"/>
+				<interceptor-ref name="actionMappingParams"/>
+				<interceptor-ref name="params"/>
+				<interceptor-ref name="conversionError"/>
+				<interceptor-ref name="validation" />
+				<interceptor-ref name="jsonValidation"/>
+				<interceptor-ref name="workflow"/>
+				<interceptor-ref name="debugging"/>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="appStack"/>
+
 
 		<global-results>
-			<result name="login" type="redirect">
-				login
-			</result>
-			<result name="error" type="redirect">
-				error
-			</result>
+			<result name="error" type="tiles">tiles_error</result>
+			<result name="login" type="tiles">tiles_login</result>
 		</global-results>
 		
 		<global-exception-mappings>
