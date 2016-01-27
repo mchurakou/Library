@@ -5,7 +5,7 @@ import com.mikalai.library.ajax_json.*;
 import com.mikalai.library.beans.Division;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.dao.*;
-import com.mikalai.library.exceptions.DBException;
+;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
@@ -82,7 +82,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 				departments = DepartmentDB.getDepartmentsForTable(pagination, null);
 			else
 				departments = DepartmentDB.getDepartmentsForTable(pagination, filters);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
@@ -127,7 +127,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 			
@@ -157,7 +157,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 				bookCategories = BookCategoryDB.getBookCategoriesForTable(pagination, null);
 			else
 				bookCategories = BookCategoryDB.getBookCategoriesForTable(pagination, filters);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
@@ -204,7 +204,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 			
@@ -232,7 +232,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 				languages = LanguageDB.getLanguagesForTable(pagination, null);
 			else
 				languages = LanguageDB.getLanguagesForTable(pagination, filters);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
@@ -279,7 +279,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 			
@@ -308,7 +308,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 				userCategories = UserCategoryDB.getUserCategoriesForTable(pagination, null);
 			else
 				userCategories = UserCategoryDB.getUserCategoriesForTable(pagination, filters);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
@@ -354,7 +354,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 			
@@ -383,7 +383,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 			departmentValue= StringBuilder.generateValueForList(departments);
 				
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return Action.INPUT;
@@ -410,7 +410,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 				divisions = DivisionDB.getDivisionsForTable(pagination, null);
 			else
 				divisions = DivisionDB.getDivisionsForTable(pagination, filters);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
@@ -455,7 +455,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 			
@@ -486,7 +486,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 			res.add(DivisionDB.getDivisionsByDepartmentId(departmentId,getLocale().getLanguage()));
 			
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 			

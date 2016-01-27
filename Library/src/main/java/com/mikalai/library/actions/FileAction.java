@@ -5,7 +5,7 @@ package com.mikalai.library.actions;
 import com.davidjc.ajaxfileupload.action.FileUpload;
 import com.mikalai.library.ajax_json.AjaxResult;
 import com.mikalai.library.dao.ElectronicBookDB;
-import com.mikalai.library.exceptions.DBException;
+;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.ZipFile;
 import com.opensymphony.xwork2.Action;
@@ -50,7 +50,7 @@ public class FileAction extends FileUpload  implements SessionAware{
 	
 	/**
 	 * Upload 
-	 * @throws DBException 
+	 * @throws Exception
 	 * @throws Exception 
 	 * 
 	 */
@@ -128,7 +128,7 @@ public class FileAction extends FileUpload  implements SessionAware{
 	
 	/**
 	 * Download 
-	 * @throws DBException 
+	 * @throws Exception
 	 * @throws Exception 
 	 * 
 	 */

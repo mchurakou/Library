@@ -12,7 +12,7 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.beans.SimpleBean;
 
 import com.mikalai.library.ajax_json.Filter;
-import com.mikalai.library.exceptions.DBException;
+;
 
 /**
  * Action for work with book categories
@@ -25,10 +25,10 @@ public class BookCategoryDB {
      * count of book categories
 	 * @param filters 
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfBookCategories(Filter filter) throws DBException{
+	public static int getCountOfBookCategories(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -42,7 +42,7 @@ public class BookCategoryDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -51,10 +51,10 @@ public class BookCategoryDB {
 	/**
      * List of book categories for table with searching
      * @return list of book categories
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getBookCategoriesForTable(Pagination pagination, Filter filter) throws DBException{
+	public static List<SimpleBean> getBookCategoriesForTable(Pagination pagination, Filter filter) throws Exception{
 				
 		String filterStr = SQL.getSqlFilter(filter);
 		List<SimpleBean> bookCategories = new ArrayList<SimpleBean>();
@@ -79,7 +79,7 @@ public class BookCategoryDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return bookCategories;
@@ -88,11 +88,11 @@ public class BookCategoryDB {
 	/**
      * delete book category
      * @param id of book category
-     * @throws DBException 
+     * @throws Exception
      * 
      */
 		
-	public static boolean deleteBookCategory(int id) throws DBException{
+	public static boolean deleteBookCategory(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -113,7 +113,7 @@ public class BookCategoryDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -123,10 +123,10 @@ public class BookCategoryDB {
 	/**
      * edit book category
      * @param  id, name, name_ru
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static boolean editBookCategory(int id, String name,String name_ru) throws DBException  {
+	public static boolean editBookCategory(int id, String name,String name_ru) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -150,7 +150,7 @@ public class BookCategoryDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		return result;
 		
@@ -161,10 +161,10 @@ public class BookCategoryDB {
 	/**
      * add book category
      * @param name, name_ru
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static boolean addBookCategory( String name,String name_ru) throws DBException  {
+	public static boolean addBookCategory( String name,String name_ru) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -188,7 +188,7 @@ public class BookCategoryDB {
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		return result;
 		

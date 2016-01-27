@@ -6,7 +6,7 @@ import com.mikalai.library.beans.Division;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
 import com.mikalai.library.dao.*;
-import com.mikalai.library.exceptions.DBException;
+;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
@@ -79,7 +79,7 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 
 	/**
 	 * Give book action 
-	 * @throws DBException 
+	 * @throws Exception
 	 * 
 	 */
 	public String giveBook() {
@@ -98,7 +98,7 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 			
 			divisions = DivisionDB.getDivisions(getLocale().getLanguage());
 			divisionValue = StringBuilder.generateValueForList(divisions);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return INPUT;
@@ -113,7 +113,7 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 	
 	/**
 	 * Debts action 
-	 * @throws DBException 
+	 * @throws Exception
 	 * 
 	 */
 	public String debts() {
@@ -126,7 +126,7 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 			
 			divisions = DivisionDB.getDivisions(getLocale().getLanguage());
 			divisionValue = StringBuilder.generateValueForList(divisions);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return INPUT;
@@ -140,10 +140,10 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 	
 	/**
 	 * giving some book 
-	 * @throws DBException 
+	 * @throws Exception
 	 * 
 	 */
-	public String giveRealBook() throws DBException{
+	public String giveRealBook() throws Exception{
 		User user = (User) session.get(Constants.ATTRIBUTE_USER);
 				
 		try {
@@ -151,7 +151,7 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 			DebtDB.giveBook(realBookId, userId, start, end,user.getId());
 			QueueDB.deleteUserFromQueue(userId, realBookId);
 			result = new AjaxResult(getText(Constants.MSG_BOOK_GIVEN));
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
@@ -174,7 +174,7 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 				debts = DebtDB.getDebtsForTable(pagination, null, userId,getLocale().getLanguage());
 			else
 				debts = DebtDB.getDebtsForTable(pagination, filters, userId,getLocale().getLanguage());
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
@@ -205,7 +205,7 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 				debts = DebtDB.getAllDebtsForTable(pagination, null,getLocale().getLanguage());
 			else
 				debts = DebtDB.getAllDebtsForTable(pagination,  filters,getLocale().getLanguage());
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
@@ -225,15 +225,15 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 	
 	/**
 	 * giving some book 
-	 * @throws DBException 
+	 * @throws Exception
 	 * 
 	 */
-	public String returnRealBook() throws DBException{
+	public String returnRealBook() throws Exception{
 		User user = (User) session.get(Constants.ATTRIBUTE_USER);
 		try {
 			DebtDB.returnBook(debtId,user.getId());
 			result = new AjaxResult(getText(Constants.MSG_BOOK_RETURNED));
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
@@ -245,7 +245,7 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 	
 	/**
 	 * Return book action 
-	 * @throws DBException 
+	 * @throws Exception
 	 * 
 	 */
 	public String returnBook() {
@@ -264,7 +264,7 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 			
 			divisions = DivisionDB.getDivisions(getLocale().getLanguage());
 			divisionValue = StringBuilder.generateValueForList(divisions);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return INPUT;

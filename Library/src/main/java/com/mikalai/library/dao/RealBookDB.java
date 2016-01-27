@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mikalai.library.exceptions.DBException;
+;
 
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
@@ -56,10 +56,10 @@ public class RealBookDB {
      * count of real books
 	 * @param filter 
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfRealBooks(Filter filter) throws DBException{
+	public static int getCountOfRealBooks(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -73,7 +73,7 @@ public class RealBookDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -83,10 +83,10 @@ public class RealBookDB {
      * List of real books for table with searching
 	 * @param language 
      * @return list of users
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<RealBook> getRealBooksForTable(Pagination pagination, Filter filter, String language) throws DBException{
+	public static List<RealBook> getRealBooksForTable(Pagination pagination, Filter filter, String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -111,7 +111,7 @@ public class RealBookDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return realBooks;
@@ -120,11 +120,11 @@ public class RealBookDB {
 	/**
      * delete real book
      * @param id of real book
-     * @throws DBException 
+     * @throws Exception
      * 
      */
 	
-	public static boolean deleteRealBook(int id) throws DBException{
+	public static boolean deleteRealBook(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -146,7 +146,7 @@ public class RealBookDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -159,10 +159,10 @@ public class RealBookDB {
 	/**
      * edit real book
      * @param id, inventory number, cost
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static void editRealBook(int id, int inventoryNumber,int cost) throws DBException  {
+	public static void editRealBook(int id, int inventoryNumber,int cost) throws Exception  {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con = pool.getConnection();
@@ -175,7 +175,7 @@ public class RealBookDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		
 	}
@@ -184,10 +184,10 @@ public class RealBookDB {
 	/**
      * add real book
      * @param nventoryNumber, cost,bookDescriptionId
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static boolean addRealBook(int inventoryNumber, int cost,int bookDescriptionId) throws DBException{
+	public static boolean addRealBook(int inventoryNumber, int cost,int bookDescriptionId) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -209,7 +209,7 @@ public class RealBookDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		return result;
 		
@@ -220,7 +220,7 @@ public class RealBookDB {
      * @param real book id 
       * @return user categories ids
      */	
-	public static List<Integer> getUserCategoriesId(int realBookId) throws DBException{
+	public static List<Integer> getUserCategoriesId(int realBookId) throws Exception{
 		List<Integer> result = new ArrayList<Integer>();
 			
 		try {
@@ -237,7 +237,7 @@ public class RealBookDB {
 		    s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		
@@ -250,7 +250,7 @@ public class RealBookDB {
      * @param user categories ids 
      * 
      */	
-	public static void setUserCategoriesId(int realBookId,int[] categoryIds) throws DBException{
+	public static void setUserCategoriesId(int realBookId,int[] categoryIds) throws Exception{
 		
 			
 		try {
@@ -271,7 +271,7 @@ public class RealBookDB {
 		    s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return;
@@ -284,10 +284,10 @@ public class RealBookDB {
      * count of real books for user
 	 * @param filter 
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfRealBooksForUser(Filter filter,int userCategoryId) throws DBException{
+	public static int getCountOfRealBooksForUser(Filter filter,int userCategoryId) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -303,7 +303,7 @@ public class RealBookDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -313,10 +313,10 @@ public class RealBookDB {
      * List of real books for table with searching
 	 * @param language 
      * @return list of users
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<RealBook> getRealBooksForTableByUserCategory(Pagination pagination, Filter filter, String language,int userCategoryId) throws DBException{
+	public static List<RealBook> getRealBooksForTableByUserCategory(Pagination pagination, Filter filter, String language,int userCategoryId) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -342,7 +342,7 @@ public class RealBookDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return realBooks;

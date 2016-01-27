@@ -6,7 +6,7 @@ import com.mikalai.library.ajax_json.Row;
 import com.mikalai.library.beans.Queue;
 import com.mikalai.library.beans.User;
 import com.mikalai.library.dao.QueueDB;
-import com.mikalai.library.exceptions.DBException;
+;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.opensymphony.xwork2.ActionSupport;
@@ -55,7 +55,7 @@ public class QueueAction extends ActionSupport implements SessionAware{
 			else
 				result = new AjaxResult(false,getText(Constants.MSG_YOU_CANT_ADD_TWICE));
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
@@ -74,7 +74,7 @@ public class QueueAction extends ActionSupport implements SessionAware{
 			pagination = new Pagination("date",rows,count,page,"ASC");
 			queues = QueueDB.getQueuesForTable(pagination,realBookId);
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
@@ -105,7 +105,7 @@ public class QueueAction extends ActionSupport implements SessionAware{
 			else
 				result = new AjaxResult(false,getText(Constants.MSG_YOU_DONT_ATTEND_IN_QUEUE));
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
@@ -121,7 +121,7 @@ public class QueueAction extends ActionSupport implements SessionAware{
 		
 		try {
 			QueueDB.deleteUserFromQueueById(id);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 			

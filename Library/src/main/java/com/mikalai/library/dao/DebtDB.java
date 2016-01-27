@@ -13,7 +13,7 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.Debt;
 
-import com.mikalai.library.exceptions.DBException;
+;
 
 /**
  * Class for work with user's debts
@@ -53,10 +53,10 @@ public class DebtDB {
 	/**
      * give real book
      * @param real book id, user id, start, end
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static void giveBook(int realBookId,int userId,Timestamp start, Timestamp end,int librarianId) throws DBException{
+	public static void giveBook(int realBookId,int userId,Timestamp start, Timestamp end,int librarianId) throws Exception{
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con=pool.getConnection();
@@ -82,7 +82,7 @@ public class DebtDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		
@@ -95,10 +95,10 @@ public class DebtDB {
 	 * @param language 
      * @param user id
      * @return list of debts
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<Debt> getDebtsForTable(Pagination pagination, Filter filter, int userId, String language) throws DBException{
+	public static List<Debt> getDebtsForTable(Pagination pagination, Filter filter, int userId, String language) throws Exception{
 		String lang = "";
 		if (language.equals("ru"))
 			lang = "_ru";
@@ -123,7 +123,7 @@ public class DebtDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return debts;
@@ -135,10 +135,10 @@ public class DebtDB {
 	 * @param language 
      * @param user id
      * @return list of debts
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<Debt> getAllDebtsForTable(Pagination pagination, Filter filter, String language) throws DBException{
+	public static List<Debt> getAllDebtsForTable(Pagination pagination, Filter filter, String language) throws Exception{
 		String lang = "";
 		if (language.equals("ru"))
 			lang = "_ru";
@@ -161,7 +161,7 @@ public class DebtDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return debts;
@@ -172,10 +172,10 @@ public class DebtDB {
 	 * @param filter 
      * @param user id
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfDebts(int userId, Filter filter) throws DBException{
+	public static int getCountOfDebts(int userId, Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -191,7 +191,7 @@ public class DebtDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -201,10 +201,10 @@ public class DebtDB {
      * count of all debts
      * @param user id
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfAllDebts() throws DBException{
+	public static int getCountOfAllDebts() throws Exception{
 		int count = 0;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -218,7 +218,7 @@ public class DebtDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -227,7 +227,7 @@ public class DebtDB {
 	
 
 
-	public static void returnBook(int debtId,int librarianId) throws DBException {
+	public static void returnBook(int debtId,int librarianId) throws Exception {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con=pool.getConnection();
@@ -264,7 +264,7 @@ public class DebtDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		

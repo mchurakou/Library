@@ -1,18 +1,16 @@
 package com.mikalai.library.dao;
 
+import com.mikalai.library.ajax_json.Filter;
+import com.mikalai.library.beans.Division;
+import com.mikalai.library.utils.Constants;
+import com.mikalai.library.utils.Pagination;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mikalai.library.utils.Constants;
-import com.mikalai.library.utils.Pagination;
-import com.mikalai.library.beans.Division;
-
-import com.mikalai.library.ajax_json.Filter;
-import com.mikalai.library.exceptions.DBException;
 
 /**
  * Action for work with divisions
@@ -25,10 +23,10 @@ public class DivisionDB {
      * count of divisions
 	 * @param filters 
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfDivisions(Filter filter) throws DBException{
+	public static int getCountOfDivisions(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -42,7 +40,7 @@ public class DivisionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -51,10 +49,10 @@ public class DivisionDB {
 	/**
      * List of divisions for table with searching
      * @return list of divisions
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<Division> getDivisionsForTable(Pagination pagination, Filter filter) throws DBException{
+	public static List<Division> getDivisionsForTable(Pagination pagination, Filter filter) throws Exception{
 				
 		String filterStr = SQL.getSqlFilter(filter);
 		List<Division> divisions = new ArrayList<Division>();
@@ -80,7 +78,7 @@ public class DivisionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return divisions;
@@ -89,10 +87,10 @@ public class DivisionDB {
 	/**
      * add division
      * @param name, name_ru, department id
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static boolean addDivision( String name,String name_ru, int departmentId) throws DBException  {
+	public static boolean addDivision( String name,String name_ru, int departmentId) throws Exception  {
 		
 		boolean result = true;
 		try {
@@ -118,7 +116,7 @@ public class DivisionDB {
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		return result;
 		
@@ -127,11 +125,11 @@ public class DivisionDB {
 	/**
      * delete division
      * @param id of division
-     * @throws DBException 
+     * @throws Exception
      * 
      */
 		
-	public static boolean deleteDivision(int id) throws DBException{
+	public static boolean deleteDivision(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -152,7 +150,7 @@ public class DivisionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -162,10 +160,10 @@ public class DivisionDB {
 	/**
      * edit division
      * @param  id, name, name_ru, department id
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static boolean editDivision(int id, String name,String name_ru, int departmentId) throws DBException  {
+	public static boolean editDivision(int id, String name,String name_ru, int departmentId) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -190,7 +188,7 @@ public class DivisionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		return result;
 		
@@ -199,10 +197,10 @@ public class DivisionDB {
 	/**
      * List of divisions by department id
      * @return list of divisions
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<Division> getDivisionsByDepartmentId(int departmentId,String language) throws DBException{
+	public static List<Division> getDivisionsByDepartmentId(int departmentId,String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -224,7 +222,7 @@ public class DivisionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return divisions;
@@ -233,10 +231,10 @@ public class DivisionDB {
 	/**
      * List of divisions 
      * @return list of divisions
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<Division> getDivisions(String language) throws DBException{
+	public static List<Division> getDivisions(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -258,7 +256,7 @@ public class DivisionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return divisions;

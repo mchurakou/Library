@@ -12,7 +12,7 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.beans.SimpleBean;
 
 import com.mikalai.library.ajax_json.Filter;
-import com.mikalai.library.exceptions.DBException;
+;
 
 /**
  * Action for work with languages
@@ -25,10 +25,10 @@ public class LanguageDB {
      * count of languages
 	 * @param filters 
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfLanguages(Filter filter) throws DBException{
+	public static int getCountOfLanguages(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -42,7 +42,7 @@ public class LanguageDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -51,10 +51,10 @@ public class LanguageDB {
 	/**
      * List of languages for table with searching
      * @return list of languages
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getLanguagesForTable(Pagination pagination, Filter filter) throws DBException{
+	public static List<SimpleBean> getLanguagesForTable(Pagination pagination, Filter filter) throws Exception{
 				
 		String filterStr = SQL.getSqlFilter(filter);
 		List<SimpleBean> languages = new ArrayList<SimpleBean>();
@@ -79,7 +79,7 @@ public class LanguageDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return languages;
@@ -88,10 +88,10 @@ public class LanguageDB {
 	/**
      * add language
      * @param name, name_ru
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static boolean addLanguage( String name,String name_ru) throws DBException  {
+	public static boolean addLanguage( String name,String name_ru) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -115,7 +115,7 @@ public class LanguageDB {
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		return result;
 		
@@ -124,11 +124,11 @@ public class LanguageDB {
 	/**
      * delete language
      * @param id of language
-     * @throws DBException 
+     * @throws Exception
      * 
      */
 		
-	public static boolean deleteLanguage(int id) throws DBException{
+	public static boolean deleteLanguage(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -149,7 +149,7 @@ public class LanguageDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -159,10 +159,10 @@ public class LanguageDB {
 	/**
      * edit language
      * @param  id, name, name_ru
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static boolean editLanguage(int id, String name,String name_ru) throws DBException  {
+	public static boolean editLanguage(int id, String name,String name_ru) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -186,7 +186,7 @@ public class LanguageDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		return result;
 		

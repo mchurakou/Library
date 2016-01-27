@@ -7,7 +7,7 @@ import com.mikalai.library.beans.User;
 import com.mikalai.library.dao.BookDescriptionDB;
 import com.mikalai.library.dao.RealBookDB;
 import com.mikalai.library.dao.UserCategoryDB;
-import com.mikalai.library.exceptions.DBException;
+;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
@@ -76,10 +76,10 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 
 	/**
 	 * Prepare information for real books 
-	 * @throws DBException 
+	 * @throws Exception
 	 * 
 	 */
-	public String realBooks() throws DBException{
+	public String realBooks() throws Exception{
 		bookCategories = BookDescriptionDB.getBookCategories(getLocale().getLanguage());
 		String bookCategoryValue = StringBuilder.generateValueForList(bookCategories);
 		request.put("bookCategoryValue", bookCategoryValue);
@@ -107,7 +107,7 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 				realBooks =  RealBookDB.getRealBooksForTable(pagination,null,getLocale().getLanguage());
 			else
 				realBooks = RealBookDB.getRealBooksForTable(pagination,filters,getLocale().getLanguage());
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
@@ -141,7 +141,7 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 				realBooks =  RealBookDB.getRealBooksForTableByUserCategory(pagination,null,getLocale().getLanguage(),userCategoryId);
 			else
 				realBooks = RealBookDB.getRealBooksForTableByUserCategory(pagination,filters,getLocale().getLanguage(),userCategoryId);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
@@ -170,7 +170,7 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 				result = new AjaxResult(getText(Constants.MSG_BOOK_ADDED));
 			else
 				result = new AjaxResult(false,getText(Constants.MSG_DUPLICATE_INV));
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
@@ -189,7 +189,7 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 				success = RealBookDB.deleteRealBook(id);
 			if (oper.equals(Constants.OPERATION_EDIT)) //edit
 				RealBookDB.editRealBook(id, inventoryNumber,cost);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 			
@@ -213,7 +213,7 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 		try {
 			result = new AjaxResult(RealBookDB.getUserCategoriesId(realBookId));
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
@@ -230,7 +230,7 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 			RealBookDB.setUserCategoriesId(realBookId, categoryIds);
 			result = new AjaxResult("success");
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}

@@ -2,11 +2,9 @@ package com.mikalai.library.actions;
 
 import com.mikalai.library.beans.LibrarianReportRecord;
 import com.mikalai.library.dao.ReportDB;
-import com.mikalai.library.exceptions.DBException;
 import com.mikalai.library.utils.Constants;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +19,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+;
 
 
 
@@ -84,10 +84,8 @@ public class ReportAction  extends ActionSupport implements RequestAware{
 			JasperCompileManager.compileReportToFile(sc.getRealPath("/reports/report.jrxml"), sc.getRealPath("/reports/report_compile.jasper"));
 			
 			
-		} catch (DBException e) {
-			LOG.error(e.getMessage(),e);
 		}
-		catch (JRException e1) {
+		catch (Exception e1) {
 			LOG.error(e1.getMessage(),e1);
 		}
 		

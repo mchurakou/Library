@@ -15,7 +15,7 @@ import com.mikalai.library.beans.SimpleBean;
 
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
-import com.mikalai.library.exceptions.DBException;
+;
 /**
  * Class for work with electronic books
  * 
@@ -61,11 +61,11 @@ public class ElectronicBookDB {
 	/**
      * get new file id
      * 
-     * @throws DBException 
+     * @throws Exception
      * 
      */
 		
-	public static int getNewFileId() throws DBException{
+	public static int getNewFileId() throws Exception{
 		int result;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -77,7 +77,7 @@ public class ElectronicBookDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -90,7 +90,7 @@ public class ElectronicBookDB {
     * @param file name
     * 
     */	
-	public static void addElectronicBook(int bookDescriptionId, String fileName, int size, String extention) throws DBException{
+	public static void addElectronicBook(int bookDescriptionId, String fileName, int size, String extention) throws Exception{
 		
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -104,7 +104,7 @@ public class ElectronicBookDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		
 		return ;
@@ -114,10 +114,10 @@ public class ElectronicBookDB {
      * count of electronic books
 	 * @param filters 
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfElectronicBooks(int usetCategoryId, Filter filter) throws DBException{
+	public static int getCountOfElectronicBooks(int usetCategoryId, Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		String catSql = "";
 		if (usetCategoryId == 1)
@@ -134,7 +134,7 @@ public class ElectronicBookDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -144,10 +144,10 @@ public class ElectronicBookDB {
      * List of electronic books for table with searching
 	 * @param language 
      * @return list of users
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<ElectronicBook> getElectronicBooksForTable(Pagination pagination, Filter filter, String language) throws DBException{
+	public static List<ElectronicBook> getElectronicBooksForTable(Pagination pagination, Filter filter, String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -171,7 +171,7 @@ public class ElectronicBookDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return electronicBooks;
@@ -180,11 +180,11 @@ public class ElectronicBookDB {
 		/**
 	     * delete electronic  book
 	     * @param id of real book
-	     * @throws DBException 
+	     * @throws Exception
 	     * 
 	     */
 		
-		public static boolean deleteElectronicBook(int id) throws DBException{
+		public static boolean deleteElectronicBook(int id) throws Exception{
 			boolean result = true;
 			try {
 				DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -220,7 +220,7 @@ public class ElectronicBookDB {
 				s.close();
 				pool.releaseConnection(con);
 			} catch (SQLException e) {
-				throw new DBException(e);
+				throw new Exception(e);
 						
 			}
 			return result;
@@ -230,10 +230,10 @@ public class ElectronicBookDB {
 		/**
 	     * Get electronic book by id
 	     * @return electronic book
-	     * @throws DBException 
+	     * @throws Exception
 	     * 
 	     */
-		public static ElectronicBook getElectronicBook(int electronicBookId) throws DBException{
+		public static ElectronicBook getElectronicBook(int electronicBookId) throws Exception{
 			
 			ElectronicBook electronicBook = new ElectronicBook();
 			try {
@@ -250,7 +250,7 @@ public class ElectronicBookDB {
 				s.close();
 				pool.releaseConnection(con);
 			} catch (SQLException e) {
-				throw new DBException(e);
+				throw new Exception(e);
 						
 			}
 			return electronicBook;
@@ -261,7 +261,7 @@ public class ElectronicBookDB {
 	     * @param electronic book id 
 	      * @return user categories ids
 	     */	
-		public static List<Integer> getUserCategoriesId(int electronicBookId) throws DBException{
+		public static List<Integer> getUserCategoriesId(int electronicBookId) throws Exception{
 			List<Integer> result = new ArrayList<Integer>();
 				
 			try {
@@ -278,7 +278,7 @@ public class ElectronicBookDB {
 			    s.close();
 				pool.releaseConnection(con);
 			} catch (SQLException e) {
-				throw new DBException(e);
+				throw new Exception(e);
 						
 			}
 			
@@ -292,7 +292,7 @@ public class ElectronicBookDB {
 	     * @param user categories ids 
 	     * 
 	     */	
-		public static void setUserCategoriesId(int electronicBookId,int[] categoryIds) throws DBException{
+		public static void setUserCategoriesId(int electronicBookId,int[] categoryIds) throws Exception{
 			
 				
 			try {
@@ -313,7 +313,7 @@ public class ElectronicBookDB {
 			    s.close();
 				pool.releaseConnection(con);
 			} catch (SQLException e) {
-				throw new DBException(e);
+				throw new Exception(e);
 						
 			}
 			return;
@@ -323,10 +323,10 @@ public class ElectronicBookDB {
 	     * count of electronic books for user
 		 * @param filter 
 	     * @return count
-	     * @throws DBException 
+	     * @throws Exception
 	     * 
 	     */
-		public static int getCountOfElectronicBooksForUser(Filter filter,int userCategoryId) throws DBException{
+		public static int getCountOfElectronicBooksForUser(Filter filter,int userCategoryId) throws Exception{
 			String filterStr = SQL.getSqlFilter(filter);
 			int count = 0;
 			try {
@@ -342,7 +342,7 @@ public class ElectronicBookDB {
 				s.close();
 				pool.releaseConnection(con);
 			} catch (SQLException e) {
-				throw new DBException(e);
+				throw new Exception(e);
 						
 			}
 			return count;
@@ -352,10 +352,10 @@ public class ElectronicBookDB {
 	     * List of electronic books for table with searching
 		 * @param language 
 	     * @return list of users
-	     * @throws DBException 
+	     * @throws Exception
 	     * 
 	     */
-		public static List<ElectronicBook> getElectronicBooksForTableByUserCategory(Pagination pagination, Filter filter, String language,int userCategoryId) throws DBException{
+		public static List<ElectronicBook> getElectronicBooksForTableByUserCategory(Pagination pagination, Filter filter, String language,int userCategoryId) throws Exception{
 			String lang = " ";
 			if (language.equals("ru"))
 				lang = "_ru  ";
@@ -381,7 +381,7 @@ public class ElectronicBookDB {
 				s.close();
 				pool.releaseConnection(con);
 			} catch (SQLException e) {
-				throw new DBException(e);
+				throw new Exception(e);
 						
 			}
 			return electronicBooks;

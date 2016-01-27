@@ -12,7 +12,7 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.beans.SimpleBean;
 
 import com.mikalai.library.ajax_json.Filter;
-import com.mikalai.library.exceptions.DBException;
+;
 /**
  * Action for work with user categories
  * 
@@ -24,10 +24,10 @@ public class UserCategoryDB {
      * count of user categories
 	 * @param filters 
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfUserCategories(Filter filter) throws DBException{
+	public static int getCountOfUserCategories(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -41,7 +41,7 @@ public class UserCategoryDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -50,10 +50,10 @@ public class UserCategoryDB {
 	/**
      * List of user categories for table with searching
      * @return list of user categories
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getUserCategoriesForTable(Pagination pagination, Filter filter) throws DBException{
+	public static List<SimpleBean> getUserCategoriesForTable(Pagination pagination, Filter filter) throws Exception{
 				
 		String filterStr = SQL.getSqlFilter(filter);
 		List<SimpleBean> userCategories = new ArrayList<SimpleBean>();
@@ -78,7 +78,7 @@ public class UserCategoryDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return userCategories;
@@ -87,10 +87,10 @@ public class UserCategoryDB {
 	/**
      * add user category
      * @param name, name_ru
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static boolean addUserCategory( String name,String name_ru) throws DBException  {
+	public static boolean addUserCategory( String name,String name_ru) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -114,7 +114,7 @@ public class UserCategoryDB {
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		return result;
 		
@@ -123,11 +123,11 @@ public class UserCategoryDB {
 	/**
      * delete user category
      * @param id of user category
-     * @throws DBException 
+     * @throws Exception
      * 
      */
 		
-	public static boolean deleteUserCategory(int id) throws DBException{
+	public static boolean deleteUserCategory(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -148,7 +148,7 @@ public class UserCategoryDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -158,10 +158,10 @@ public class UserCategoryDB {
 	/**
      * edit user category
      * @param  id, name, name_ru
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static boolean editUserCategory(int id, String name,String name_ru) throws DBException  {
+	public static boolean editUserCategory(int id, String name,String name_ru) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -185,7 +185,7 @@ public class UserCategoryDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		return result;
 		
@@ -194,10 +194,10 @@ public class UserCategoryDB {
 	/**
      * List of user categories 
      * @return list of user categories
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getUserCategories(String language) throws DBException{
+	public static List<SimpleBean> getUserCategories(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";		
@@ -219,7 +219,7 @@ public class UserCategoryDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return userCategories;

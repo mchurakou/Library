@@ -8,7 +8,7 @@ import com.mikalai.library.beans.User;
 import com.mikalai.library.dao.DepartmentDB;
 import com.mikalai.library.dao.DivisionDB;
 import com.mikalai.library.dao.UserDB;
-import com.mikalai.library.exceptions.DBException;
+;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
@@ -101,7 +101,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 			
 			
 				
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return INPUT;
@@ -132,7 +132,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 				setMessage(getText(Constants.MSG_ACC_REG)); // registration new account
 				return SUCCESS;
 			}
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return INPUT;
@@ -150,7 +150,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		user = null;
 		try {
 			user = UserDB.getUser(login, password,getLocale().getLanguage());
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return Action.INPUT;
@@ -189,7 +189,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		try {
 			departments = DepartmentDB.getDepartments(getLocale().getLanguage());
 			divisions = DivisionDB.getDivisionsByDepartmentId(user.getDepartmentId(),getLocale().getLanguage());
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return Action.INPUT;
@@ -214,7 +214,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 			UserDB.changeProfile(user);
 			departments = DepartmentDB.getDepartments(getLocale().getLanguage());
 			divisions = DivisionDB.getDivisionsByDepartmentId(user.getDepartmentId(),getLocale().getLanguage());
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return Action.INPUT;
@@ -249,7 +249,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 				users = UserDB.getUsersForTable(pagination,null,getLocale().getLanguage());
 			else
 				users = UserDB.getUsersForTable(pagination,filters,getLocale().getLanguage());
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
@@ -280,7 +280,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 				users = UserDB.getActiveUsersForTable(pagination,null);
 			else
 				users = UserDB.getActiveUsersForTable(pagination,filters);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
@@ -311,7 +311,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 				success = UserDB.deleteUser(id);
 			if (oper.equals(Constants.OPERATION_EDIT)) //edit
 				UserDB.editUser(id, firstName, secondName, email, roleId, categoryId,divisionId);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 			
@@ -329,7 +329,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		
 		try {
 			departments = DepartmentDB.getDepartments(getLocale().getLanguage());
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return Action.INPUT;

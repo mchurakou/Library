@@ -2,7 +2,7 @@ package com.mikalai.library.actions;
 
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.dao.StatisticDB;
-import com.mikalai.library.exceptions.DBException;
+;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.ActionSupport;
@@ -62,7 +62,7 @@ public class StatisticAction extends ActionSupport implements  RequestAware{
 			request.put("bookCounts", bookCounts );
 					
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return INPUT;

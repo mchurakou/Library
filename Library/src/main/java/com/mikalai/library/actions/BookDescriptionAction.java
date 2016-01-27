@@ -4,7 +4,6 @@ import com.mikalai.library.ajax_json.*;
 import com.mikalai.library.beans.BookDescription;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.dao.BookDescriptionDB;
-import com.mikalai.library.exceptions.DBException;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
@@ -85,7 +84,7 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 			
 			
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return Action.INPUT;
@@ -109,7 +108,7 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 				bookDescriptions = BookDescriptionDB.getBookDescriptionsForTable(pagination,null,getLocale().getLanguage());
 			else
 				bookDescriptions = BookDescriptionDB.getBookDescriptionsForTable(pagination,filters,getLocale().getLanguage());
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
@@ -142,7 +141,7 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 			if (oper.equals(Constants.OPERATION_ADD)) //add
 				BookDescriptionDB.addBookDescription(name, author, bookCategoryId, publicationPlace, publicationYear, size, languageId);
 				
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 			

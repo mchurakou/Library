@@ -13,7 +13,7 @@ import com.mikalai.library.beans.SimpleBean;
 
 
 import com.mikalai.library.ajax_json.Filter;
-import com.mikalai.library.exceptions.DBException;
+;
 /**
  * Action for work with departments
  * 
@@ -25,10 +25,10 @@ public class DepartmentDB {
      * count of departments
 	 * @param filters 
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfDepartments(Filter filter) throws DBException{
+	public static int getCountOfDepartments(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -42,7 +42,7 @@ public class DepartmentDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -51,10 +51,10 @@ public class DepartmentDB {
 	/**
      * List of departments for table with searching
      * @return list of departments
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getDepartmentsForTable(Pagination pagination, Filter filter) throws DBException{
+	public static List<SimpleBean> getDepartmentsForTable(Pagination pagination, Filter filter) throws Exception{
 				
 		String filterStr = SQL.getSqlFilter(filter);
 		List<SimpleBean> departments = new ArrayList<SimpleBean>();
@@ -79,7 +79,7 @@ public class DepartmentDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return departments;
@@ -88,11 +88,11 @@ public class DepartmentDB {
 	/**
      * delete department
      * @param id of department
-     * @throws DBException 
+     * @throws Exception
      * 
      */
 		
-	public static boolean deleteDepartment(int id) throws DBException{
+	public static boolean deleteDepartment(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -113,7 +113,7 @@ public class DepartmentDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -123,10 +123,10 @@ public class DepartmentDB {
 	/**
      * edit department
      * @param  id, name, name_ru
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static boolean editDepartment(int id, String name,String name_ru) throws DBException  {
+	public static boolean editDepartment(int id, String name,String name_ru) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -150,7 +150,7 @@ public class DepartmentDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		return result;
 		
@@ -159,10 +159,10 @@ public class DepartmentDB {
 	/**
      * add department
      * @param name, name_ru
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static boolean addDepartment( String name,String name_ru) throws DBException  {
+	public static boolean addDepartment( String name,String name_ru) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -186,7 +186,7 @@ public class DepartmentDB {
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		return result;
 		
@@ -196,10 +196,10 @@ public class DepartmentDB {
      * Get list of departments
 	 * @param language 
      * @return list of book's categories
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getDepartments(String language) throws DBException{
+	public static List<SimpleBean> getDepartments(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -219,7 +219,7 @@ public class DepartmentDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return departments;

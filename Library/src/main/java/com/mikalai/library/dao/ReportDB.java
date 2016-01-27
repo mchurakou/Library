@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mikalai.library.exceptions.DBException;
+;
 
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
@@ -46,10 +46,10 @@ public class ReportDB {
 	/**
      * List of rows for report
      * @return list of rows
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<LibrarianReportRecord> getRows(Timestamp start, Timestamp end) throws DBException{
+	public static List<LibrarianReportRecord> getRows(Timestamp start, Timestamp end) throws Exception{
 		List<LibrarianReportRecord> records = new ArrayList<LibrarianReportRecord>();
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -64,7 +64,7 @@ public class ReportDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return records ;

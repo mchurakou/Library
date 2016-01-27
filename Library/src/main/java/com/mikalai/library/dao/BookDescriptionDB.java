@@ -14,7 +14,7 @@ import com.mikalai.library.beans.BookDescription;
 import com.mikalai.library.beans.SimpleBean;
 
 
-import com.mikalai.library.exceptions.DBException;
+;
 
 /**
  * Class for work with book descriptions
@@ -52,10 +52,10 @@ public class BookDescriptionDB {
      * count of book descriptions
 	 * @param filter 
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfBookDescriptions(Filter filter) throws DBException{
+	public static int getCountOfBookDescriptions(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -69,7 +69,7 @@ public class BookDescriptionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -79,10 +79,10 @@ public class BookDescriptionDB {
      * List of book descriptions for table with searching
 	 * @param language 
      * @return list of users
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<BookDescription> getBookDescriptionsForTable(Pagination pagination, Filter filter, String language) throws DBException{
+	public static List<BookDescription> getBookDescriptionsForTable(Pagination pagination, Filter filter, String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -104,7 +104,7 @@ public class BookDescriptionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return bookDescriptions;
@@ -114,10 +114,10 @@ public class BookDescriptionDB {
      * Get list of book's categories
 	 * @param language 
      * @return list of book's categories
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getBookCategories(String language) throws DBException{
+	public static List<SimpleBean> getBookCategories(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -137,7 +137,7 @@ public class BookDescriptionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return bookCategories;
@@ -147,10 +147,10 @@ public class BookDescriptionDB {
      * Get list of languages
 	 * @param language 
      * @return list of languages
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getLanguages(String language) throws DBException{
+	public static List<SimpleBean> getLanguages(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -170,7 +170,7 @@ public class BookDescriptionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return languages;
@@ -181,10 +181,10 @@ public class BookDescriptionDB {
 	/**
      * delete book description
      * @param id of book description
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static boolean deleteBookDescription(int id) throws DBException{
+	public static boolean deleteBookDescription(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -206,7 +206,7 @@ public class BookDescriptionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -217,10 +217,10 @@ public class BookDescriptionDB {
 	/**
      * edit book description
      * @param id, name, author, book category id, publication place, publication year, size, language id, user category id
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static void editBookDescription(int id, String name,String author,int bookCategoryId, String publicationPlace, int publicationYear, int size, int languageId) throws DBException  {
+	public static void editBookDescription(int id, String name,String author,int bookCategoryId, String publicationPlace, int publicationYear, int size, int languageId) throws Exception  {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con = pool.getConnection();
@@ -238,7 +238,7 @@ public class BookDescriptionDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		
 	}
@@ -247,10 +247,10 @@ public class BookDescriptionDB {
 	/**
      * add book description
      * @param id, name, author, book category id, publication place, publication year, size, language id, user category id
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static void addBookDescription( String name,String author,int bookCategoryId, String publicationPlace, int publicationYear, int size, int languageId) throws DBException  {
+	public static void addBookDescription( String name,String author,int bookCategoryId, String publicationPlace, int publicationYear, int size, int languageId) throws Exception  {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con = pool.getConnection();
@@ -268,7 +268,7 @@ public class BookDescriptionDB {
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		
 	}

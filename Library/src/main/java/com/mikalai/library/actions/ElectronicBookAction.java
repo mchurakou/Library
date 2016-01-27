@@ -8,7 +8,6 @@ import com.mikalai.library.beans.User;
 import com.mikalai.library.dao.BookDescriptionDB;
 import com.mikalai.library.dao.ElectronicBookDB;
 import com.mikalai.library.dao.UserCategoryDB;
-import com.mikalai.library.exceptions.DBException;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
@@ -67,10 +66,10 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 
 	/**
 	 * Ebooks action 
-	 * @throws DBException 
+	 * @throws Exception
 	 * 
 	 */
-	public String eBooks() throws DBException {
+	public String eBooks() throws Exception {
 		bookCategories = BookDescriptionDB.getBookCategories(getLocale().getLanguage());
 		String bookCategoryValue = StringBuilder.generateValueForList(bookCategories);
 		request.put("bookCategoryValue", bookCategoryValue);
@@ -99,7 +98,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 				electronicBooks =  ElectronicBookDB.getElectronicBooksForTable(pagination,null,getLocale().getLanguage());
 			else
 				electronicBooks = ElectronicBookDB.getElectronicBooksForTable(pagination,filters,getLocale().getLanguage());
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
@@ -127,7 +126,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 			if (oper.equals(Constants.OPERATION_DELETE)){ //delete
 				success = ElectronicBookDB.deleteElectronicBook(id);
 			}
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 			
@@ -151,7 +150,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 		try {
 			result = new AjaxResult(ElectronicBookDB.getUserCategoriesId(electronicBookId));
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
@@ -168,7 +167,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 			ElectronicBookDB.setUserCategoriesId(electronicBookId, categoryIds);
 			result = new AjaxResult("success");
 			
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
@@ -192,7 +191,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 				electronicBooks =  ElectronicBookDB.getElectronicBooksForTableByUserCategory(pagination, null, getLocale().getLanguage(), userCategoryId);
 			else
 				electronicBooks = ElectronicBookDB.getElectronicBooksForTableByUserCategory(pagination, filters, getLocale().getLanguage(), userCategoryId);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mikalai.library.dao.DBConnectionPool;
-import com.mikalai.library.exceptions.DBException;
+;
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
@@ -53,7 +53,7 @@ public class UserDB {
      * @param new user
      * @return successful or unsuccessful operation
      */		
-	public  static boolean add(User user) throws DBException{
+	public  static boolean add(User user) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -79,7 +79,7 @@ public class UserDB {
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
 			
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		
 		return result;
@@ -92,7 +92,7 @@ public class UserDB {
 	 * @param string 
      * @return user with such login and password
      */	
-	public static User getUser(String login, String password, String language) throws DBException{
+	public static User getUser(String login, String password, String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -114,7 +114,7 @@ public class UserDB {
 		    s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return user;
@@ -123,10 +123,10 @@ public class UserDB {
 	/**
      * Change profile
      * @param user
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static void changeProfile(User user) throws DBException  {
+	public static void changeProfile(User user) throws Exception  {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con = pool.getConnection();
@@ -141,7 +141,7 @@ public class UserDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		
 	}
@@ -152,10 +152,10 @@ public class UserDB {
 	/**
      * List of users for table with searching
      * @return list of users
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<User> getUsersForTable(Pagination pagination, Filter filter,String language) throws DBException{
+	public static List<User> getUsersForTable(Pagination pagination, Filter filter,String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -178,7 +178,7 @@ public class UserDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return users;
@@ -187,10 +187,10 @@ public class UserDB {
 	/**
      * List of active users for table with searching
      * @return list of users
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<User> getActiveUsersForTable(Pagination pagination, Filter filter) throws DBException{
+	public static List<User> getActiveUsersForTable(Pagination pagination, Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		List<User> users = new ArrayList<User>();
 		try {
@@ -209,7 +209,7 @@ public class UserDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return users;
@@ -220,10 +220,10 @@ public class UserDB {
      * count of users
 	 * @param filters 
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfUsers(Filter filter) throws DBException{
+	public static int getCountOfUsers(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -237,7 +237,7 @@ public class UserDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -246,10 +246,10 @@ public class UserDB {
 	/**
      * count of users
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfActiveUsers() throws DBException{
+	public static int getCountOfActiveUsers() throws Exception{
 		int count = 0;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -262,7 +262,7 @@ public class UserDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -272,11 +272,11 @@ public class UserDB {
 	/**
      * delete user
      * @param id of user
-     * @throws DBException 
+     * @throws Exception
      * 
      */
 		
-	public static boolean deleteUser(int id) throws DBException{
+	public static boolean deleteUser(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -297,7 +297,7 @@ public class UserDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -309,10 +309,10 @@ public class UserDB {
      * edit user information
 	 * @param divisionId 
      * @param user id, first name, second name, email, role id, category id
-     * @throws DBException 
+     * @throws Exception
      * 
      */	
-	public static void editUser(int id, String firstName,String secondName,String email, int roleId, int categoryId, int divisionId) throws DBException  {
+	public static void editUser(int id, String firstName,String secondName,String email, int roleId, int categoryId, int divisionId) throws Exception  {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con = pool.getConnection();
@@ -329,7 +329,7 @@ public class UserDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 		}
 		
 	}
@@ -344,10 +344,10 @@ public class UserDB {
      * Get list of user's categories
 	 * @param  
      * @return list of user's categories
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getUserCategories(String language) throws DBException{
+	public static List<SimpleBean> getUserCategories(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -367,7 +367,7 @@ public class UserDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return categories;
@@ -378,10 +378,10 @@ public class UserDB {
      * Get list of user's roles
 	 * @param  
      * @return list of user's roles
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getUserRoles(String language) throws DBException{
+	public static List<SimpleBean> getUserRoles(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -401,7 +401,7 @@ public class UserDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return roles;

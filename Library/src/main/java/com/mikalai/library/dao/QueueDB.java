@@ -13,7 +13,7 @@ import com.mikalai.library.beans.Queue;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 
-import com.mikalai.library.exceptions.DBException;
+;
 
 /**
  * Class for work with user's queues
@@ -44,10 +44,10 @@ public class QueueDB {
 	/**
      * add user in queue
      * @param user id, real book id
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static boolean addUserInQueue(int userId,int realBookId) throws DBException{
+	public static boolean addUserInQueue(int userId,int realBookId) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -71,7 +71,7 @@ public class QueueDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -81,10 +81,10 @@ public class QueueDB {
 	/**
      * List of queue elements for table
      * @return list of users
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<Queue> getQueuesForTable(Pagination pagination, int realBookId) throws DBException{
+	public static List<Queue> getQueuesForTable(Pagination pagination, int realBookId) throws Exception{
 		
 		List<Queue> queues = new ArrayList<Queue>();
 		
@@ -105,7 +105,7 @@ public class QueueDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return queues;
@@ -114,10 +114,10 @@ public class QueueDB {
 	/**
      * count of users
      * @return count
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static int getCountOfQueues(int realBookId) throws DBException{
+	public static int getCountOfQueues(int realBookId) throws Exception{
 		int count = 0;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -131,7 +131,7 @@ public class QueueDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return count;
@@ -141,10 +141,10 @@ public class QueueDB {
 	/**
      * delete user from queue
      * @param user id, real book id
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static boolean deleteUserFromQueue(int userId,int realBookId) throws DBException{
+	public static boolean deleteUserFromQueue(int userId,int realBookId) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -168,7 +168,7 @@ public class QueueDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -178,10 +178,10 @@ public class QueueDB {
 	/**
      * delete user from queue
      * @param queue id
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static void deleteUserFromQueueById(int id) throws DBException{
+	public static void deleteUserFromQueueById(int id) throws Exception{
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con=pool.getConnection();
@@ -191,7 +191,7 @@ public class QueueDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return;

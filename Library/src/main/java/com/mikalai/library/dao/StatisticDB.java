@@ -12,7 +12,7 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
-import com.mikalai.library.exceptions.DBException;
+;
 
 /**
  * Class for work with statistic
@@ -36,10 +36,10 @@ public class StatisticDB {
 	/**
      * Information for real books pipe
      * @return list of SimpleBean
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getInformationForRealBooksPipe(String language) throws DBException{
+	public static List<SimpleBean> getInformationForRealBooksPipe(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -55,7 +55,7 @@ public class StatisticDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -65,10 +65,10 @@ public class StatisticDB {
      * Information for electronic books pipe
 	 * @param language 
      * @return list of SimpleBean
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> getInformationForElectronicBooksPipe(String language) throws DBException{
+	public static List<SimpleBean> getInformationForElectronicBooksPipe(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -84,7 +84,7 @@ public class StatisticDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -95,10 +95,10 @@ public class StatisticDB {
      * user statistic
 	 * @param language 
      * @return list of SimpleBean
-     * @throws DBException 
+     * @throws Exception
      * 
      */
-	public static List<SimpleBean> userStatistic(String language) throws DBException{
+	public static List<SimpleBean> userStatistic(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -114,7 +114,7 @@ public class StatisticDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;
@@ -125,10 +125,10 @@ public class StatisticDB {
     * book statistic
 	 * @param language 
     * @return list of SimpleBean
-    * @throws DBException 
+    * @throws Exception
     * 
     */
-	public static List<SimpleBean> bookrStatistic(String language) throws DBException{
+	public static List<SimpleBean> bookrStatistic(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -144,7 +144,7 @@ public class StatisticDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new Exception(e);
 					
 		}
 		return result;

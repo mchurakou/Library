@@ -13,7 +13,7 @@ import com.mikalai.library.utils.Constants;
 import com.mikalai.library.beans.Comment;
 
 
-import com.mikalai.library.exceptions.DBException;
+;
 
 /**
  * Class for work with comments
@@ -48,10 +48,10 @@ public class CommentDB {
 	    * @param userId 
 	    * @param electronicBookId
 	    * @param message
-	    * @throws DBException
+	    * @throws Exception
 	    * 
 	    */	
-		public static void addComment(int userId,int electronicBookId, String message) throws DBException{
+		public static void addComment(int userId,int electronicBookId, String message) throws Exception{
 			
 			try {
 				DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -65,7 +65,7 @@ public class CommentDB {
 				s.close();
 				pool.releaseConnection(con);
 			} catch (SQLException e) {
-				throw new DBException(e);
+				throw new Exception(e);
 			}
 			
 			return ;
@@ -76,10 +76,10 @@ public class CommentDB {
 	     * @param electronicBookId
 	     * @param pagination
 	     * @return list of users
-	     * @throws DBException 
+	     * @throws Exception
 	     * 
 	     */
-		public static List<Comment> getComments(int electronicBookId) throws DBException{
+		public static List<Comment> getComments(int electronicBookId) throws Exception{
 			List<Comment> comments = new ArrayList<Comment>();
 			try {
 				DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -96,7 +96,7 @@ public class CommentDB {
 				s.close();
 				pool.releaseConnection(con);
 			} catch (SQLException e) {
-				throw new DBException(e);
+				throw new Exception(e);
 						
 			}
 			return comments;
@@ -106,10 +106,10 @@ public class CommentDB {
 		/**
 		    * Delete comment
 		    * @param commentId 
-		    * @throws DBException
+		    * @throws Exception
 		    * 
 		    */	
-			public static void deleteComment(int commentId) throws DBException{
+			public static void deleteComment(int commentId) throws Exception{
 				
 				try {
 					DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -120,7 +120,7 @@ public class CommentDB {
 					s.close();
 					pool.releaseConnection(con);
 				} catch (SQLException e) {
-					throw new DBException(e);
+					throw new Exception(e);
 				}
 				
 				return ;

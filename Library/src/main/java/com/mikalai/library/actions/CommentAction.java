@@ -6,7 +6,6 @@ import com.mikalai.library.beans.ElectronicBook;
 import com.mikalai.library.beans.User;
 import com.mikalai.library.dao.CommentDB;
 import com.mikalai.library.dao.ElectronicBookDB;
-import com.mikalai.library.exceptions.DBException;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.opensymphony.xwork2.ActionSupport;
@@ -57,7 +56,7 @@ public class CommentAction extends ActionSupport  implements SessionAware{
 		try {
 			comments = CommentDB.getComments(electronicBookId);
 			electronicBook = ElectronicBookDB.getElectronicBook(electronicBookId);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return INPUT;
@@ -78,7 +77,7 @@ public class CommentAction extends ActionSupport  implements SessionAware{
 		User user = (User) session.get(Constants.ATTRIBUTE_USER);
 		try {
 			CommentDB.addComment(user.getId(), electronicBookId, content);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			return INPUT;
 		}
@@ -93,7 +92,7 @@ public class CommentAction extends ActionSupport  implements SessionAware{
 	public String deleteComment(){
 		try {
 			CommentDB.deleteComment(commentId);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			return INPUT;
 		}
