@@ -648,7 +648,7 @@
 			
 	</package>	
 	
-	<package name="ajaxfileupload" namespace="/" extends="ajaxfileupload-default">
+	<package name="ajaxfileupload" namespace="/" extends="struts-default">
 		<action name="upload" class="com.mikalai.library.actions.FileAction" method="upload">
 		<interceptor-ref name="fileUploadStack" /> 
 		

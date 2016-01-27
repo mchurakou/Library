@@ -1,14 +1,12 @@
 package com.mikalai.library.actions;
 
 
-
-import com.davidjc.ajaxfileupload.action.FileUpload;
 import com.mikalai.library.ajax_json.AjaxResult;
 import com.mikalai.library.dao.ElectronicBookDB;
-;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.ZipFile;
 import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionSupport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
@@ -16,11 +14,13 @@ import org.apache.struts2.interceptor.SessionAware;
 import java.io.*;
 import java.util.Map;
 
-public class FileAction extends FileUpload  implements SessionAware{
+public class FileAction extends ActionSupport implements SessionAware{
 	private static final Logger LOG = LogManager.getLogger();
-	/**
-	 * 
-	 */
+
+
+
+
+
 	private static final long serialVersionUID = 1L;
 	private AjaxResult result;
 
@@ -28,10 +28,15 @@ public class FileAction extends FileUpload  implements SessionAware{
 	private int bookDescriptionId;
 	private int id;
 	
-	private String fileName;
 	private String message;
-	
-	
+
+
+
+	private File file;
+
+
+	private String fileContentType;
+	private String fileFileName;
 
 	
 
@@ -58,16 +63,14 @@ public class FileAction extends FileUpload  implements SessionAware{
 
 		session.put(Constants.ATTRIBUTE_PERCENT, 0);
 		
-		File uploadedFile = this.getUpload();
-		int total = (int) uploadedFile.length();
+		int total = (int) file.length();
 		//String contentType = this.getUploadContentType();
-		String fileName = this.getUploadFileName();
-		
+
 				
 		FileInputStream in = null;
 		FileOutputStream out = null;
 		
-		String extention = fileName.substring(fileName.lastIndexOf('.') + 1, fileName.length());
+		String extention = fileFileName.substring(fileFileName.lastIndexOf('.') + 1, fileFileName.length());
 		int fileId = ElectronicBookDB.getNewFileId();
 		String archiveName = fileId + ".zip";
 		/* add electronic book*/
@@ -75,12 +78,12 @@ public class FileAction extends FileUpload  implements SessionAware{
 			
 		
 				
-		String targetPath = Constants.PATH_FILES + "\\" + fileName;
+		String targetPath = Constants.PATH_FILES + "\\" + fileFileName;
 		String zipPath = Constants.PATH_FILES + "\\" + archiveName;
 		
 		File docDestination = new File ( targetPath);
     	try {
-    		in = new FileInputStream( uploadedFile );
+    		in = new FileInputStream( file );
     		out = new FileOutputStream( docDestination );
     		int c;
     		int shag = 0;
@@ -111,7 +114,7 @@ public class FileAction extends FileUpload  implements SessionAware{
             out.close();
         }
     }
-    	ZipFile.compress(targetPath, zipPath, fileName);
+    	ZipFile.compress(targetPath, zipPath, fileFileName);
     	docDestination.delete();
     	
     	return Action.SUCCESS;
@@ -126,18 +129,12 @@ public class FileAction extends FileUpload  implements SessionAware{
 	}
 
 	
-	/**
-	 * Download 
-	 * @throws Exception
-	 * @throws Exception 
-	 * 
-	 */
 	public String download()  {
-		
-		fileName = id + ".zip";
+
+		fileFileName = id + ".zip";
 		String path = Constants.PATH_FILES + "\\";
 		try {
-			inputStream = new FileInputStream(new File(path + fileName));
+			inputStream = new FileInputStream(new File(path + fileFileName));
 		} catch (FileNotFoundException e) {
 			LOG.error(e.getMessage(),e);
 			setMessage("File not founded!");
@@ -185,18 +182,6 @@ public class FileAction extends FileUpload  implements SessionAware{
 	}
 
 
-
-
-
-	public String getFileName() {
-		return fileName;
-	}
-
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
 	public InputStream getInputStream() {
 		return inputStream;
 	}
@@ -213,6 +198,31 @@ public class FileAction extends FileUpload  implements SessionAware{
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public String getFileContentType() {
+		return fileContentType;
+	}
+
+	public void setFileContentType(String fileContentType) {
+		this.fileContentType = fileContentType;
+	}
+
+	public String getFileFileName() {
+		return fileFileName;
+	}
+
+	public void setFileFileName(String fileFileName) {
+		this.fileFileName = fileFileName;
 	}
 
 }

@@ -104,24 +104,6 @@
             <version>2.7.0</version>
         </dependency>
 
-
-        <!--REMOVE!!!-->
-        <dependency>
-            <groupId>davidjc</groupId>
-            <artifactId>AjaxFileUpload</artifactId>
-            <version>0.03</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.struts</groupId>
-                    <artifactId>struts2-spring-plugin</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-
-
-
-
     </dependencies>
 
 </project>
