@@ -20,7 +20,7 @@ import com.mikalai.library.utils.Pagination;
  * 
  * @author Mikalai_Churakou
  */
-public class QueueDB {
+public class QueueDAO {
 	/**
      * Method extract Queue from ResultSet
      * @param ResultSet
@@ -45,9 +45,8 @@ public class QueueDB {
      * add user in queue
      * @param user id, real book id
      * @throws Exception
-     * 
      */
-	public static boolean addUserInQueue(int userId,int realBookId) throws Exception{
+	public  boolean addUserInQueue(int userId,int realBookId) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -84,7 +83,7 @@ public class QueueDB {
      * @throws Exception
      * 
      */
-	public static List<Queue> getQueuesForTable(Pagination pagination, int realBookId) throws Exception{
+	public List<Queue> getQueuesForTable(Pagination pagination, int realBookId) throws Exception{
 		
 		List<Queue> queues = new ArrayList<Queue>();
 		
@@ -117,7 +116,7 @@ public class QueueDB {
      * @throws Exception
      * 
      */
-	public static int getCountOfQueues(int realBookId) throws Exception{
+	public int getCountOfQueues(int realBookId) throws Exception{
 		int count = 0;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -144,7 +143,7 @@ public class QueueDB {
      * @throws Exception
      * 
      */
-	public static boolean deleteUserFromQueue(int userId,int realBookId) throws Exception{
+	public boolean deleteUserFromQueue(int userId,int realBookId) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -181,7 +180,7 @@ public class QueueDB {
      * @throws Exception
      * 
      */
-	public static void deleteUserFromQueueById(int id) throws Exception{
+	public void deleteUserFromQueueById(int id) throws Exception{
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con=pool.getConnection();

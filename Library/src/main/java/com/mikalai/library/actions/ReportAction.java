@@ -1,7 +1,7 @@
 package com.mikalai.library.actions;
 
 import com.mikalai.library.beans.LibrarianReportRecord;
-import com.mikalai.library.dao.ReportDB;
+import com.mikalai.library.dao.ReportDAO;
 import com.mikalai.library.utils.Constants;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.struts2.StrutsStatics;
 import org.apache.struts2.interceptor.RequestAware;
 
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -31,6 +32,9 @@ import java.util.Map;
  */
 public class ReportAction  extends ActionSupport implements RequestAware{
 	private static final Logger LOG = LogManager.getLogger();
+	@Inject
+	private ReportDAO reportDAO;
+
 	private ActionContext ac = ActionContext.getContext();
 	private ServletContext sc =  (ServletContext)ac.get(StrutsStatics.SERVLET_CONTEXT);
 
@@ -47,7 +51,7 @@ public class ReportAction  extends ActionSupport implements RequestAware{
 
 	public String execute()  {
 		try {
-			records = ReportDB.getRows(start, end);
+			records = reportDAO.getRows(start, end);
 			
 			String toDay = formatter.format(new Date());
 			reportParameters.put("toDay", toDay);

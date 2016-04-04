@@ -4,9 +4,9 @@ import com.mikalai.library.ajax_json.*;
 import com.mikalai.library.beans.RealBook;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
-import com.mikalai.library.dao.BookDescriptionDB;
-import com.mikalai.library.dao.RealBookDB;
-import com.mikalai.library.dao.UserCategoryDB;
+import com.mikalai.library.dao.BookDescriptionDAO;
+import com.mikalai.library.dao.RealBookDAO;
+import com.mikalai.library.dao.UserCategoryDAO;
 ;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,16 @@ import java.util.Map;
  */
 public class RealBookAction extends ActionSupport implements SessionAware,RequestAware {
 	private static final Logger LOG = LogManager.getLogger();
+
+	@Inject
+	private UserCategoryDAO userCategoryDAO;
+
+	@Inject
+	private RealBookDAO realBookDAO;
+
+	@Inject
+	private BookDescriptionDAO bookDescriptionDAO;
+
 	/**
 	 * 
 	 */
@@ -80,14 +91,14 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 	 * 
 	 */
 	public String realBooks() throws Exception{
-		bookCategories = BookDescriptionDB.getBookCategories(getLocale().getLanguage());
+		bookCategories = bookDescriptionDAO.getBookCategories(getLocale().getLanguage());
 		String bookCategoryValue = StringBuilder.generateValueForList(bookCategories);
 		request.put("bookCategoryValue", bookCategoryValue);
 		
-		languages = BookDescriptionDB.getLanguages(getLocale().getLanguage());
+		languages = bookDescriptionDAO.getLanguages(getLocale().getLanguage());
 		String languagesValue = StringBuilder.generateValueForList(languages);
 		request.put("languagesValue", languagesValue);
-		userCategories = UserCategoryDB.getUserCategories(getLocale().getLanguage());		
+		userCategories = userCategoryDAO.getUserCategories(getLocale().getLanguage());
 		
 		return SUCCESS;
 	}
@@ -101,18 +112,18 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 			
 		Pagination pagination = null;
 		try {
-			count = RealBookDB.getCountOfRealBooks( filters);
+			count = realBookDAO.getCountOfRealBooks( filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				realBooks =  RealBookDB.getRealBooksForTable(pagination,null,getLocale().getLanguage());
+				realBooks =  realBookDAO.getRealBooksForTable(pagination,null,getLocale().getLanguage());
 			else
-				realBooks = RealBookDB.getRealBooksForTable(pagination,filters,getLocale().getLanguage());
+				realBooks = realBookDAO.getRealBooksForTable(pagination,filters,getLocale().getLanguage());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
 				
-		List<Row> listRows = new ArrayList<Row>();
+		List<Row> listRows = new ArrayList<>();
 		for (int i = 0;i < realBooks.size();i++){
 			RealBook realBook = realBooks.get(i);
 			Row row = new Row();
@@ -135,18 +146,18 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 		int userCategoryId = user.getCategory().getId();
 		Pagination pagination = null;
 		try {
-			count = RealBookDB.getCountOfRealBooksForUser(filters,userCategoryId);
+			count = realBookDAO.getCountOfRealBooksForUser(filters,userCategoryId);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				realBooks =  RealBookDB.getRealBooksForTableByUserCategory(pagination,null,getLocale().getLanguage(),userCategoryId);
+				realBooks =  realBookDAO.getRealBooksForTableByUserCategory(pagination,null,getLocale().getLanguage(),userCategoryId);
 			else
-				realBooks = RealBookDB.getRealBooksForTableByUserCategory(pagination,filters,getLocale().getLanguage(),userCategoryId);
+				realBooks = realBookDAO.getRealBooksForTableByUserCategory(pagination,filters,getLocale().getLanguage(),userCategoryId);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
 				
-		List<Row> listRows = new ArrayList<Row>();
+		List<Row> listRows = new ArrayList<>();
 		for (int i = 0;i < realBooks.size();i++){
 			RealBook realBook = realBooks.get(i);
 			Row row = new Row();
@@ -166,7 +177,7 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 	 */
 	public String addRealBook()  {
 		try {
-			if (RealBookDB.addRealBook(inventoryNumber,cost,bookDescriptionId))
+			if (realBookDAO.addRealBook(inventoryNumber,cost,bookDescriptionId))
 				result = new AjaxResult(getText(Constants.MSG_BOOK_ADDED));
 			else
 				result = new AjaxResult(false,getText(Constants.MSG_DUPLICATE_INV));
@@ -186,9 +197,9 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 		boolean success = true;
 		try {
 			if (oper.equals(Constants.OPERATION_DELETE)) //delete
-				success = RealBookDB.deleteRealBook(id);
+				success = realBookDAO.deleteRealBook(id);
 			if (oper.equals(Constants.OPERATION_EDIT)) //edit
-				RealBookDB.editRealBook(id, inventoryNumber,cost);
+				realBookDAO.editRealBook(id, inventoryNumber,cost);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
@@ -211,7 +222,7 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 	 */
 	public String getRealPrivileges()  {
 		try {
-			result = new AjaxResult(RealBookDB.getUserCategoriesId(realBookId));
+			result = new AjaxResult(realBookDAO.getUserCategoriesId(realBookId));
 			
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
@@ -227,7 +238,7 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 	 */
 	public String setRealPrivileges()  {
 		try {
-			RealBookDB.setUserCategoriesId(realBookId, categoryIds);
+			realBookDAO.setUserCategoriesId(realBookId, categoryIds);
 			result = new AjaxResult("success");
 			
 		} catch (Exception e) {

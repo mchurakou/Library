@@ -4,8 +4,8 @@ import com.mikalai.library.ajax_json.AjaxResult;
 import com.mikalai.library.beans.Comment;
 import com.mikalai.library.beans.ElectronicBook;
 import com.mikalai.library.beans.User;
-import com.mikalai.library.dao.CommentDB;
-import com.mikalai.library.dao.ElectronicBookDB;
+import com.mikalai.library.dao.CommentDAO;
+import com.mikalai.library.dao.ElectronicBookDAO;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.opensymphony.xwork2.ActionSupport;
@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,10 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class CommentAction extends ActionSupport  implements SessionAware{
+	@Inject
+	private ElectronicBookDAO electronicBookDAO;
+	@Inject
+	private CommentDAO commentDAO;
 	private static final Logger LOG = LogManager.getLogger();
 	/**
 	 * 
@@ -54,15 +59,15 @@ public class CommentAction extends ActionSupport  implements SessionAware{
 	 */
 	public String loadComments(){
 		try {
-			comments = CommentDB.getComments(electronicBookId);
-			electronicBook = ElectronicBookDB.getElectronicBook(electronicBookId);
+			comments = commentDAO.getComments(electronicBookId);
+			electronicBook = electronicBookDAO.getElectronicBook(electronicBookId);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
 			return INPUT;
 		}
 		
-		List<Object> results = new ArrayList<Object>();
+		List<Object> results = new ArrayList<>();
 		results.add(electronicBook);
 		results.add(comments);
 		result = new AjaxResult(results);
@@ -76,7 +81,7 @@ public class CommentAction extends ActionSupport  implements SessionAware{
 	public String addComment(){
 		User user = (User) session.get(Constants.ATTRIBUTE_USER);
 		try {
-			CommentDB.addComment(user.getId(), electronicBookId, content);
+			commentDAO.addComment(user.getId(), electronicBookId, content);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			return INPUT;
@@ -91,7 +96,7 @@ public class CommentAction extends ActionSupport  implements SessionAware{
 	 */
 	public String deleteComment(){
 		try {
-			CommentDB.deleteComment(commentId);
+			commentDAO.deleteComment(commentId);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			return INPUT;

@@ -15,26 +15,26 @@ import com.mikalai.library.ajax_json.Filter;
 ;
 
 /**
- * Action for work with languages
+ * Action for work with book categories
  * 
  * @author Mikalai_Churakou
  */
-public class LanguageDB {
+public class BookCategoryDAO {
 	
 	/**
-     * count of languages
+     * count of book categories
 	 * @param filters 
      * @return count
      * @throws Exception
      * 
      */
-	public static int getCountOfLanguages(Filter filter) throws Exception{
+	public  int getCountOfBookCategories(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con=pool.getConnection();
-			PreparedStatement s = con.prepareStatement("Select count(*) as count from languages " +  filterStr);
+			PreparedStatement s = con.prepareStatement("Select count(*) as count from book_categories " +  filterStr);
 			ResultSet rs = s.executeQuery();
 			if (rs.next())
 				count = rs.getInt("count");
@@ -49,32 +49,32 @@ public class LanguageDB {
 	}
 	
 	/**
-     * List of languages for table with searching
-     * @return list of languages
+     * List of book categories for table with searching
+     * @return list of book categories
      * @throws Exception
      * 
      */
-	public static List<SimpleBean> getLanguagesForTable(Pagination pagination, Filter filter) throws Exception{
+	public  List<SimpleBean> getBookCategoriesForTable(Pagination pagination, Filter filter) throws Exception{
 				
 		String filterStr = SQL.getSqlFilter(filter);
-		List<SimpleBean> languages = new ArrayList<SimpleBean>();
+		List<SimpleBean> bookCategories = new ArrayList<SimpleBean>();
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con=pool.getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM languages" + filterStr + ") as a " +
+						"FROM book_categories" + filterStr + ") as a " +
 						"WHERE row_num BETWEEN ? AND ?";
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1, pagination.getStart());
 			s.setInt(2, pagination.getEnd());
 			ResultSet rs = s.executeQuery();
 			while (rs.next()){
-				SimpleBean language = new SimpleBean();
-				language.setId(rs.getInt(Constants.FIELD_ID));
-				language.setName(rs.getString(Constants.FIELD_NAME));
-				language.setName_ru(rs.getString(Constants.FIELD_NAME_RU));
-			    languages.add(language);
+				SimpleBean bookCategory = new SimpleBean();
+				bookCategory.setId(rs.getInt(Constants.FIELD_ID));
+				bookCategory.setName(rs.getString(Constants.FIELD_NAME));
+				bookCategory.setName_ru(rs.getString(Constants.FIELD_NAME_RU));
+			    bookCategories.add(bookCategory);
 			}
 			s.close();
 			pool.releaseConnection(con);
@@ -82,64 +82,28 @@ public class LanguageDB {
 			throw new Exception(e);
 					
 		}
-		return languages;
+		return bookCategories;
 	}
 	
 	/**
-     * add language
-     * @param name, name_ru
-     * @throws Exception
-     * 
-     */	
-	public static boolean addLanguage( String name,String name_ru) throws Exception  {
-		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
-			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_language(?,?,?) as res");
-			s.setInt(1, 0);
-			s.setString(2, name);
-			s.setString(3, name_ru);
-			ResultSet rs=s.executeQuery();
-			rs.next();
-			String res = rs.getString("res");
-			if (res.equals("0")){
-				s = con.prepareStatement("exec add_language  ?, ?");
-				s.setString(1, name);
-				s.setString(2, name_ru);
-				s.executeUpdate();
-			}
-			else
-				result = false;
-			s.close();
-			pool.releaseConnection(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new Exception(e);
-		}
-		return result;
-		
-	}
-	
-	/**
-     * delete language
-     * @param id of language
+     * delete book category
+     * @param id of book category
      * @throws Exception
      * 
      */
 		
-	public static boolean deleteLanguage(int id) throws Exception{
+	public  boolean deleteBookCategory(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con=pool.getConnection();
-			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".can_delete_language(?) as res");
+			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".can_delete_book_category(?) as res");
 			s.setInt(1, id);
 			ResultSet rs = s.executeQuery();
 			rs.next();
 			String res = rs.getString("res");
 			if (res.equals("1")){
-				String sql = "exec delete_language ?"; 
+				String sql = "exec delete_book_category ?"; 
 				s = con.prepareStatement(sql);
 				s.setInt(1, id);
 				s.executeUpdate();
@@ -157,17 +121,17 @@ public class LanguageDB {
 	}
 	
 	/**
-     * edit language
+     * edit book category
      * @param  id, name, name_ru
      * @throws Exception
      * 
      */	
-	public static boolean editLanguage(int id, String name,String name_ru) throws Exception  {
+	public  boolean editBookCategory(int id, String name,String name_ru) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con = pool.getConnection();
-			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_language(?,?,?) as res");
+			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_book_category(?,?,?) as res");
 			s.setInt(1, id);
 			s.setString(2, name);
 			s.setString(3, name_ru);
@@ -175,7 +139,7 @@ public class LanguageDB {
 			rs.next();
 			String res = rs.getString("res");
 			if (res.equals("0")){
-				s = con.prepareStatement("exec edit_language ?, ?, ?");
+				s = con.prepareStatement("exec edit_book_category ?, ?, ?");
 				s.setInt(1, id);
 				s.setString(2, name);
 				s.setString(3, name_ru);
@@ -186,6 +150,44 @@ public class LanguageDB {
 			s.close();
 			pool.releaseConnection(con);
 		} catch (SQLException e) {
+			throw new Exception(e);
+		}
+		return result;
+		
+	}
+	
+	
+
+	/**
+     * add book category
+     * @param name, name_ru
+     * @throws Exception
+     * 
+     */	
+	public  boolean addBookCategory( String name,String name_ru) throws Exception  {
+		boolean result = true;
+		try {
+			DBConnectionPool pool = DBConnectionPool.getConnPool();
+			Connection con = pool.getConnection();
+			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_book_category(?,?,?) as res");
+			s.setInt(1, 0);
+			s.setString(2, name);
+			s.setString(3, name_ru);
+			ResultSet rs=s.executeQuery();
+			rs.next();
+			String res = rs.getString("res");
+			if (res.equals("0")){
+				s = con.prepareStatement("exec add_book_category  ?, ?");
+				s.setString(1, name);
+				s.setString(2, name_ru);
+				s.executeUpdate();
+			}
+			else
+				result = false;
+			s.close();
+			pool.releaseConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new Exception(e);
 		}
 		return result;

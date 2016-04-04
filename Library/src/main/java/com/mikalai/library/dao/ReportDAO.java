@@ -22,7 +22,7 @@ import com.mikalai.library.beans.User;
  * 
  * @author Mikalai_Churakou
  */
-public class ReportDB {
+public class ReportDAO {
 	/**
      * Method extract User from ResultSet
      * @param ResultSet
@@ -49,7 +49,7 @@ public class ReportDB {
      * @throws Exception
      * 
      */
-	public static List<LibrarianReportRecord> getRows(Timestamp start, Timestamp end) throws Exception{
+	public List<LibrarianReportRecord> getRows(Timestamp start, Timestamp end) throws Exception{
 		List<LibrarianReportRecord> records = new ArrayList<LibrarianReportRecord>();
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();

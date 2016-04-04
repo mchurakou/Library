@@ -1,7 +1,7 @@
 package com.mikalai.library.actions;
 
 
-import com.mikalai.library.dao.ElectronicBookDB;
+import com.mikalai.library.dao.ElectronicBookDAO;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.ZipFile;
 import com.opensymphony.xwork2.Action;
@@ -9,6 +9,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,8 +20,8 @@ import java.io.InputStream;
 public class FileAction extends ActionSupport {
 	private static final Logger LOG = LogManager.getLogger();
 
-
-
+	@Inject
+	private ElectronicBookDAO electronicBookDAO;
 
 
 	private static final long serialVersionUID = 1L;
@@ -67,10 +68,10 @@ public class FileAction extends ActionSupport {
 		FileOutputStream out = null;
 		
 		String extention = fileFileName.substring(fileFileName.lastIndexOf('.') + 1, fileFileName.length());
-		int fileId = ElectronicBookDB.getNewFileId();
+		int fileId = electronicBookDAO.getNewFileId();
 		String archiveName = fileId + ".zip";
 		/* add electronic book*/
-		ElectronicBookDB.addElectronicBook(bookDescriptionId, archiveName,total,extention);
+		electronicBookDAO.addElectronicBook(bookDescriptionId, archiveName,total,extention);
 			
 		
 				

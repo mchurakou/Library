@@ -20,7 +20,7 @@ import com.mikalai.library.beans.Debt;
  * 
  * @author Mikalai_Churakou
  */
-public class DebtDB {
+public class DebtDAO {
 	
 	/**
      * Method extract RealBook from ResultSet
@@ -56,7 +56,7 @@ public class DebtDB {
      * @throws Exception
      * 
      */
-	public static void giveBook(int realBookId,int userId,Timestamp start, Timestamp end,int librarianId) throws Exception{
+	public void giveBook(int realBookId,int userId,Timestamp start, Timestamp end,int librarianId) throws Exception{
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con=pool.getConnection();
@@ -98,7 +98,7 @@ public class DebtDB {
      * @throws Exception
      * 
      */
-	public static List<Debt> getDebtsForTable(Pagination pagination, Filter filter, int userId, String language) throws Exception{
+	public List<Debt> getDebtsForTable(Pagination pagination, Filter filter, int userId, String language) throws Exception{
 		String lang = "";
 		if (language.equals("ru"))
 			lang = "_ru";
@@ -138,7 +138,7 @@ public class DebtDB {
      * @throws Exception
      * 
      */
-	public static List<Debt> getAllDebtsForTable(Pagination pagination, Filter filter, String language) throws Exception{
+	public List<Debt> getAllDebtsForTable(Pagination pagination, Filter filter, String language) throws Exception{
 		String lang = "";
 		if (language.equals("ru"))
 			lang = "_ru";
@@ -175,7 +175,7 @@ public class DebtDB {
      * @throws Exception
      * 
      */
-	public static int getCountOfDebts(int userId, Filter filter) throws Exception{
+	public int getCountOfDebts(int userId, Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -204,7 +204,7 @@ public class DebtDB {
      * @throws Exception
      * 
      */
-	public static int getCountOfAllDebts() throws Exception{
+	public int getCountOfAllDebts() throws Exception{
 		int count = 0;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -227,7 +227,7 @@ public class DebtDB {
 	
 
 
-	public static void returnBook(int debtId,int librarianId) throws Exception {
+	public void returnBook(int debtId,int librarianId) throws Exception {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con=pool.getConnection();

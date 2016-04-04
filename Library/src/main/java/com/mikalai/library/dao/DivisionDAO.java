@@ -17,7 +17,7 @@ import java.util.List;
  * 
  * @author Mikalai_Churakou
  */
-public class DivisionDB {
+public class DivisionDAO {
 
 	/**
      * count of divisions
@@ -26,7 +26,7 @@ public class DivisionDB {
      * @throws Exception
      * 
      */
-	public static int getCountOfDivisions(Filter filter) throws Exception{
+	public int getCountOfDivisions(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -52,7 +52,7 @@ public class DivisionDB {
      * @throws Exception
      * 
      */
-	public static List<Division> getDivisionsForTable(Pagination pagination, Filter filter) throws Exception{
+	public List<Division> getDivisionsForTable(Pagination pagination, Filter filter) throws Exception{
 				
 		String filterStr = SQL.getSqlFilter(filter);
 		List<Division> divisions = new ArrayList<Division>();
@@ -90,7 +90,7 @@ public class DivisionDB {
      * @throws Exception
      * 
      */	
-	public static boolean addDivision( String name,String name_ru, int departmentId) throws Exception  {
+	public boolean addDivision( String name,String name_ru, int departmentId) throws Exception  {
 		
 		boolean result = true;
 		try {
@@ -129,7 +129,7 @@ public class DivisionDB {
      * 
      */
 		
-	public static boolean deleteDivision(int id) throws Exception{
+	public boolean deleteDivision(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -163,7 +163,7 @@ public class DivisionDB {
      * @throws Exception
      * 
      */	
-	public static boolean editDivision(int id, String name,String name_ru, int departmentId) throws Exception  {
+	public boolean editDivision(int id, String name,String name_ru, int departmentId) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -200,7 +200,7 @@ public class DivisionDB {
      * @throws Exception
      * 
      */
-	public static List<Division> getDivisionsByDepartmentId(int departmentId,String language) throws Exception{
+	public List<Division> getDivisionsByDepartmentId(int departmentId,String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -234,7 +234,7 @@ public class DivisionDB {
      * @throws Exception
      * 
      */
-	public static List<Division> getDivisions(String language) throws Exception{
+	public List<Division> getDivisions(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";

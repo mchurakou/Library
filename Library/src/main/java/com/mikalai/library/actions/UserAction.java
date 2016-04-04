@@ -1,14 +1,17 @@
 package com.mikalai.library.actions;
 
 
-import com.mikalai.library.ajax_json.*;
+import com.mikalai.library.ajax_json.AjaxResult;
+import com.mikalai.library.ajax_json.AjaxTableResult;
+import com.mikalai.library.ajax_json.ConverterJSON;
+import com.mikalai.library.ajax_json.Filter;
+import com.mikalai.library.ajax_json.Row;
 import com.mikalai.library.beans.Division;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
-import com.mikalai.library.dao.DepartmentDB;
-import com.mikalai.library.dao.DivisionDB;
-import com.mikalai.library.dao.UserDB;
-;
+import com.mikalai.library.dao.DepartmentDAO;
+import com.mikalai.library.dao.DivisionDAO;
+import com.mikalai.library.dao.UserDAO;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
@@ -19,9 +22,12 @@ import org.apache.logging.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+;
 /**
  * Action for work with users
  * 
@@ -29,6 +35,16 @@ import java.util.Map;
  */
 public class UserAction extends ActionSupport implements SessionAware, RequestAware{
 	private static final Logger LOG = LogManager.getLogger();
+
+	@Inject
+	private UserDAO userDAO;
+
+	@Inject
+	private DivisionDAO divisionDAO;
+
+	@Inject
+	private DepartmentDAO departmentDAO;
+
 	/**
 	 * 
 	 */
@@ -87,16 +103,16 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		String departmentValue = "";
 		String divisionValue = "";
 		try {
-			userCategories = UserDB.getUserCategories(getLocale().getLanguage());
+			userCategories = userDAO.getUserCategories(getLocale().getLanguage());
 			userCategoryValue = StringBuilder.generateValueForList(userCategories);
 			
-			userRoles = UserDB.getUserRoles(getLocale().getLanguage());
+			userRoles = userDAO.getUserRoles(getLocale().getLanguage());
 			userRoleValue = StringBuilder.generateValueForList(userRoles);
 			
-			departments = DepartmentDB.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments(getLocale().getLanguage());
 			departmentValue = StringBuilder.generateValueForList(departments);
 			
-			divisions = DivisionDB.getDivisions(getLocale().getLanguage());
+			divisions = divisionDAO.getDivisions(getLocale().getLanguage());
 			divisionValue = StringBuilder.generateValueForList(divisions);
 			
 			
@@ -122,9 +138,9 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		user = new User(login, password, firstName, secondName, email,divisionId);
 		
 		try {
-			departments = DepartmentDB.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments(getLocale().getLanguage());
 			
-			if (!UserDB.add(user)){ 
+			if (!userDAO.add(user)){
 				setError(getText(Constants.MSG_REPEAT_LOGIN)); //repeat login
 				return INPUT;
 			}
@@ -149,7 +165,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		
 		user = null;
 		try {
-			user = UserDB.getUser(login, password,getLocale().getLanguage());
+			user = userDAO.getUser(login, password,getLocale().getLanguage());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
@@ -187,8 +203,8 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		user = (User) session.get(Constants.ATTRIBUTE_USER);
 		
 		try {
-			departments = DepartmentDB.getDepartments(getLocale().getLanguage());
-			divisions = DivisionDB.getDivisionsByDepartmentId(user.getDepartmentId(),getLocale().getLanguage());
+			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			divisions = divisionDAO.getDivisionsByDepartmentId(user.getDepartmentId(),getLocale().getLanguage());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
@@ -211,9 +227,9 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		user.setDepartmentId(departmentId);
 	
 		try {
-			UserDB.changeProfile(user);
-			departments = DepartmentDB.getDepartments(getLocale().getLanguage());
-			divisions = DivisionDB.getDivisionsByDepartmentId(user.getDepartmentId(),getLocale().getLanguage());
+			userDAO.changeProfile(user);
+			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			divisions = divisionDAO.getDivisionsByDepartmentId(user.getDepartmentId(),getLocale().getLanguage());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
@@ -243,12 +259,12 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		Pagination pagination = null;
 		try {
 					
-			count = UserDB.getCountOfUsers(filters);
+			count = userDAO.getCountOfUsers(filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				users = UserDB.getUsersForTable(pagination,null,getLocale().getLanguage());
+				users = userDAO.getUsersForTable(pagination,null,getLocale().getLanguage());
 			else
-				users = UserDB.getUsersForTable(pagination,filters,getLocale().getLanguage());
+				users = userDAO.getUsersForTable(pagination,filters,getLocale().getLanguage());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -274,12 +290,12 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 	public String prepareActiveUsers()  {
 		Pagination pagination = null;
 		try {
-			count = UserDB.getCountOfActiveUsers();
+			count = userDAO.getCountOfActiveUsers();
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				users = UserDB.getActiveUsersForTable(pagination,null);
+				users = userDAO.getActiveUsersForTable(pagination,null);
 			else
-				users = UserDB.getActiveUsersForTable(pagination,filters);
+				users = userDAO.getActiveUsersForTable(pagination,filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -308,9 +324,9 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		boolean success = true;
 		try {
 			if (oper.equals(Constants.OPERATION_DELETE)) //delete
-				success = UserDB.deleteUser(id);
+				success = userDAO.deleteUser(id);
 			if (oper.equals(Constants.OPERATION_EDIT)) //edit
-				UserDB.editUser(id, firstName, secondName, email, roleId, categoryId,divisionId);
+				userDAO.editUser(id, firstName, secondName, email, roleId, categoryId,divisionId);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -328,7 +344,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 	public String loadDepartments(){
 		
 		try {
-			departments = DepartmentDB.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments(getLocale().getLanguage());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));

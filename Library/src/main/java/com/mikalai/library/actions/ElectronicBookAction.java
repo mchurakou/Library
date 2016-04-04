@@ -5,9 +5,9 @@ import com.mikalai.library.ajax_json.*;
 import com.mikalai.library.beans.ElectronicBook;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
-import com.mikalai.library.dao.BookDescriptionDB;
-import com.mikalai.library.dao.ElectronicBookDB;
-import com.mikalai.library.dao.UserCategoryDB;
+import com.mikalai.library.dao.BookDescriptionDAO;
+import com.mikalai.library.dao.ElectronicBookDAO;
+import com.mikalai.library.dao.UserCategoryDAO;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +29,16 @@ import java.util.Map;
  */
 public class ElectronicBookAction extends ActionSupport implements SessionAware, RequestAware{
 	private static final Logger LOG = LogManager.getLogger();
-	/**
-	 * 
-	 */
+
+	@Inject
+	private UserCategoryDAO userCategoryDAO;
+
+	@Inject
+	private ElectronicBookDAO electronicBookDAO;
+
+	@Inject
+	private BookDescriptionDAO bookDescriptionDAO;
+
 	private static final long serialVersionUID = 1L;
 	private List<SimpleBean> bookCategories;
 	private List<SimpleBean> languages;
@@ -70,14 +78,14 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 	 * 
 	 */
 	public String eBooks() throws Exception {
-		bookCategories = BookDescriptionDB.getBookCategories(getLocale().getLanguage());
+		bookCategories = bookDescriptionDAO.getBookCategories(getLocale().getLanguage());
 		String bookCategoryValue = StringBuilder.generateValueForList(bookCategories);
 		request.put("bookCategoryValue", bookCategoryValue);
 		
-		languages = BookDescriptionDB.getLanguages(getLocale().getLanguage());
+		languages = bookDescriptionDAO.getLanguages(getLocale().getLanguage());
 		String languagesValue = StringBuilder.generateValueForList(languages);
 		request.put("languagesValue", languagesValue);
-		userCategories = UserCategoryDB.getUserCategories(getLocale().getLanguage());
+		userCategories = userCategoryDAO.getUserCategories(getLocale().getLanguage());
 		
 		return SUCCESS;
 	}
@@ -92,18 +100,18 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 		
 		Pagination pagination = null;
 		try {
-			count = ElectronicBookDB.getCountOfElectronicBooks(userCategoryId, filters);
+			count = electronicBookDAO.getCountOfElectronicBooks(userCategoryId, filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				electronicBooks =  ElectronicBookDB.getElectronicBooksForTable(pagination,null,getLocale().getLanguage());
+				electronicBooks =  electronicBookDAO.getElectronicBooksForTable(pagination,null,getLocale().getLanguage());
 			else
-				electronicBooks = ElectronicBookDB.getElectronicBooksForTable(pagination,filters,getLocale().getLanguage());
+				electronicBooks = electronicBookDAO.getElectronicBooksForTable(pagination,filters,getLocale().getLanguage());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
 				
-		List<Row> listRows = new ArrayList<Row>();
+		List<Row> listRows = new ArrayList<>();
 		for (int i = 0;i < electronicBooks.size();i++){
 			ElectronicBook electronicBook = electronicBooks.get(i);
 			Row row = new Row();
@@ -124,7 +132,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 		boolean success = true;
 		try {
 			if (oper.equals(Constants.OPERATION_DELETE)){ //delete
-				success = ElectronicBookDB.deleteElectronicBook(id);
+				success = electronicBookDAO.deleteElectronicBook(id);
 			}
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
@@ -148,7 +156,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 	 */
 	public String getElectronicPrivileges()  {
 		try {
-			result = new AjaxResult(ElectronicBookDB.getUserCategoriesId(electronicBookId));
+			result = new AjaxResult(electronicBookDAO.getUserCategoriesId(electronicBookId));
 			
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
@@ -164,7 +172,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 	 */
 	public String setElectronicPrivileges()  {
 		try {
-			ElectronicBookDB.setUserCategoriesId(electronicBookId, categoryIds);
+			electronicBookDAO.setUserCategoriesId(electronicBookId, categoryIds);
 			result = new AjaxResult("success");
 			
 		} catch (Exception e) {
@@ -185,18 +193,18 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 		
 		Pagination pagination = null;
 		try {
-			count = ElectronicBookDB.getCountOfElectronicBooksForUser( filters,userCategoryId);
+			count = electronicBookDAO.getCountOfElectronicBooksForUser( filters,userCategoryId);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				electronicBooks =  ElectronicBookDB.getElectronicBooksForTableByUserCategory(pagination, null, getLocale().getLanguage(), userCategoryId);
+				electronicBooks =  electronicBookDAO.getElectronicBooksForTableByUserCategory(pagination, null, getLocale().getLanguage(), userCategoryId);
 			else
-				electronicBooks = ElectronicBookDB.getElectronicBooksForTableByUserCategory(pagination, filters, getLocale().getLanguage(), userCategoryId);
+				electronicBooks = electronicBookDAO.getElectronicBooksForTableByUserCategory(pagination, filters, getLocale().getLanguage(), userCategoryId);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
 		}
 				
-		List<Row> listRows = new ArrayList<Row>();
+		List<Row> listRows = new ArrayList<>();
 		for (int i = 0;i < electronicBooks.size();i++){
 			ElectronicBook electronicBook = electronicBooks.get(i);
 			Row row = new Row();

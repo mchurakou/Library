@@ -13,6 +13,7 @@ import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.interceptor.RequestAware;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,19 @@ import java.util.Map;
  */
 
 public class HandBookAction extends ActionSupport implements RequestAware{
-	
+	@Inject
+	private UserCategoryDAO userCategoryDAO;
+	@Inject
+	private LanguageDAO languageDAO;
+
+	@Inject
+	private DivisionDAO divisionDAO;
+
+	@Inject
+	private DepartmentDAO departmentDAO;
+
+	@Inject
+	private BookCategoryDAO bookCategoryDAO;
 
 	/**
 	 * 
@@ -76,12 +89,12 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 			
 		Pagination pagination = null;
 		try {
-			count = DepartmentDB.getCountOfDepartments(filters);
+			count = departmentDAO.getCountOfDepartments(filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				departments = DepartmentDB.getDepartmentsForTable(pagination, null);
+				departments = departmentDAO.getDepartmentsForTable(pagination, null);
 			else
-				departments = DepartmentDB.getDepartmentsForTable(pagination, filters);
+				departments = departmentDAO.getDepartmentsForTable(pagination, filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -109,20 +122,20 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		boolean success = true;
 		try {
 			if (oper.equals(Constants.OPERATION_DELETE)) //delete
-				if (!DepartmentDB.deleteDepartment(id)){
+				if (!departmentDAO.deleteDepartment(id)){
 					success = false;
 					msg = getText(Constants.MSG_SUBSUDIARY);
 				}
 			
 			if (oper.equals(Constants.OPERATION_EDIT)) //edit
-				if (!DepartmentDB.editDepartment(id, name, name_ru)){
+				if (!departmentDAO.editDepartment(id, name, name_ru)){
 					success = false;
 					msg = getText(Constants.MSG_UNIQUE_FAILD);
 				}
 				
 			
 			if (oper.equals(Constants.OPERATION_ADD)) //add
-				if (!DepartmentDB.addDepartment(name, name_ru)){
+				if (!departmentDAO.addDepartment(name, name_ru)){
 					success = false;
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
@@ -151,12 +164,12 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 			
 		Pagination pagination = null;
 		try {
-			count = BookCategoryDB.getCountOfBookCategories(filters);
+			count = bookCategoryDAO.getCountOfBookCategories(filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				bookCategories = BookCategoryDB.getBookCategoriesForTable(pagination, null);
+				bookCategories = bookCategoryDAO.getBookCategoriesForTable(pagination, null);
 			else
-				bookCategories = BookCategoryDB.getBookCategoriesForTable(pagination, filters);
+				bookCategories = bookCategoryDAO.getBookCategoriesForTable(pagination, filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -186,20 +199,20 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		boolean success = true;
 		try {
 			if (oper.equals(Constants.OPERATION_DELETE)) //delete
-				if (!BookCategoryDB.deleteBookCategory(id)){
+				if (!bookCategoryDAO.deleteBookCategory(id)){
 					success = false;
 					msg = getText(Constants.MSG_SUBSUDIARY);
 				}
 			
 			if (oper.equals(Constants.OPERATION_EDIT)) //edit
-				if (!BookCategoryDB.editBookCategory(id, name, name_ru)){
+				if (!bookCategoryDAO.editBookCategory(id, name, name_ru)){
 					success = false;
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
 				
 			
 			if (oper.equals(Constants.OPERATION_ADD)) //add
-				if (!BookCategoryDB.addBookCategory(name, name_ru)){
+				if (!bookCategoryDAO.addBookCategory(name, name_ru)){
 					success = false;
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
@@ -226,18 +239,18 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 			
 		Pagination pagination = null;
 		try {
-			count = LanguageDB.getCountOfLanguages(filters);
+			count = languageDAO.getCountOfLanguages(filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				languages = LanguageDB.getLanguagesForTable(pagination, null);
+				languages = languageDAO.getLanguagesForTable(pagination, null);
 			else
-				languages = LanguageDB.getLanguagesForTable(pagination, filters);
+				languages = languageDAO.getLanguagesForTable(pagination, filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
 				
-		List<Row> listRows = new ArrayList<Row>();
+		List<Row> listRows = new ArrayList<>();
 		for (int i = 0;i < languages.size();i++){
 			SimpleBean language = languages.get(i);
 			Row row = new Row();
@@ -261,20 +274,20 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		boolean success = true;
 		try {
 			if (oper.equals(Constants.OPERATION_DELETE)) //delete
-				if (!LanguageDB.deleteLanguage(id)){
+				if (!languageDAO.deleteLanguage(id)){
 					success = false;
 					msg = getText(Constants.MSG_SUBSUDIARY);
 				}
 			
 			if (oper.equals(Constants.OPERATION_EDIT)) //edit
-				if (!LanguageDB.editLanguage(id, name, name_ru)){
+				if (!languageDAO.editLanguage(id, name, name_ru)){
 					success = false;
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
 				
 			
 			if (oper.equals(Constants.OPERATION_ADD)) //add
-				if (!LanguageDB.addLanguage(name,name_ru)){
+				if (!languageDAO.addLanguage(name,name_ru)){
 					success = false;
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
@@ -302,12 +315,12 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 			
 		Pagination pagination = null;
 		try {
-			count = UserCategoryDB.getCountOfUserCategories(filters);
+			count = userCategoryDAO.getCountOfUserCategories(filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				userCategories = UserCategoryDB.getUserCategoriesForTable(pagination, null);
+				userCategories = userCategoryDAO.getUserCategoriesForTable(pagination, null);
 			else
-				userCategories = UserCategoryDB.getUserCategoriesForTable(pagination, filters);
+				userCategories = userCategoryDAO.getUserCategoriesForTable(pagination, filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -336,20 +349,20 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		boolean success = true;
 		try {
 			if (oper.equals(Constants.OPERATION_DELETE)) //delete
-				if (!UserCategoryDB.deleteUserCategory(id)){
+				if (!userCategoryDAO.deleteUserCategory(id)){
 					success = false;
 					msg = getText(Constants.MSG_SUBSUDIARY);
 				}
 			
 			if (oper.equals(Constants.OPERATION_EDIT)) //edit
-				if (!UserCategoryDB.editUserCategory(id, name, name_ru)){
+				if (!userCategoryDAO.editUserCategory(id, name, name_ru)){
 					success = false;
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
 				
 			
 			if (oper.equals(Constants.OPERATION_ADD)) //add
-				if (!UserCategoryDB.addUserCategory(name,name_ru)){
+				if (!userCategoryDAO.addUserCategory(name,name_ru)){
 					success = false;
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
@@ -379,7 +392,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		String departmentValue = "";
 		
 		try {
-			departments = DepartmentDB.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments(getLocale().getLanguage());
 			departmentValue= StringBuilder.generateValueForList(departments);
 				
 			
@@ -404,18 +417,18 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 			
 		Pagination pagination = null;
 		try {
-			count = DivisionDB.getCountOfDivisions(filters);
+			count = divisionDAO.getCountOfDivisions(filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				divisions = DivisionDB.getDivisionsForTable(pagination, null);
+				divisions = divisionDAO.getDivisionsForTable(pagination, null);
 			else
-				divisions = DivisionDB.getDivisionsForTable(pagination, filters);
+				divisions = divisionDAO.getDivisionsForTable(pagination, filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
 		}
 				
-		List<Row> listRows = new ArrayList<Row>();
+		List<Row> listRows = new ArrayList<>();
 		for (int i = 0;i < divisions.size();i++){
 			Division division = divisions.get(i);
 			Row row = new Row();
@@ -437,20 +450,20 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		boolean success = true;
 		try {
 			if (oper.equals(Constants.OPERATION_DELETE)) //delete
-				if (!DivisionDB.deleteDivision(id)){
+				if (!divisionDAO.deleteDivision(id)){
 					success = false;
 					msg = getText(Constants.MSG_SUBSUDIARY);
 				}
 			
 			if (oper.equals(Constants.OPERATION_EDIT)) //edit
-				if (!DivisionDB.editDivision(id, name, name_ru,departmentId)){
+				if (!divisionDAO.editDivision(id, name, name_ru,departmentId)){
 					success = false;
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
 				
 			
 			if (oper.equals(Constants.OPERATION_ADD)) //add
-				if (!DivisionDB.addDivision(name,name_ru,departmentId)){
+				if (!divisionDAO.addDivision(name,name_ru,departmentId)){
 					success = false;
 					msg =  getText(Constants.MSG_UNIQUE_FAILD);
 				}
@@ -481,9 +494,9 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 	 */
 	public String prepareDivisions()  {
 		
-		List<List<Division>> res = new ArrayList<List<Division>>();
+		List<List<Division>> res = new ArrayList<>();
 		try {
-			res.add(DivisionDB.getDivisionsByDepartmentId(departmentId,getLocale().getLanguage()));
+			res.add(divisionDAO.getDivisionsByDepartmentId(departmentId,getLocale().getLanguage()));
 			
 			
 		} catch (Exception e) {

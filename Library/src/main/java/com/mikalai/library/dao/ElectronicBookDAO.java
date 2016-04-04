@@ -21,7 +21,7 @@ import com.mikalai.library.utils.Pagination;
  * 
  * @author Mikalai_Churakou
  */
-public class ElectronicBookDB {
+public class ElectronicBookDAO {
 	/**
      * Method extract RealBook from ResultSet
      * @param ResultSet
@@ -65,7 +65,7 @@ public class ElectronicBookDB {
      * 
      */
 		
-	public static int getNewFileId() throws Exception{
+	public int getNewFileId() throws Exception{
 		int result;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -90,7 +90,7 @@ public class ElectronicBookDB {
     * @param file name
     * 
     */	
-	public static void addElectronicBook(int bookDescriptionId, String fileName, int size, String extention) throws Exception{
+	public void addElectronicBook(int bookDescriptionId, String fileName, int size, String extention) throws Exception{
 		
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -117,7 +117,7 @@ public class ElectronicBookDB {
      * @throws Exception
      * 
      */
-	public static int getCountOfElectronicBooks(int usetCategoryId, Filter filter) throws Exception{
+	public int getCountOfElectronicBooks(int usetCategoryId, Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		String catSql = "";
 		if (usetCategoryId == 1)
@@ -147,7 +147,7 @@ public class ElectronicBookDB {
      * @throws Exception
      * 
      */
-	public static List<ElectronicBook> getElectronicBooksForTable(Pagination pagination, Filter filter, String language) throws Exception{
+	public List<ElectronicBook> getElectronicBooksForTable(Pagination pagination, Filter filter, String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -184,7 +184,7 @@ public class ElectronicBookDB {
 	     * 
 	     */
 		
-		public static boolean deleteElectronicBook(int id) throws Exception{
+		public boolean deleteElectronicBook(int id) throws Exception{
 			boolean result = true;
 			try {
 				DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -233,7 +233,7 @@ public class ElectronicBookDB {
 	     * @throws Exception
 	     * 
 	     */
-		public static ElectronicBook getElectronicBook(int electronicBookId) throws Exception{
+		public ElectronicBook getElectronicBook(int electronicBookId) throws Exception{
 			
 			ElectronicBook electronicBook = new ElectronicBook();
 			try {
@@ -261,7 +261,7 @@ public class ElectronicBookDB {
 	     * @param electronic book id 
 	      * @return user categories ids
 	     */	
-		public static List<Integer> getUserCategoriesId(int electronicBookId) throws Exception{
+		public List<Integer> getUserCategoriesId(int electronicBookId) throws Exception{
 			List<Integer> result = new ArrayList<Integer>();
 				
 			try {
@@ -292,7 +292,7 @@ public class ElectronicBookDB {
 	     * @param user categories ids 
 	     * 
 	     */	
-		public static void setUserCategoriesId(int electronicBookId,int[] categoryIds) throws Exception{
+		public void setUserCategoriesId(int electronicBookId,int[] categoryIds) throws Exception{
 			
 				
 			try {
@@ -326,7 +326,7 @@ public class ElectronicBookDB {
 	     * @throws Exception
 	     * 
 	     */
-		public static int getCountOfElectronicBooksForUser(Filter filter,int userCategoryId) throws Exception{
+		public int getCountOfElectronicBooksForUser(Filter filter,int userCategoryId) throws Exception{
 			String filterStr = SQL.getSqlFilter(filter);
 			int count = 0;
 			try {
@@ -355,7 +355,7 @@ public class ElectronicBookDB {
 	     * @throws Exception
 	     * 
 	     */
-		public static List<ElectronicBook> getElectronicBooksForTableByUserCategory(Pagination pagination, Filter filter, String language,int userCategoryId) throws Exception{
+		public List<ElectronicBook> getElectronicBooksForTableByUserCategory(Pagination pagination, Filter filter, String language,int userCategoryId) throws Exception{
 			String lang = " ";
 			if (language.equals("ru"))
 				lang = "_ru  ";

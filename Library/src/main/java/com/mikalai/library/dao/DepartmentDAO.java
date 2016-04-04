@@ -19,7 +19,7 @@ import com.mikalai.library.ajax_json.Filter;
  * 
  * @author Mikalai_Churakou
  */
-public class DepartmentDB {
+public class DepartmentDAO {
 	
 	/**
      * count of departments
@@ -28,7 +28,7 @@ public class DepartmentDB {
      * @throws Exception
      * 
      */
-	public static int getCountOfDepartments(Filter filter) throws Exception{
+	public  int getCountOfDepartments(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -54,7 +54,7 @@ public class DepartmentDB {
      * @throws Exception
      * 
      */
-	public static List<SimpleBean> getDepartmentsForTable(Pagination pagination, Filter filter) throws Exception{
+	public  List<SimpleBean> getDepartmentsForTable(Pagination pagination, Filter filter) throws Exception{
 				
 		String filterStr = SQL.getSqlFilter(filter);
 		List<SimpleBean> departments = new ArrayList<SimpleBean>();
@@ -92,7 +92,7 @@ public class DepartmentDB {
      * 
      */
 		
-	public static boolean deleteDepartment(int id) throws Exception{
+	public  boolean deleteDepartment(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -126,7 +126,7 @@ public class DepartmentDB {
      * @throws Exception
      * 
      */	
-	public static boolean editDepartment(int id, String name,String name_ru) throws Exception  {
+	public  boolean editDepartment(int id, String name,String name_ru) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -162,7 +162,7 @@ public class DepartmentDB {
      * @throws Exception
      * 
      */	
-	public static boolean addDepartment( String name,String name_ru) throws Exception  {
+	public boolean addDepartment( String name,String name_ru) throws Exception  {
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -199,7 +199,7 @@ public class DepartmentDB {
      * @throws Exception
      * 
      */
-	public static List<SimpleBean> getDepartments(String language) throws Exception{
+	public List<SimpleBean> getDepartments(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";

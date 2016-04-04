@@ -19,14 +19,14 @@ import com.mikalai.library.beans.User;
  * 
  * @author Mikalai_Churakou
  */
-public class StatisticDB {
+public class StatisticDAO {
 
 	/**
      * Method extract User from ResultSet
      * @param ResultSet
      * @return User
      */	
-	private static SimpleBean extractSimpleBean(ResultSet rs) throws SQLException{
+	private  SimpleBean extractSimpleBean(ResultSet rs) throws SQLException{
 		SimpleBean bean = new SimpleBean();
 		bean.setName(rs.getString(Constants.FIELD_NAME));
 		bean.setCount(rs.getInt(Constants.FIELD_COUNT));
@@ -39,7 +39,7 @@ public class StatisticDB {
      * @throws Exception
      * 
      */
-	public static List<SimpleBean> getInformationForRealBooksPipe(String language) throws Exception{
+	public  List<SimpleBean> getInformationForRealBooksPipe(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -68,7 +68,7 @@ public class StatisticDB {
      * @throws Exception
      * 
      */
-	public static List<SimpleBean> getInformationForElectronicBooksPipe(String language) throws Exception{
+	public  List<SimpleBean> getInformationForElectronicBooksPipe(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -98,7 +98,7 @@ public class StatisticDB {
      * @throws Exception
      * 
      */
-	public static List<SimpleBean> userStatistic(String language) throws Exception{
+	public  List<SimpleBean> userStatistic(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -128,7 +128,7 @@ public class StatisticDB {
     * @throws Exception
     * 
     */
-	public static List<SimpleBean> bookrStatistic(String language) throws Exception{
+	public  List<SimpleBean> bookrStatistic(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";

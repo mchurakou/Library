@@ -21,7 +21,7 @@ import com.mikalai.library.beans.User;
  * 
  * @author Mikalai_Churakou
  */
-public class RealBookDB {
+public class RealBookDAO {
 	
 	/**
      * Method extract RealBook from ResultSet
@@ -59,7 +59,7 @@ public class RealBookDB {
      * @throws Exception
      * 
      */
-	public static int getCountOfRealBooks(Filter filter) throws Exception{
+	public int getCountOfRealBooks(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -86,7 +86,7 @@ public class RealBookDB {
      * @throws Exception
      * 
      */
-	public static List<RealBook> getRealBooksForTable(Pagination pagination, Filter filter, String language) throws Exception{
+	public List<RealBook> getRealBooksForTable(Pagination pagination, Filter filter, String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -124,7 +124,7 @@ public class RealBookDB {
      * 
      */
 	
-	public static boolean deleteRealBook(int id) throws Exception{
+	public boolean deleteRealBook(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -162,7 +162,7 @@ public class RealBookDB {
      * @throws Exception
      * 
      */	
-	public static void editRealBook(int id, int inventoryNumber,int cost) throws Exception  {
+	public void editRealBook(int id, int inventoryNumber,int cost) throws Exception  {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con = pool.getConnection();
@@ -187,7 +187,7 @@ public class RealBookDB {
      * @throws Exception
      * 
      */
-	public static boolean addRealBook(int inventoryNumber, int cost,int bookDescriptionId) throws Exception{
+	public boolean addRealBook(int inventoryNumber, int cost,int bookDescriptionId) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -220,7 +220,7 @@ public class RealBookDB {
      * @param real book id 
       * @return user categories ids
      */	
-	public static List<Integer> getUserCategoriesId(int realBookId) throws Exception{
+	public List<Integer> getUserCategoriesId(int realBookId) throws Exception{
 		List<Integer> result = new ArrayList<Integer>();
 			
 		try {
@@ -250,7 +250,7 @@ public class RealBookDB {
      * @param user categories ids 
      * 
      */	
-	public static void setUserCategoriesId(int realBookId,int[] categoryIds) throws Exception{
+	public void setUserCategoriesId(int realBookId,int[] categoryIds) throws Exception{
 		
 			
 		try {
@@ -287,7 +287,7 @@ public class RealBookDB {
      * @throws Exception
      * 
      */
-	public static int getCountOfRealBooksForUser(Filter filter,int userCategoryId) throws Exception{
+	public int getCountOfRealBooksForUser(Filter filter,int userCategoryId) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -316,7 +316,7 @@ public class RealBookDB {
      * @throws Exception
      * 
      */
-	public static List<RealBook> getRealBooksForTableByUserCategory(Pagination pagination, Filter filter, String language,int userCategoryId) throws Exception{
+	public List<RealBook> getRealBooksForTableByUserCategory(Pagination pagination, Filter filter, String language,int userCategoryId) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";

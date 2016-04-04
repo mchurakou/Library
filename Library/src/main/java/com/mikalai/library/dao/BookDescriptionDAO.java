@@ -21,7 +21,7 @@ import com.mikalai.library.beans.SimpleBean;
  * 
  * @author Mikalai_Churakou
  */
-public class BookDescriptionDB {
+public class BookDescriptionDAO {
 	/**
      * Method extract BookDescription from ResultSet
      * @param ResultSet
@@ -55,7 +55,7 @@ public class BookDescriptionDB {
      * @throws Exception
      * 
      */
-	public static int getCountOfBookDescriptions(Filter filter) throws Exception{
+	public int getCountOfBookDescriptions(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -82,7 +82,7 @@ public class BookDescriptionDB {
      * @throws Exception
      * 
      */
-	public static List<BookDescription> getBookDescriptionsForTable(Pagination pagination, Filter filter, String language) throws Exception{
+	public List<BookDescription> getBookDescriptionsForTable(Pagination pagination, Filter filter, String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -117,7 +117,7 @@ public class BookDescriptionDB {
      * @throws Exception
      * 
      */
-	public static List<SimpleBean> getBookCategories(String language) throws Exception{
+	public List<SimpleBean> getBookCategories(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -150,7 +150,7 @@ public class BookDescriptionDB {
      * @throws Exception
      * 
      */
-	public static List<SimpleBean> getLanguages(String language) throws Exception{
+	public List<SimpleBean> getLanguages(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -184,7 +184,7 @@ public class BookDescriptionDB {
      * @throws Exception
      * 
      */
-	public static boolean deleteBookDescription(int id) throws Exception{
+	public boolean deleteBookDescription(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -220,7 +220,7 @@ public class BookDescriptionDB {
      * @throws Exception
      * 
      */	
-	public static void editBookDescription(int id, String name,String author,int bookCategoryId, String publicationPlace, int publicationYear, int size, int languageId) throws Exception  {
+	public void editBookDescription(int id, String name,String author,int bookCategoryId, String publicationPlace, int publicationYear, int size, int languageId) throws Exception  {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con = pool.getConnection();
@@ -250,7 +250,7 @@ public class BookDescriptionDB {
      * @throws Exception
      * 
      */	
-	public static void addBookDescription( String name,String author,int bookCategoryId, String publicationPlace, int publicationYear, int size, int languageId) throws Exception  {
+	public void addBookDescription( String name,String author,int bookCategoryId, String publicationPlace, int publicationYear, int size, int languageId) throws Exception  {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con = pool.getConnection();

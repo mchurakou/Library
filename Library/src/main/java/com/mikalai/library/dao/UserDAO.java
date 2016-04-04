@@ -19,7 +19,7 @@ import com.mikalai.library.utils.Pagination;
  * 
  * @author Mikalai_Churakou
  */
-public class UserDB {
+public class UserDAO {
 	/**
      * Method extract User from ResultSet
      * @param ResultSet
@@ -53,7 +53,7 @@ public class UserDB {
      * @param new user
      * @return successful or unsuccessful operation
      */		
-	public  static boolean add(User user) throws Exception{
+	public boolean add(User user) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -92,7 +92,7 @@ public class UserDB {
 	 * @param string 
      * @return user with such login and password
      */	
-	public static User getUser(String login, String password, String language) throws Exception{
+	public User getUser(String login, String password, String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -126,7 +126,7 @@ public class UserDB {
      * @throws Exception
      * 
      */	
-	public static void changeProfile(User user) throws Exception  {
+	public void changeProfile(User user) throws Exception  {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con = pool.getConnection();
@@ -155,7 +155,7 @@ public class UserDB {
      * @throws Exception
      * 
      */
-	public static List<User> getUsersForTable(Pagination pagination, Filter filter,String language) throws Exception{
+	public List<User> getUsersForTable(Pagination pagination, Filter filter,String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -190,7 +190,7 @@ public class UserDB {
      * @throws Exception
      * 
      */
-	public static List<User> getActiveUsersForTable(Pagination pagination, Filter filter) throws Exception{
+	public List<User> getActiveUsersForTable(Pagination pagination, Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		List<User> users = new ArrayList<User>();
 		try {
@@ -223,7 +223,7 @@ public class UserDB {
      * @throws Exception
      * 
      */
-	public static int getCountOfUsers(Filter filter) throws Exception{
+	public int getCountOfUsers(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {
@@ -249,7 +249,7 @@ public class UserDB {
      * @throws Exception
      * 
      */
-	public static int getCountOfActiveUsers() throws Exception{
+	public int getCountOfActiveUsers() throws Exception{
 		int count = 0;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -276,7 +276,7 @@ public class UserDB {
      * 
      */
 		
-	public static boolean deleteUser(int id) throws Exception{
+	public boolean deleteUser(int id) throws Exception{
 		boolean result = true;
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -312,7 +312,7 @@ public class UserDB {
      * @throws Exception
      * 
      */	
-	public static void editUser(int id, String firstName,String secondName,String email, int roleId, int categoryId, int divisionId) throws Exception  {
+	public void editUser(int id, String firstName,String secondName,String email, int roleId, int categoryId, int divisionId) throws Exception  {
 		try {
 			DBConnectionPool pool = DBConnectionPool.getConnPool();
 			Connection con = pool.getConnection();
@@ -347,7 +347,7 @@ public class UserDB {
      * @throws Exception
      * 
      */
-	public static List<SimpleBean> getUserCategories(String language) throws Exception{
+	public List<SimpleBean> getUserCategories(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";
@@ -381,7 +381,7 @@ public class UserDB {
      * @throws Exception
      * 
      */
-	public static List<SimpleBean> getUserRoles(String language) throws Exception{
+	public List<SimpleBean> getUserRoles(String language) throws Exception{
 		String lang = " ";
 		if (language.equals("ru"))
 			lang = "_ru  ";

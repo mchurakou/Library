@@ -1,21 +1,26 @@
 package com.mikalai.library.actions;
 
 import com.mikalai.library.beans.SimpleBean;
-import com.mikalai.library.dao.StatisticDB;
-;
+import com.mikalai.library.dao.StatisticDAO;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.interceptor.RequestAware;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
+
+;
 /**
  * Action for work with statistic
  * 
  * @author Mikalai_Churakou
  */
 public class StatisticAction extends ActionSupport implements  RequestAware{
+	@Inject
+	private StatisticDAO statisticDAO;
+
 	
 	/**
 	 * 
@@ -38,18 +43,18 @@ public class StatisticAction extends ActionSupport implements  RequestAware{
 
 	public String statistic(){
 		try {
-			realBooksPipeInformation = StatisticDB.getInformationForRealBooksPipe(getLocale().getLanguage());
+			realBooksPipeInformation = statisticDAO.getInformationForRealBooksPipe(getLocale().getLanguage());
 			String realBooksPipeLabels = StringBuilder.generateLabelsForPipe(realBooksPipeInformation);
 			request.put("realBooksPipeLabels", realBooksPipeLabels);
 			
-			electronicBooksPipeInformation = StatisticDB.getInformationForElectronicBooksPipe(getLocale().getLanguage());
+			electronicBooksPipeInformation = statisticDAO.getInformationForElectronicBooksPipe(getLocale().getLanguage());
 			String electronicBooksPipeLabels = StringBuilder.generateLabelsForPipe(electronicBooksPipeInformation);
 			request.put("electronicBooksPipeLabels", electronicBooksPipeLabels);
 			
 		
 			
-			bookStatistic = StatisticDB.bookrStatistic(getLocale().getLanguage());
-			userStatistic = StatisticDB.userStatistic(getLocale().getLanguage());
+			bookStatistic = statisticDAO.bookrStatistic(getLocale().getLanguage());
+			userStatistic = statisticDAO.userStatistic(getLocale().getLanguage());
 			
 			String userLabels  = StringBuilder.generateLabelsForPipe(userStatistic);
 			request.put("userLabels", userLabels );

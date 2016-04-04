@@ -1,9 +1,13 @@
 package com.mikalai.library.actions;
 
-import com.mikalai.library.ajax_json.*;
+import com.mikalai.library.ajax_json.AjaxResult;
+import com.mikalai.library.ajax_json.AjaxTableResult;
+import com.mikalai.library.ajax_json.ConverterJSON;
+import com.mikalai.library.ajax_json.Filter;
+import com.mikalai.library.ajax_json.Row;
 import com.mikalai.library.beans.BookDescription;
 import com.mikalai.library.beans.SimpleBean;
-import com.mikalai.library.dao.BookDescriptionDB;
+import com.mikalai.library.dao.BookDescriptionDAO;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
@@ -13,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +27,9 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class BookDescriptionAction extends ActionSupport implements RequestAware{
+	@Inject
+	private BookDescriptionDAO bookDescriptionDAO;
+
 	private static final Logger logger = LogManager.getLogger();
 
 	/**
@@ -76,10 +84,10 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 		String languagesValue = "";
 		String userCategoryValue = "";
 		try {
-			bookCategories = BookDescriptionDB.getBookCategories(getLocale().getLanguage());
+			bookCategories = bookDescriptionDAO.getBookCategories(getLocale().getLanguage());
 			bookCategoriesValue = StringBuilder.generateValueForList(bookCategories);
 			
-			languages = BookDescriptionDB.getLanguages(getLocale().getLanguage());
+			languages = bookDescriptionDAO.getLanguages(getLocale().getLanguage());
 			languagesValue = StringBuilder.generateValueForList(languages);
 			
 			
@@ -102,12 +110,12 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 	public String prepareBookDescriptions()  {
 		Pagination pagination = null;
 		try {
-			count = BookDescriptionDB.getCountOfBookDescriptions(filters);
+			count = bookDescriptionDAO.getCountOfBookDescriptions(filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				bookDescriptions = BookDescriptionDB.getBookDescriptionsForTable(pagination,null,getLocale().getLanguage());
+				bookDescriptions = bookDescriptionDAO.getBookDescriptionsForTable(pagination,null,getLocale().getLanguage());
 			else
-				bookDescriptions = BookDescriptionDB.getBookDescriptionsForTable(pagination,filters,getLocale().getLanguage());
+				bookDescriptions = bookDescriptionDAO.getBookDescriptionsForTable(pagination,filters,getLocale().getLanguage());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -135,11 +143,11 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 		boolean success = true;
 		try {
 			if (oper.equals(Constants.OPERATION_DELETE)) //delete
-				success = BookDescriptionDB.deleteBookDescription(id);
+				success = bookDescriptionDAO.deleteBookDescription(id);
 			if (oper.equals(Constants.OPERATION_EDIT)) //edit
-				BookDescriptionDB.editBookDescription(id, name, author, bookCategoryId, publicationPlace, publicationYear, size, languageId);
+				bookDescriptionDAO.editBookDescription(id, name, author, bookCategoryId, publicationPlace, publicationYear, size, languageId);
 			if (oper.equals(Constants.OPERATION_ADD)) //add
-				BookDescriptionDB.addBookDescription(name, author, bookCategoryId, publicationPlace, publicationYear, size, languageId);
+				bookDescriptionDAO.addBookDescription(name, author, bookCategoryId, publicationPlace, publicationYear, size, languageId);
 				
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);

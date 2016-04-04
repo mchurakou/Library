@@ -20,7 +20,7 @@ import com.mikalai.library.beans.Comment;
  * 
  * @author Mikalai_Churakou
  */
-public class CommentDB {
+public class CommentDAO {
 
 	
 	
@@ -51,7 +51,7 @@ public class CommentDB {
 	    * @throws Exception
 	    * 
 	    */	
-		public static void addComment(int userId,int electronicBookId, String message) throws Exception{
+		public void addComment(int userId,int electronicBookId, String message) throws Exception{
 			
 			try {
 				DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -79,7 +79,7 @@ public class CommentDB {
 	     * @throws Exception
 	     * 
 	     */
-		public static List<Comment> getComments(int electronicBookId) throws Exception{
+		public List<Comment> getComments(int electronicBookId) throws Exception{
 			List<Comment> comments = new ArrayList<Comment>();
 			try {
 				DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -109,7 +109,7 @@ public class CommentDB {
 		    * @throws Exception
 		    * 
 		    */	
-			public static void deleteComment(int commentId) throws Exception{
+			public void deleteComment(int commentId) throws Exception{
 				
 				try {
 					DBConnectionPool pool = DBConnectionPool.getConnPool();
@@ -123,7 +123,6 @@ public class CommentDB {
 					throw new Exception(e);
 				}
 				
-				return ;
 			}
 			
 			
