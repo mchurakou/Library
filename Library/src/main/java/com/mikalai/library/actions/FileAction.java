@@ -1,7 +1,6 @@
 package com.mikalai.library.actions;
 
 
-import com.mikalai.library.ajax_json.AjaxResult;
 import com.mikalai.library.dao.ElectronicBookDB;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.ZipFile;
@@ -9,12 +8,15 @@ import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.struts2.interceptor.SessionAware;
 
-import java.io.*;
-import java.util.Map;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-public class FileAction extends ActionSupport implements SessionAware{
+public class FileAction extends ActionSupport {
 	private static final Logger LOG = LogManager.getLogger();
 
 
@@ -22,9 +24,7 @@ public class FileAction extends ActionSupport implements SessionAware{
 
 
 	private static final long serialVersionUID = 1L;
-	private AjaxResult result;
 
-	private Map<String, Object> session;
 	private int bookDescriptionId;
 	private int id;
 	
@@ -61,12 +61,8 @@ public class FileAction extends ActionSupport implements SessionAware{
 	 */
 	public String upload() throws Exception {
 
-		session.put(Constants.ATTRIBUTE_PERCENT, 0);
-		
 		int total = (int) file.length();
-		//String contentType = this.getUploadContentType();
 
-				
 		FileInputStream in = null;
 		FileOutputStream out = null;
 		
@@ -86,21 +82,12 @@ public class FileAction extends ActionSupport implements SessionAware{
     		in = new FileInputStream( file );
     		out = new FileOutputStream( docDestination );
     		int c;
-    		int shag = 0;
         try {
 			while ((c = in.read()) != -1) {
 			    out.write(c);
-			    shag ++;
-			    
-			    if (shag == 10000){
-			    	int current = (int)docDestination.length();
-			    	int percent = 100 * current / total;
-			    	session.put(Constants.ATTRIBUTE_PERCENT, percent);
-			    	shag = 0;
-			    }
+
 			}
 			
-	    	session.put(Constants.ATTRIBUTE_PERCENT, 100);
 		} catch (IOException e) {
 			LOG.error(e.getMessage(),e);
 			
@@ -119,14 +106,7 @@ public class FileAction extends ActionSupport implements SessionAware{
     	
     	return Action.SUCCESS;
 	}
-	
-	public String uploadProgress(){
-		
-		int percent =  Integer.parseInt(session.get(Constants.ATTRIBUTE_PERCENT).toString());
-		result = new AjaxResult(percent);
-		
-		return Action.SUCCESS;
-	}
+
 
 	
 	public String download()  {
@@ -142,23 +122,6 @@ public class FileAction extends ActionSupport implements SessionAware{
 		}
 		return "sendFile"; 
 	}
-	
-	public AjaxResult getResult() {
-		return result;
-	}
-
-
-	public void setResult(AjaxResult result) {
-		this.result = result;
-	}
-
-
-	
-	public void setSession(Map<String, Object> session) {
-		this.session = session;
-		
-	}
-	
 
 
 	public int getBookDescriptionId() {

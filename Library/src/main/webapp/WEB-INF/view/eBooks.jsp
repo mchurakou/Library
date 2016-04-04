@@ -16,27 +16,28 @@
 	<legend>
 		<s:text name="electronic.New_el_book" />
 	</legend>
-		
+
+
+
 		<table align="center" class="realBook" width="215px" >
 			
 			<tr>
 				<td colspan="2"><s:text name="book.Book_description" />*:</td>
 			</tr>
 			<tr>
-				<td width="110px"><input id="bookDescription" disabled="true" ></input></td><td><button onclick="showListOfBookDescriptions()"><span class="ui-icon ui-icon-folder-open"></span></button></td>
+				<td width="110px"><input id="bookDescription" disabled="true" /></td><td><button onclick="showListOfBookDescriptions()"><span class="ui-icon ui-icon-folder-open"></span></button></td>
 				
 			</tr>
-			<form id="ajaxFileUploadForm" name="ajaxFileUploadForm" onsubmit="return false" action="upload" method="post" enctype="multipart/form-data">
-			
-			
-			
+
+		<form id="fileUpload" name="fileUpload" action="upload.action" method="post" enctype="multipart/form-data">
+
 			<tr><td colspan="3"><s:text name="electronic.File" />*:<span class="progressBar" id="progressBar"></span></td></tr>
 			
 			<tr>
 				<td>
 				
 				<div id="wrapper">
-					<input type="file" name="upload" size="40" value="" accept="*/*" id="upload"/>
+					<s:file name="file" />
 				</div>
 				
 				</td>
@@ -47,18 +48,22 @@
 			</tr>
 			
 			<tr>
-				<td><button  type="submit" onclick="return davidjc.AjaxFileUpload.initialise(undefined, undefined);"><s:text name="electronic.Add" /></button>
+				<td><button  type="submit"><s:text name="electronic.Add" /></button>
 				</td>
 			</tr>
 			<input type="hidden" id="bookDescriptionId" name="bookDescriptionId"/>
-			</form>
+
 			<tr>
 				<td id="msg" colspan="2">
 					
 				</td>
 			</tr>
+		</form>
 			
-			</table>
+		</table>
+
+
+
 		
 	
 </fieldset>
@@ -131,7 +136,6 @@ var MSG_EL_BOOK_UPLOADED = '<s:text name="electronic.El_book_uploaded" />';
 
 var electronicBookId = 0;
 
-window.onload = initializationUpload();
 
 /* global var*/
  var bookDescriptionId = 0;

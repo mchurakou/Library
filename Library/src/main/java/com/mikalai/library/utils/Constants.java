@@ -15,8 +15,7 @@ public class Constants {
 	public static String DB_PASSWORD  = "123";
 	
 	/*URL*/
-	public static String URL_LOG = "log.txt";
-	public static String PATH_FILES = "LIBRARY_FILES\\";
+	public static String PATH_FILES = "d:\\DEV-TOOLS\\LIBRARY_FILES\\";
 
 		
 	/*messages*/
@@ -109,8 +108,7 @@ public class Constants {
 	
 	/*attributes*/
 	public static String ATTRIBUTE_USER = "user";
-	public static String ATTRIBUTE_PERCENT = "percent";
-	
+
 	/*role id*/
 	public static int NEW_ROLE_ID = 1;
 	public static int USER_ROLE_ID = 2;

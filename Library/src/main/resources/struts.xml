@@ -557,13 +557,7 @@
 				<param name="root">result</param>
 			</result>
 		</action>
-		
-		<action name="uploadProgress" class="com.mikalai.library.actions.FileAction" method="uploadProgress">
-			<result type="json">
-				<param name="root">result</param>
-			</result>
-		</action>
-		
+
 		<action name="getElectronicBooksForLibrarian" class="com.mikalai.library.actions.ElectronicBookAction" method="prepareElectronicBooks">
 			<result type="json">
 				<param name="root">tableResult</param>
@@ -652,8 +646,8 @@
 		<action name="upload" class="com.mikalai.library.actions.FileAction" method="upload">
 		<interceptor-ref name="fileUploadStack" /> 
 		
-		<result name="success" type="httpheader">
-			<param name="status">200</param>
+		<result name="success" type="chain">
+			<param name="actionName">eBooks</param>
 		</result>
 		</action>
 		
