@@ -1,17 +1,12 @@
 package com.mikalai.library.interceptors;
 
-import java.sql.SQLException;
-import java.util.Map;
-
-import com.mikalai.library.utils.Constants;
-
 import com.mikalai.library.beans.User;
-
+import com.mikalai.library.utils.Constants;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
 
-import com.mikalai.library.dao.DBConnectionPool;
+import java.util.Map;
 /**
  * Check authentication
  * 
@@ -24,14 +19,6 @@ public class LoginInterceptor implements Interceptor {
 	private static final long serialVersionUID = 1L;
 
 
-	public void destroy() {
-		try {
-			DBConnectionPool.getConnPool().closeAll();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public String intercept(ActionInvocation actionInvocation) throws Exception {
 		Map<String, Object> session = actionInvocation.getInvocationContext().getSession();
 		User user = (User)session.get(Constants.ATTRIBUTE_USER);
@@ -42,7 +29,12 @@ public class LoginInterceptor implements Interceptor {
 		}
 	}
 
-	
+
+	@Override
+	public void destroy() {
+
+	}
+
 	public void init() {
 				
 	}

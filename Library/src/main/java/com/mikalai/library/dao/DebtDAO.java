@@ -20,7 +20,7 @@ import com.mikalai.library.beans.Debt;
  * 
  * @author Mikalai_Churakou
  */
-public class DebtDAO {
+public class DebtDAO extends GenericDAO {
 	
 	/**
      * Method extract RealBook from ResultSet
@@ -57,9 +57,7 @@ public class DebtDAO {
      * 
      */
 	public void giveBook(int realBookId,int userId,Timestamp start, Timestamp end,int librarianId) throws Exception{
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "exec give_book ?,?,?,?"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1, realBookId);
@@ -80,7 +78,7 @@ public class DebtDAO {
 			
 			
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -105,9 +103,7 @@ public class DebtDAO {
 		
 		String filterStr = SQL.getSqlFilter(filter);
 		List<Debt> debts = new ArrayList<Debt>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 						"FROM user_debts" + lang + "(?) " +
@@ -121,7 +117,7 @@ public class DebtDAO {
 			while (rs.next())
 				debts.add(extractDebt(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -145,9 +141,7 @@ public class DebtDAO {
 		
 		String filterStr = SQL.getSqlFilter(filter);
 		List<Debt> debts = new ArrayList<Debt>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 						"FROM view_all_debts" + lang + filterStr + ") as a " +
@@ -159,7 +153,7 @@ public class DebtDAO {
 			while (rs.next())
 				debts.add(extractDebt(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -178,9 +172,7 @@ public class DebtDAO {
 	public int getCountOfDebts(int userId, Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("Select count(*) as count from user_debts(?) " + filterStr);
 			s.setInt(1, userId);
 			ResultSet rs = s.executeQuery();
@@ -189,7 +181,7 @@ public class DebtDAO {
 				count = rs.getInt("count");
 				
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -206,9 +198,7 @@ public class DebtDAO {
      */
 	public int getCountOfAllDebts() throws Exception{
 		int count = 0;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("Select count(*) as count from debts");
 			ResultSet rs = s.executeQuery();
 			
@@ -216,7 +206,7 @@ public class DebtDAO {
 				count = rs.getInt("count");
 				
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -228,9 +218,7 @@ public class DebtDAO {
 
 
 	public void returnBook(int debtId,int librarianId) throws Exception {
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			
 			String sql = "select * from debts where id = ?";
 			PreparedStatement s = con.prepareStatement(sql);
@@ -262,7 +250,7 @@ public class DebtDAO {
 			s.setInt(1, debtId);
 			s.executeUpdate();
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					

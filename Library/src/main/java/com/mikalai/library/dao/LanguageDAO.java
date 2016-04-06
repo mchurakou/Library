@@ -19,7 +19,7 @@ import com.mikalai.library.ajax_json.Filter;
  * 
  * @author Mikalai_Churakou
  */
-public class LanguageDAO {
+public class LanguageDAO extends GenericDAO{
 	
 	/**
      * count of languages
@@ -31,16 +31,14 @@ public class LanguageDAO {
 	public int getCountOfLanguages(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("Select count(*) as count from languages " +  filterStr);
 			ResultSet rs = s.executeQuery();
 			if (rs.next())
 				count = rs.getInt("count");
 				
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -58,9 +56,7 @@ public class LanguageDAO {
 				
 		String filterStr = SQL.getSqlFilter(filter);
 		List<SimpleBean> languages = new ArrayList<SimpleBean>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 						"FROM languages" + filterStr + ") as a " +
@@ -77,7 +73,7 @@ public class LanguageDAO {
 			    languages.add(language);
 			}
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -93,9 +89,7 @@ public class LanguageDAO {
      */	
 	public boolean addLanguage( String name,String name_ru) throws Exception  {
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_language(?,?,?) as res");
 			s.setInt(1, 0);
 			s.setString(2, name);
@@ -112,7 +106,7 @@ public class LanguageDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -130,9 +124,7 @@ public class LanguageDAO {
 		
 	public boolean deleteLanguage(int id) throws Exception{
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".can_delete_language(?) as res");
 			s.setInt(1, id);
 			ResultSet rs = s.executeQuery();
@@ -147,7 +139,7 @@ public class LanguageDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -164,9 +156,7 @@ public class LanguageDAO {
      */	
 	public boolean editLanguage(int id, String name,String name_ru) throws Exception  {
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_language(?,?,?) as res");
 			s.setInt(1, id);
 			s.setString(2, name);
@@ -184,7 +174,7 @@ public class LanguageDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 		}

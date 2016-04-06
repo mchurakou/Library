@@ -21,7 +21,7 @@ import com.mikalai.library.utils.Pagination;
  * 
  * @author Mikalai_Churakou
  */
-public class ElectronicBookDAO {
+public class ElectronicBookDAO extends GenericDAO {
 	/**
      * Method extract RealBook from ResultSet
      * @param ResultSet
@@ -67,15 +67,13 @@ public class ElectronicBookDAO {
 		
 	public int getNewFileId() throws Exception{
 		int result;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".new_file_id() as res");
 			ResultSet rs = s.executeQuery();
 			rs.next();
 			result = rs.getInt("res");
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -92,9 +90,7 @@ public class ElectronicBookDAO {
     */	
 	public void addElectronicBook(int bookDescriptionId, String fileName, int size, String extention) throws Exception{
 		
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("exec add_electronic_book ?, ?,?,?");
 			s.setInt(1, bookDescriptionId);
 			s.setString(2, fileName);
@@ -102,7 +98,7 @@ public class ElectronicBookDAO {
 			s.setString(4, extention);
 			s.executeUpdate();
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 		}
@@ -123,16 +119,14 @@ public class ElectronicBookDAO {
 		if (usetCategoryId == 1)
 			catSql = " where userCategoryId = " + usetCategoryId;
 		int count = 0;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select count(*) as count from (Select * from view_electronic_books " + filterStr + ") t " + catSql);
 			ResultSet rs = s.executeQuery();
 			if (rs.next())
 				count = rs.getInt("count");
 				
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -155,9 +149,7 @@ public class ElectronicBookDAO {
 		String filterStr = SQL.getSqlFilter(filter);
 		
 		List<ElectronicBook> electronicBooks = new ArrayList<ElectronicBook>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 						"FROM view_electronic_books" + lang + filterStr + ") as a " +
@@ -169,7 +161,7 @@ public class ElectronicBookDAO {
 			while (rs.next())
 				electronicBooks.add(extractElectronicBook(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -186,9 +178,7 @@ public class ElectronicBookDAO {
 		
 		public boolean deleteElectronicBook(int id) throws Exception{
 			boolean result = true;
-			try {
-				DBConnectionPool pool = DBConnectionPool.getConnPool();
-				Connection con=pool.getConnection();
+			try {Connection con = getConnection();
 				
 				PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".can_delete_electronic_book(?) as res");
 				s.setInt(1, id);
@@ -218,7 +208,7 @@ public class ElectronicBookDAO {
 					result = false;
 				
 				s.close();
-				pool.releaseConnection(con);
+
 			} catch (SQLException e) {
 				throw new Exception(e);
 						
@@ -236,9 +226,7 @@ public class ElectronicBookDAO {
 		public ElectronicBook getElectronicBook(int electronicBookId) throws Exception{
 			
 			ElectronicBook electronicBook = new ElectronicBook();
-			try {
-				DBConnectionPool pool = DBConnectionPool.getConnPool();
-				Connection con=pool.getConnection();
+			try {Connection con = getConnection();
 				String sql = "SELECT * FROM view_electronic_books " +
 							" WHERE id = ? "; 
 				PreparedStatement s = con.prepareStatement(sql);
@@ -248,7 +236,7 @@ public class ElectronicBookDAO {
 				while (rs.next())
 					electronicBook = extractElectronicBook(rs);
 				s.close();
-				pool.releaseConnection(con);
+
 			} catch (SQLException e) {
 				throw new Exception(e);
 						
@@ -264,9 +252,7 @@ public class ElectronicBookDAO {
 		public List<Integer> getUserCategoriesId(int electronicBookId) throws Exception{
 			List<Integer> result = new ArrayList<Integer>();
 				
-			try {
-				DBConnectionPool pool = DBConnectionPool.getConnPool();
-				Connection con=pool.getConnection();
+			try{Connection con = getConnection();
 				PreparedStatement s = con.prepareStatement("Select userCategoryId FROM privileges_electronic where electronicBookId = ?");
 				s.setInt(1, electronicBookId);
 				
@@ -276,7 +262,7 @@ public class ElectronicBookDAO {
 					result.add(rs.getInt(Constants.FIELD_USER_CATEGORIES_ID));
 				}
 			    s.close();
-				pool.releaseConnection(con);
+
 			} catch (SQLException e) {
 				throw new Exception(e);
 						
@@ -295,9 +281,7 @@ public class ElectronicBookDAO {
 		public void setUserCategoriesId(int electronicBookId,int[] categoryIds) throws Exception{
 			
 				
-			try {
-				DBConnectionPool pool = DBConnectionPool.getConnPool();
-				Connection con=pool.getConnection();
+			try {Connection con = getConnection();
 				PreparedStatement s = con.prepareStatement("exec clear_electronic_privileges ?");
 				s.setInt(1, electronicBookId);
 				s.executeUpdate();
@@ -311,7 +295,7 @@ public class ElectronicBookDAO {
 				}
 				
 			    s.close();
-				pool.releaseConnection(con);
+
 			} catch (SQLException e) {
 				throw new Exception(e);
 						
@@ -329,9 +313,7 @@ public class ElectronicBookDAO {
 		public int getCountOfElectronicBooksForUser(Filter filter,int userCategoryId) throws Exception{
 			String filterStr = SQL.getSqlFilter(filter);
 			int count = 0;
-			try {
-				DBConnectionPool pool = DBConnectionPool.getConnPool();
-				Connection con=pool.getConnection();
+			try {Connection con = getConnection();
 				
 				PreparedStatement s = con.prepareStatement("select count(*) as count from ( SELECT * FROM " + Constants.DB_DBO + ".electronic_books_for_user_category(?)"  + filterStr + ") t ");
 				s.setInt(1, userCategoryId);
@@ -340,7 +322,7 @@ public class ElectronicBookDAO {
 					count = rs.getInt("count");
 					
 				s.close();
-				pool.releaseConnection(con);
+
 			} catch (SQLException e) {
 				throw new Exception(e);
 						
@@ -364,9 +346,7 @@ public class ElectronicBookDAO {
 			String filterStr = SQL.getSqlFilter(filter);
 			
 			List<ElectronicBook> electronicBooks = new ArrayList<ElectronicBook>();
-			try {
-				DBConnectionPool pool = DBConnectionPool.getConnPool();
-				Connection con=pool.getConnection();
+			try {Connection con = getConnection();
 				String sql = "SELECT * FROM " +
 							"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 							"FROM " + Constants.DB_DBO + ".electronic_books_for_user_category(?) " + lang + filterStr + ") as a " +
@@ -379,7 +359,7 @@ public class ElectronicBookDAO {
 				while (rs.next())
 					electronicBooks.add(extractElectronicBook(rs));
 				s.close();
-				pool.releaseConnection(con);
+
 			} catch (SQLException e) {
 				throw new Exception(e);
 						

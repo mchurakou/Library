@@ -1,5 +1,10 @@
 package com.mikalai.library.dao;
 
+import com.mikalai.library.ajax_json.Filter;
+import com.mikalai.library.beans.SimpleBean;
+import com.mikalai.library.utils.Constants;
+import com.mikalai.library.utils.Pagination;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,18 +12,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mikalai.library.utils.Constants;
-import com.mikalai.library.utils.Pagination;
-import com.mikalai.library.beans.SimpleBean;
-
-import com.mikalai.library.ajax_json.Filter;
 ;
 /**
  * Action for work with user categories
  * 
  * @author Mikalai_Churakou
  */
-public class UserCategoryDAO {
+public class UserCategoryDAO extends GenericDAO {
 	
 	/**
      * count of user categories
@@ -30,16 +30,14 @@ public class UserCategoryDAO {
 	public int getCountOfUserCategories(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("Select count(*) as count from user_categories " +  filterStr);
 			ResultSet rs = s.executeQuery();
 			if (rs.next())
 				count = rs.getInt("count");
 				
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -57,9 +55,7 @@ public class UserCategoryDAO {
 				
 		String filterStr = SQL.getSqlFilter(filter);
 		List<SimpleBean> userCategories = new ArrayList<SimpleBean>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 						"FROM user_categories" + filterStr + ") as a " +
@@ -76,7 +72,7 @@ public class UserCategoryDAO {
 				userCategories.add(userCategory);
 			}
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -92,9 +88,7 @@ public class UserCategoryDAO {
      */	
 	public  boolean addUserCategory( String name,String name_ru) throws Exception  {
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_user_category(?,?,?) as res");
 			s.setInt(1, 0);
 			s.setString(2, name);
@@ -111,7 +105,7 @@ public class UserCategoryDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -129,9 +123,7 @@ public class UserCategoryDAO {
 		
 	public  boolean deleteUserCategory(int id) throws Exception{
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".can_delete_user_category(?) as res");
 			s.setInt(1, id);
 			ResultSet rs = s.executeQuery();
@@ -146,7 +138,7 @@ public class UserCategoryDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -163,9 +155,7 @@ public class UserCategoryDAO {
      */	
 	public  boolean editUserCategory(int id, String name,String name_ru) throws Exception  {
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_user_category(?,?,?) as res");
 			s.setInt(1, id);
 			s.setString(2, name);
@@ -183,7 +173,7 @@ public class UserCategoryDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 		}
@@ -203,9 +193,7 @@ public class UserCategoryDAO {
 			lang = "_ru  ";		
 		
 		List<SimpleBean> userCategories = new ArrayList<SimpleBean>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * FROM view_user_categories" + lang;
 			PreparedStatement s = con.prepareStatement(sql);
 			
@@ -217,7 +205,7 @@ public class UserCategoryDAO {
 				userCategories.add(userCategory);
 			}
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					

@@ -20,7 +20,7 @@ import com.mikalai.library.utils.Pagination;
  * 
  * @author Mikalai_Churakou
  */
-public class QueueDAO {
+public class QueueDAO extends GenericDAO{
 	/**
      * Method extract Queue from ResultSet
      * @param ResultSet
@@ -48,9 +48,7 @@ public class QueueDAO {
      */
 	public  boolean addUserInQueue(int userId,int realBookId) throws Exception{
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_queue(?,?) as res");
 			s.setInt(1, userId);
 			s.setInt(2, realBookId);
@@ -68,7 +66,7 @@ public class QueueDAO {
 				result = false;
 			
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -87,9 +85,7 @@ public class QueueDAO {
 		
 		List<Queue> queues = new ArrayList<Queue>();
 		
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 						"FROM view_queues where realBookId = ?) as a " +
@@ -102,7 +98,7 @@ public class QueueDAO {
 			while (rs.next())
 				queues.add(extractQueue(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -118,9 +114,7 @@ public class QueueDAO {
      */
 	public int getCountOfQueues(int realBookId) throws Exception{
 		int count = 0;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("Select count(*) as count from view_queues where realBookId = ?");
 			s.setInt(1, realBookId);
 			ResultSet rs = s.executeQuery();
@@ -128,7 +122,7 @@ public class QueueDAO {
 				count = rs.getInt("count");
 				
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -145,9 +139,7 @@ public class QueueDAO {
      */
 	public boolean deleteUserFromQueue(int userId,int realBookId) throws Exception{
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_queue(?,?) as res");
 			s.setInt(1, userId);
 			s.setInt(2, realBookId);
@@ -165,7 +157,7 @@ public class QueueDAO {
 				result = false;
 			
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -181,14 +173,12 @@ public class QueueDAO {
      * 
      */
 	public void deleteUserFromQueueById(int id) throws Exception{
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s =con.prepareStatement("exec delete_user_from_queue_by_id ?");
 			s.setInt(1, id);
 			s.executeUpdate();
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					

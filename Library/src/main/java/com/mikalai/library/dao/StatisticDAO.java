@@ -19,7 +19,7 @@ import com.mikalai.library.beans.User;
  * 
  * @author Mikalai_Churakou
  */
-public class StatisticDAO {
+public class StatisticDAO extends GenericDAO {
 
 	/**
      * Method extract User from ResultSet
@@ -44,16 +44,14 @@ public class StatisticDAO {
 		if (language.equals("ru"))
 			lang = "_ru  ";
 		List<SimpleBean> result = new ArrayList<SimpleBean>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "select name, count from " + Constants.DB_DBO + ".statistic_pipe_real_books" + lang + "()"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next())
 				result.add(extractSimpleBean(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -73,16 +71,14 @@ public class StatisticDAO {
 		if (language.equals("ru"))
 			lang = "_ru  ";
 		List<SimpleBean> result = new ArrayList<SimpleBean>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "select name, count from " + Constants.DB_DBO + ".statistic_pipe_electronic_books" + lang + "()"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next())
 				result.add(extractSimpleBean(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -103,16 +99,14 @@ public class StatisticDAO {
 		if (language.equals("ru"))
 			lang = "_ru  ";
 		List<SimpleBean> result = new ArrayList<SimpleBean>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "select name, count from " + Constants.DB_DBO + ".user_statistic" + lang + "()"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next())
 				result.add(extractSimpleBean(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -133,16 +127,14 @@ public class StatisticDAO {
 		if (language.equals("ru"))
 			lang = "_ru  ";
 		List<SimpleBean> result = new ArrayList<SimpleBean>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "select name, count from " + Constants.DB_DBO + ".book_statistic" + lang + "()"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next())
 				result.add(extractSimpleBean(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					

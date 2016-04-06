@@ -21,7 +21,7 @@ import com.mikalai.library.beans.SimpleBean;
  * 
  * @author Mikalai_Churakou
  */
-public class BookDescriptionDAO {
+public class BookDescriptionDAO extends GenericDAO {
 	/**
      * Method extract BookDescription from ResultSet
      * @param ResultSet
@@ -58,16 +58,14 @@ public class BookDescriptionDAO {
 	public int getCountOfBookDescriptions(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("Select count(*) as count from view_book_descriptions " +  filterStr);
 			ResultSet rs = s.executeQuery();
 			if (rs.next())
 				count = rs.getInt("count");
 				
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -88,9 +86,7 @@ public class BookDescriptionDAO {
 			lang = "_ru  ";
 		String filterStr = SQL.getSqlFilter(filter);
 		List<BookDescription> bookDescriptions = new ArrayList<BookDescription>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 						"FROM view_book_descriptions" + lang + filterStr + ") as a " +
@@ -102,7 +98,7 @@ public class BookDescriptionDAO {
 			while (rs.next())
 				bookDescriptions.add(extractBookDescription(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -122,9 +118,7 @@ public class BookDescriptionDAO {
 		if (language.equals("ru"))
 			lang = "_ru  ";
 		List<SimpleBean> bookCategories = new ArrayList<SimpleBean>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try{Connection con = getConnection();
 			String sql = "SELECT id, name FROM view_book_categories" + lang; 
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
@@ -135,7 +129,7 @@ public class BookDescriptionDAO {
 				bookCategories.add(bookCategory);
 			}
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -155,9 +149,7 @@ public class BookDescriptionDAO {
 		if (language.equals("ru"))
 			lang = "_ru  ";
 		List<SimpleBean> languages = new ArrayList<SimpleBean>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT id, name FROM view_languages" + lang; 
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
@@ -168,7 +160,7 @@ public class BookDescriptionDAO {
 				languages.add(bean);
 			}
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -186,9 +178,7 @@ public class BookDescriptionDAO {
      */
 	public boolean deleteBookDescription(int id) throws Exception{
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try{Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".can_delete_book_description(?) as res");
 			s.setInt(1, id);
 			ResultSet rs = s.executeQuery();
@@ -204,7 +194,7 @@ public class BookDescriptionDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -221,9 +211,7 @@ public class BookDescriptionDAO {
      * 
      */	
 	public void editBookDescription(int id, String name,String author,int bookCategoryId, String publicationPlace, int publicationYear, int size, int languageId) throws Exception  {
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s;
 			s = con.prepareStatement("exec edit_book_description ?, ?, ?, ?, ?, ?, ?, ?");
 			s.setInt(1, id);
@@ -236,7 +224,7 @@ public class BookDescriptionDAO {
 			s.setInt(8, languageId);
 			s.executeUpdate();
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 		}
@@ -251,9 +239,7 @@ public class BookDescriptionDAO {
      * 
      */	
 	public void addBookDescription( String name,String author,int bookCategoryId, String publicationPlace, int publicationYear, int size, int languageId) throws Exception  {
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s;
 			s = con.prepareStatement("exec add_book_description  ?, ?, ?, ?, ?, ?, ?");
 			s.setString(1, name);
@@ -265,7 +251,7 @@ public class BookDescriptionDAO {
 			s.setInt(7, languageId);
 			s.executeUpdate();
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception(e);

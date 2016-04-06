@@ -17,7 +17,7 @@ import java.util.List;
  * 
  * @author Mikalai_Churakou
  */
-public class DivisionDAO {
+public class DivisionDAO extends GenericDAO{
 
 	/**
      * count of divisions
@@ -29,16 +29,14 @@ public class DivisionDAO {
 	public int getCountOfDivisions(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("Select count(*) as count from divisions " +  filterStr);
 			ResultSet rs = s.executeQuery();
 			if (rs.next())
 				count = rs.getInt("count");
 				
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -56,9 +54,7 @@ public class DivisionDAO {
 				
 		String filterStr = SQL.getSqlFilter(filter);
 		List<Division> divisions = new ArrayList<Division>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try{Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 						"FROM divisions" + filterStr + ") as a " +
@@ -76,7 +72,7 @@ public class DivisionDAO {
 				divisions.add(division);
 			}
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -93,9 +89,7 @@ public class DivisionDAO {
 	public boolean addDivision( String name,String name_ru, int departmentId) throws Exception  {
 		
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_division(?,?,?) as res");
 			s.setInt(1, 0);
 			s.setString(2, name);
@@ -113,7 +107,7 @@ public class DivisionDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -131,9 +125,7 @@ public class DivisionDAO {
 		
 	public boolean deleteDivision(int id) throws Exception{
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".can_delete_division(?) as res");
 			s.setInt(1, id);
 			ResultSet rs = s.executeQuery();
@@ -148,7 +140,7 @@ public class DivisionDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -165,9 +157,7 @@ public class DivisionDAO {
      */	
 	public boolean editDivision(int id, String name,String name_ru, int departmentId) throws Exception  {
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_division(?,?,?) as res");
 			s.setInt(1, id);
 			s.setString(2, name);
@@ -186,7 +176,7 @@ public class DivisionDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 		}
@@ -205,9 +195,7 @@ public class DivisionDAO {
 		if (language.equals("ru"))
 			lang = "_ru  ";
 		List<Division> divisions = new ArrayList<Division>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * from view_divisions" + lang + " where departmentId = ?";
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1, departmentId);
@@ -220,7 +208,7 @@ public class DivisionDAO {
 				divisions.add(division);
 			}
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -239,9 +227,7 @@ public class DivisionDAO {
 		if (language.equals("ru"))
 			lang = "_ru  ";
 		List<Division> divisions = new ArrayList<Division>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * from view_divisions" + lang ;
 			PreparedStatement s = con.prepareStatement(sql);
 			
@@ -254,7 +240,7 @@ public class DivisionDAO {
 				divisions.add(division);
 			}
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					

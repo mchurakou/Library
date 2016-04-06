@@ -22,7 +22,7 @@ import com.mikalai.library.beans.User;
  * 
  * @author Mikalai_Churakou
  */
-public class ReportDAO {
+public class ReportDAO extends GenericDAO {
 	/**
      * Method extract User from ResultSet
      * @param ResultSet
@@ -51,9 +51,7 @@ public class ReportDAO {
      */
 	public List<LibrarianReportRecord> getRows(Timestamp start, Timestamp end) throws Exception{
 		List<LibrarianReportRecord> records = new ArrayList<LibrarianReportRecord>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "select * FROM " + Constants.DB_DBO + ".report(?,?)";
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setTimestamp(1,start);
@@ -62,7 +60,7 @@ public class ReportDAO {
 			while (rs.next())
 				records.add(extractRecord(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					

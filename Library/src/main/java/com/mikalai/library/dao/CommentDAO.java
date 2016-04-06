@@ -20,7 +20,7 @@ import com.mikalai.library.beans.Comment;
  * 
  * @author Mikalai_Churakou
  */
-public class CommentDAO {
+public class CommentDAO extends GenericDAO{
 
 	
 	
@@ -53,9 +53,7 @@ public class CommentDAO {
 	    */	
 		public void addComment(int userId,int electronicBookId, String message) throws Exception{
 			
-			try {
-				DBConnectionPool pool = DBConnectionPool.getConnPool();
-				Connection con=pool.getConnection();
+			try{Connection con = getConnection();
 				PreparedStatement s = con.prepareStatement("exec add_comment ?, ?,?");
 				s.setInt(1, userId);
 				s.setInt(2, electronicBookId);
@@ -63,7 +61,7 @@ public class CommentDAO {
 				
 				s.executeUpdate();
 				s.close();
-				pool.releaseConnection(con);
+
 			} catch (SQLException e) {
 				throw new Exception(e);
 			}
@@ -81,9 +79,7 @@ public class CommentDAO {
 	     */
 		public List<Comment> getComments(int electronicBookId) throws Exception{
 			List<Comment> comments = new ArrayList<Comment>();
-			try {
-				DBConnectionPool pool = DBConnectionPool.getConnPool();
-				Connection con=pool.getConnection();
+			try{Connection con = getConnection();
 				String sql = "Select * FROM view_comments where electronicBookId = ? " +
 							 " order by date ";
 							
@@ -94,7 +90,7 @@ public class CommentDAO {
 				while (rs.next())
 					comments.add(extractComment(rs));
 				s.close();
-				pool.releaseConnection(con);
+
 			} catch (SQLException e) {
 				throw new Exception(e);
 						
@@ -111,14 +107,12 @@ public class CommentDAO {
 		    */	
 			public void deleteComment(int commentId) throws Exception{
 				
-				try {
-					DBConnectionPool pool = DBConnectionPool.getConnPool();
-					Connection con=pool.getConnection();
+				try {Connection con = getConnection();
 					PreparedStatement s = con.prepareStatement("exec delete_comment ?");
 					s.setInt(1, commentId);
 					s.executeUpdate();
 					s.close();
-					pool.releaseConnection(con);
+
 				} catch (SQLException e) {
 					throw new Exception(e);
 				}

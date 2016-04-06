@@ -19,7 +19,7 @@ import com.mikalai.library.ajax_json.Filter;
  * 
  * @author Mikalai_Churakou
  */
-public class DepartmentDAO {
+public class DepartmentDAO extends GenericDAO {
 	
 	/**
      * count of departments
@@ -31,16 +31,14 @@ public class DepartmentDAO {
 	public  int getCountOfDepartments(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("Select count(*) as count from departments " +  filterStr);
 			ResultSet rs = s.executeQuery();
 			if (rs.next())
 				count = rs.getInt("count");
 				
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -58,9 +56,7 @@ public class DepartmentDAO {
 				
 		String filterStr = SQL.getSqlFilter(filter);
 		List<SimpleBean> departments = new ArrayList<SimpleBean>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 						"FROM departments" + filterStr + ") as a " +
@@ -77,7 +73,7 @@ public class DepartmentDAO {
 				departments.add(department);
 			}
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -94,9 +90,7 @@ public class DepartmentDAO {
 		
 	public  boolean deleteDepartment(int id) throws Exception{
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".can_delete_department(?) as res");
 			s.setInt(1, id);
 			ResultSet rs = s.executeQuery();
@@ -111,7 +105,7 @@ public class DepartmentDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -128,9 +122,7 @@ public class DepartmentDAO {
      */	
 	public  boolean editDepartment(int id, String name,String name_ru) throws Exception  {
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_department(?,?,?) as res");
 			s.setInt(1, id);
 			s.setString(2, name);
@@ -148,7 +140,7 @@ public class DepartmentDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 		}
@@ -164,9 +156,7 @@ public class DepartmentDAO {
      */	
 	public boolean addDepartment( String name,String name_ru) throws Exception  {
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_department(?,?,?) as res");
 			s.setInt(1, 0);
 			s.setString(2, name);
@@ -183,7 +173,7 @@ public class DepartmentDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -204,9 +194,7 @@ public class DepartmentDAO {
 		if (language.equals("ru"))
 			lang = "_ru  ";
 		List<SimpleBean> departments = new ArrayList<SimpleBean>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT id, name FROM view_departments" + lang; 
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
@@ -217,7 +205,7 @@ public class DepartmentDAO {
 				departments.add(department);
 			}
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					

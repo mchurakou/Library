@@ -21,7 +21,7 @@ import com.mikalai.library.beans.User;
  * 
  * @author Mikalai_Churakou
  */
-public class RealBookDAO {
+public class RealBookDAO  extends GenericDAO{
 	
 	/**
      * Method extract RealBook from ResultSet
@@ -62,16 +62,14 @@ public class RealBookDAO {
 	public int getCountOfRealBooks(Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select count(*) as count from (Select * from view_real_books "  + filterStr + ") t ");
 			ResultSet rs = s.executeQuery();
 			if (rs.next())
 				count = rs.getInt("count");
 				
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -95,9 +93,7 @@ public class RealBookDAO {
 		String filterStr = SQL.getSqlFilter(filter);
 		
 		List<RealBook> realBooks = new ArrayList<RealBook>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 						"FROM view_real_books" + lang + filterStr + ") as a " +
@@ -109,7 +105,7 @@ public class RealBookDAO {
 			while (rs.next())
 				realBooks.add(extractRealBook(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -126,9 +122,7 @@ public class RealBookDAO {
 	
 	public boolean deleteRealBook(int id) throws Exception{
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try{Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".can_delete_real_book(?) as res");
 			s.setInt(1, id);
 			ResultSet rs = s.executeQuery();
@@ -144,7 +138,7 @@ public class RealBookDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -163,9 +157,7 @@ public class RealBookDAO {
      * 
      */	
 	public void editRealBook(int id, int inventoryNumber,int cost) throws Exception  {
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s;
 			s = con.prepareStatement("exec edit_real_book ?, ?,?");
 			s.setInt(1, id);
@@ -173,7 +165,7 @@ public class RealBookDAO {
 			s.setInt(3, cost);
 			s.executeUpdate();
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 		}
@@ -189,9 +181,7 @@ public class RealBookDAO {
      */
 	public boolean addRealBook(int inventoryNumber, int cost,int bookDescriptionId) throws Exception{
 		boolean result = true;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con = pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_real_book(?) as res");
 			s.setInt(1, inventoryNumber);
 			ResultSet rs=s.executeQuery();
@@ -207,7 +197,7 @@ public class RealBookDAO {
 			else
 				result = false;
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 		}
@@ -223,9 +213,7 @@ public class RealBookDAO {
 	public List<Integer> getUserCategoriesId(int realBookId) throws Exception{
 		List<Integer> result = new ArrayList<Integer>();
 			
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("Select userCategoryId FROM privileges_real where realBookId = ?");
 			s.setInt(1, realBookId);
 			
@@ -235,7 +223,7 @@ public class RealBookDAO {
 				result.add(rs.getInt(Constants.FIELD_USER_CATEGORIES_ID));
 			}
 		    s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -253,9 +241,7 @@ public class RealBookDAO {
 	public void setUserCategoriesId(int realBookId,int[] categoryIds) throws Exception{
 		
 			
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("exec clear_real_privileges ?");
 			s.setInt(1, realBookId);
 			s.executeUpdate();
@@ -269,7 +255,7 @@ public class RealBookDAO {
 			}
 			
 		    s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -290,9 +276,7 @@ public class RealBookDAO {
 	public int getCountOfRealBooksForUser(Filter filter,int userCategoryId) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try{Connection con = getConnection();
 			
 			PreparedStatement s = con.prepareStatement("select count(*) as count from ( SELECT * FROM " + Constants.DB_DBO + ".real_books_for_user_category(?)"  + filterStr + ") t ");
 			s.setInt(1, userCategoryId);
@@ -301,7 +285,7 @@ public class RealBookDAO {
 				count = rs.getInt("count");
 				
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
@@ -325,9 +309,7 @@ public class RealBookDAO {
 		String filterStr = SQL.getSqlFilter(filter);
 		
 		List<RealBook> realBooks = new ArrayList<RealBook>();
-		try {
-			DBConnectionPool pool = DBConnectionPool.getConnPool();
-			Connection con=pool.getConnection();
+		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
 						"FROM " + Constants.DB_DBO + ".real_books_for_user_category(?) " + lang + filterStr + ") as a " +
@@ -340,7 +322,7 @@ public class RealBookDAO {
 			while (rs.next())
 				realBooks.add(extractRealBook(rs));
 			s.close();
-			pool.releaseConnection(con);
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 					
