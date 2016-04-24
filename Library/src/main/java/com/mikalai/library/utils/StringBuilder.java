@@ -1,8 +1,10 @@
 package com.mikalai.library.utils;
 
-import java.util.List;
-
+import com.mikalai.library.beans.Division;
 import com.mikalai.library.beans.SimpleBean;
+import com.mikalai.library.beans.dictionary.NamedEntity;
+
+import java.util.List;
 
 public class StringBuilder {
 	public static String generateValueForList(List list){
@@ -16,6 +18,20 @@ public class StringBuilder {
 				result += bean.getId() + ":" + bean.getName() + ";";
 		}
 		
+		return result;
+	}
+
+	public static String generateNamedValueForList(List<Division> list){
+		String result = "";
+
+		for (int i = 0; i < list.size(); i++ ){
+			NamedEntity bean = list.get(i);
+			if (i == list.size() - 1)
+				result += bean.getId() + ":" + bean.getName();
+			else
+				result += bean.getId() + ":" + bean.getName() + ";";
+		}
+
 		return result;
 	}
 	

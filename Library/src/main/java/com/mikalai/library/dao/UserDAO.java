@@ -1,8 +1,11 @@
 package com.mikalai.library.dao;
 
 import com.mikalai.library.ajax_json.Filter;
+import com.mikalai.library.beans.Division;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
+import com.mikalai.library.beans.dictionary.Category;
+import com.mikalai.library.beans.dictionary.Role;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 
@@ -28,24 +31,16 @@ public class UserDAO extends GenericDAO {
      */	
 	private static User extractUser(ResultSet rs) throws SQLException{
 		User user = new User();
-		user.setId(rs.getInt(Constants.FIELD_ID));
+		user.setId(rs.getLong(Constants.FIELD_ID));
 		user.setLogin(rs.getString(Constants.FIELD_LOGIN));
 		user.setFirstName(rs.getString(Constants.FIELD_FIRST_NAME));
 		user.setSecondName(rs.getString(Constants.FIELD_SECOND_NAME));
 		user.setEmail(rs.getString(Constants.FIELD_EMAIL));
-		SimpleBean role =  new SimpleBean();
-		role.setId(rs.getInt(Constants.FIELD_ROLE_ID));
-		role.setName(rs.getString(Constants.FIELD_ROLE));
-		role.setTitle(rs.getString(Constants.FIELD_ROLE_TITLE));
-		user.setRole(role);
-		SimpleBean category =  new SimpleBean();
-		category.setId(rs.getInt(Constants.FIELD_CATEGORY_ID));
-		category.setName(rs.getString(Constants.FIELD_CATEGORY));
-		user.setCategory(category);
+		user.setRole(Role.getById(rs.getInt(Constants.FIELD_ROLE_ID)));
+		user.setCategory(Category.getById(rs.getInt(rs.getInt(Constants.FIELD_CATEGORY_ID))));
 		user.setHaveDebt(rs.getBoolean(Constants.FIELD_HAVE_DEBT));
-		user.setDivisionId(rs.getInt(Constants.FIELD_DIVISION_ID));
-		user.setDepartmentId(rs.getInt(Constants.FIELD_DEPARTMENT_ID));
-		
+		user.setDivision(new Division(rs.getInt(Constants.FIELD_DIVISION_ID)));
+
 		return user;
 	}
 	
@@ -70,7 +65,7 @@ public class UserDAO extends GenericDAO {
 				s.setString(3, user.getFirstName());
 				s.setString(4, user.getSecondName());
 				s.setString(5, user.getEmail());
-				s.setInt(6, user.getDivisionId());
+				s.setInt(6, (int) user.getDivision().getId());
 				s.executeUpdate();
 			}
 			else
@@ -86,45 +81,6 @@ public class UserDAO extends GenericDAO {
 	}
 	
 	/**
-     * Method return user by login and password
-     * @param login 
-     * @param password
-	 * @param string 
-     * @return user with such login and password
-     */	
-	public User getUser(String login, String password, String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
-
-
-
-		User user = null;
-		try
-				{Connection con = getConnection();
-
-
-			PreparedStatement s = con.prepareStatement("Select * " +
-													   "from view_users_all" + lang +
-													   "where "+
-													   "login=? and "+
-													   "password=?");
-			s.setString(1, login);
-			s.setString(2, password);
-			ResultSet rs=s.executeQuery();
-			if (rs.next())
-				user = extractUser(rs);
-		    s.close();
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
-		}
-		return user;
-	}
-
-
-
-	/**
      * Change profile
      * @param user
      * @throws Exception
@@ -134,11 +90,11 @@ public class UserDAO extends GenericDAO {
 		try {Connection con = getConnection();
 			PreparedStatement s;
 			s = con.prepareStatement("exec edit_user ?, ?, ?, ?,?");
-			s.setInt(1, user.getId());
+			s.setLong(1, user.getId());
 			s.setString(2, user.getFirstName());
 			s.setString(3, user.getSecondName());
 			s.setString(4, user.getEmail());
-			s.setInt(5, user.getDivisionId());
+			s.setInt(5, (int) user.getDivision().getId());
 			s.executeUpdate();
 			s.close();
 

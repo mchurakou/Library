@@ -87,7 +87,7 @@ public class QueueAction extends ActionSupport implements SessionAware{
 		for (int i = 0;i < queues.size();i++){
 			Queue queue = queues.get(i);
 			Row row = new Row();
-			row.setId(queue.getId());
+			row.setId((int) queue.getId());
 			row.setCell(new Object[]{queue.getId(),queue.getUserId(),queue.getLogin(),queue.getFirstName(),queue.getSecondName(),queue.getDate(),queue.getEmail()});
 			listRows.add(row);
 		}

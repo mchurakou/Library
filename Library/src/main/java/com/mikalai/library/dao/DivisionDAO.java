@@ -1,6 +1,7 @@
 package com.mikalai.library.dao;
 
 import com.mikalai.library.ajax_json.Filter;
+import com.mikalai.library.beans.Department;
 import com.mikalai.library.beans.Division;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
@@ -67,8 +68,7 @@ public class DivisionDAO extends GenericDAO{
 				Division division = new Division();
 				division.setId(rs.getInt(Constants.FIELD_ID));
 				division.setName(rs.getString(Constants.FIELD_NAME));
-				division.setName_ru(rs.getString(Constants.FIELD_NAME_RU));
-				division.setDepartmentId(rs.getInt(Constants.FIELD_DEPARTMENT_ID));
+				division.setDepartment(new Department(rs.getInt(Constants.FIELD_DEPARTMENT_ID)));
 				divisions.add(division);
 			}
 			s.close();
@@ -204,7 +204,7 @@ public class DivisionDAO extends GenericDAO{
 				Division division = new Division();
 				division.setId(rs.getInt(Constants.FIELD_ID));
 				division.setName(rs.getString(Constants.FIELD_NAME));
-				division.setDepartmentId(rs.getInt(Constants.FIELD_DEPARTMENT_ID));
+				division.setDepartment(new Department(rs.getInt(Constants.FIELD_DEPARTMENT_ID)));
 				divisions.add(division);
 			}
 			s.close();
@@ -236,7 +236,7 @@ public class DivisionDAO extends GenericDAO{
 				Division division = new Division();
 				division.setId(rs.getInt(Constants.FIELD_ID));
 				division.setName(rs.getString(Constants.FIELD_NAME));
-				division.setDepartmentId(rs.getInt(Constants.FIELD_DEPARTMENT_ID));
+				division.setDepartment(new Department(rs.getInt(Constants.FIELD_DEPARTMENT_ID)));
 				divisions.add(division);
 			}
 			s.close();

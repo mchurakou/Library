@@ -1,48 +1,45 @@
 package com.mikalai.library.beans;
 
 
+import com.mikalai.library.beans.dictionary.Category;
+import com.mikalai.library.beans.dictionary.Role;
+
+import javax.persistence.*;
+
 /**
  * Class contain information about user
  * 
  * @author Mikalai_Churakou
  */
-public class User {
-	private int id;
+
+@Entity
+@Table(name="users")
+public class User extends BasicEntity {
 	private String login;
 	private String password;
 	private String firstName;
 	private String secondName;
 	private String email;
-	private SimpleBean role;
-	private SimpleBean category;
-	private boolean haveDebt;
-	private int divisionId;
-	private int departmentId;
-	
+	@Enumerated
+	@Column(name="roleId")
+	private Role role;
+	@Enumerated
+	@Column(name="categoryId")
+	private Category category;
 
-	public int getDivisionId() {
-		return divisionId;
-	}
-	public void setDivisionId(int divisionId) {
-		this.divisionId = divisionId;
-	}
-	public int getDepartmentId() {
-		return departmentId;
-	}
-	public void setDepartmentId(int departmentId) {
-		this.departmentId = departmentId;
-	}
+	@Transient
+	private boolean haveDebt;
+
+
+	@ManyToOne
+	@JoinColumn(name="divisionId")
+	private Division division;
+
 	public boolean isHaveDebt() {
 		return haveDebt;
 	}
 	public void setHaveDebt(boolean haveDebt) {
 		this.haveDebt = haveDebt;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
 	}
 	public String getLogin() {
 		return login;
@@ -74,33 +71,46 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-		
-	public SimpleBean getRole() {
+
+
+	public Role getRole() {
 		return role;
 	}
-	public void setRole(SimpleBean role) {
+
+	public void setRole(Role role) {
 		this.role = role;
 	}
-	public SimpleBean getCategory() {
+
+	public Category getCategory() {
 		return category;
 	}
-	public void setCategory(SimpleBean category) {
+
+	public void setCategory(Category category) {
 		this.category = category;
 	}
+		
 	public User(String login, String password, String firstName,
 			String secondName, String email,int divisionId) {
-		super();
 		this.login = login;
 		this.password = password;
 		this.firstName = firstName;
 		this.secondName = secondName;
 		this.email = email;
-		this.divisionId = divisionId;
+//		this.divisionId = divisionId;
 		
 	}
 	
 	public User() {
-		super();
+	}
+
+
+
+	public Division getDivision() {
+		return division;
+	}
+
+	public void setDivision(Division division) {
+		this.division = division;
 	}
 	
 }

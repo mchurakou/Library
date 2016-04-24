@@ -63,7 +63,7 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 	
 	private AjaxResult result;
 	private int realBookId;
-	private int userId;
+	private long userId;
 	private Timestamp start;
 	
 	private Timestamp end;
@@ -324,11 +324,11 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 		this.realBookId = realBookId;
 	}
 
-	public int getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 

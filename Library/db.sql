@@ -645,8 +645,8 @@ RETURNS VARCHAR(3)
 AS
 BEGIN
 	IF (getdate()>@end)
-		RETURN 'Да' 
-	RETURN 'Нет'
+		RETURN 'пїЅпїЅ' 
+	RETURN 'пїЅпїЅпїЅ'
 END
 GO
 
@@ -931,9 +931,9 @@ RETURN
 select min(category) as name, count(*) as count from view_active_users_ru
 group by categoryId
 union
-select 'Пользователь' as name,count(*)as count from view_active_users
+select 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ' as name,count(*)as count from view_active_users
 union
-Select 'Библиотекарь' as name, count(*) as count from view_active_users where role = 'librarian'
+Select 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ' as name, count(*) as count from view_active_users where role = 'librarian'
 GO
 
 
@@ -956,11 +956,11 @@ CREATE FUNCTION book_statistic_ru()
 RETURNS TABLE
 AS
 RETURN
-Select 'Реальная книга' as name, count(*) as count from view_real_books
+Select 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ' as name, count(*) as count from view_real_books
 union
-Select 'Электронная книга' as name, count(*) as count from view_electronic_books
+Select 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ' as name, count(*) as count from view_electronic_books
 union
-Select 'Комментарий' as name, count(*) as count from view_comments
+Select 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ' as name, count(*) as count from view_comments
 GO
 
 
@@ -1410,62 +1410,62 @@ GO
 
 --DEPARTMENTS
 INSERT INTO departments(name,name_ru)
-VALUES('Mathematical','Математический')
+VALUES('Mathematical','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO departments(name,name_ru)
-VALUES('Physical','Физический')
+VALUES('Physical','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO departments(name,name_ru)
-VALUES('Historical','Исторический')
+VALUES('Historical','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO departments(name,name_ru)
-VALUES('Juridical','Юридический')
+VALUES('Juridical','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 
 --DIVISIONS
 
 INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('POIT-51','ПОИТ-51',1)
+VALUES('POIT-51','пїЅпїЅпїЅпїЅ-51',1)
 INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('PM-51','ПМ-51',1)
+VALUES('PM-51','пїЅпїЅ-51',1)
 INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('EK-51','ЭК-51',1)
+VALUES('EK-51','пїЅпїЅ-51',1)
 INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('MPU','МПУ',1)
+VALUES('MPU','пїЅпїЅпїЅ',1)
 INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('VMiP','ВМиП',1)
+VALUES('VMiP','пїЅпїЅпїЅпїЅ',1)
 INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('DY','ДУ',1)
+VALUES('DY','пїЅпїЅ',1)
 INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('ASOI','АСОИ',2)
+VALUES('ASOI','пїЅпїЅпїЅпїЅ',2)
 
 
 
---ROLES
+--Role
 INSERT INTO roles(name,title,title_ru)
-VALUES('new','New','Новый')
+VALUES('new','New','пїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO roles(name,title,title_ru)
-VALUES('user','User','Пользователь')
+VALUES('user','User','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO roles(name,title,title_ru)
-VALUES('librarian','Librarian','Библиотекарь')
+VALUES('librarian','Librarian','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO roles(name,title,title_ru)
-VALUES('administrator','Administrator','Администратор')
+VALUES('administrator','Administrator','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 
 --USER CATEGORIES
 INSERT INTO user_categories(name,name_ru)
-VALUES('Student','Студент')
+VALUES('Student','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO user_categories(name,name_ru)
-VALUES('Employee','Сотрудник')
+VALUES('Employee','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO user_categories(name,name_ru)
-VALUES('Graduate','Аспирант')
+VALUES('Graduate','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO user_categories(name,name_ru)
-VALUES('Teacher','Преподаватель')
+VALUES('Teacher','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 
 --USERS
 INSERT INTO users(login,password,secondName,firstName,email,roleId,categoryId)
-VALUES('admin','admin','админ','админ','админ',4,2)
+VALUES('admin','admin','пїЅпїЅпїЅпїЅпїЅ','пїЅпїЅпїЅпїЅпїЅ','пїЅпїЅпїЅпїЅпїЅ',4,2)
 INSERT INTO users(login,password,secondName,firstName,email,roleId,categoryId,divisionId)
-VALUES('a','1','Чураков','Николай','badbug1@yandex.ru',3,2,1)
+VALUES('a','1','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ','badbug1@yandex.ru',3,2,1)
 INSERT INTO users(login,password,secondName,firstName,email,roleId,categoryId,divisionId)
-VALUES('b','2','Кожемякин','Сергей','1@yandex.ru',2,2,2)
+VALUES('b','2','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ','пїЅпїЅпїЅпїЅпїЅпїЅ','1@yandex.ru',2,2,2)
 INSERT INTO users(login,password,secondName,firstName,email,roleId,divisionId)
-VALUES('c','3','Большаков','Валентин','2@yandex.ru',2,1)
+VALUES('c','3','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ','2@yandex.ru',2,1)
 
 DECLARE @i INT;
 SET @i=1;
@@ -1479,43 +1479,43 @@ GO
 
 --BOOK CATEGORIES
 INSERT INTO book_categories(name,name_ru)
-VALUES('Detective','Детектив')
+VALUES('Detective','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO book_categories(name,name_ru)
-VALUES('Child','Детские')
+VALUES('Child','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO book_categories(name,name_ru)
-VALUES('History','История')
+VALUES('History','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO book_categories(name,name_ru)
-VALUES('Romance','Роман')
+VALUES('Romance','пїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO book_categories(name,name_ru)
-VALUES('Adventure','Приключения')
+VALUES('Adventure','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO book_categories(name,name_ru)
-VALUES('Prose','Проза')
+VALUES('Prose','пїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO book_categories(name,name_ru)
-VALUES('Fantasy','Фентази')
+VALUES('Fantasy','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO book_categories(name,name_ru)
-VALUES('Humor','Юмор')
+VALUES('Humor','пїЅпїЅпїЅпїЅ')
 
 --LANGUAGES
 INSERT INTO languages(name,name_ru)
-VALUES('Russian','Русский')
+VALUES('Russian','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 INSERT INTO languages(name,name_ru)
-VALUES('English','Английский')
+VALUES('English','пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ')
 
 --BOOK DESCRIPTIONS
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Приручи своих драконов','Стивенс Дж.',4,'Москва',1990,421,2)
+VALUES('пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ.',4,'пїЅпїЅпїЅпїЅпїЅпїЅ',1990,421,2)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Война и мир','Толстой',4,'Москва',1965,1242,1)
+VALUES('пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ',4,'пїЅпїЅпїЅпїЅпїЅпїЅ',1965,1242,1)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Двенадцать стульев','Петров',8,'Петербург',1948,678,1)
+VALUES('пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ','пїЅпїЅпїЅпїЅпїЅпїЅ',8,'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',1948,678,1)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Властелин колей (Братство кольца)','Толкиен',2,'Бостон',1985,600,1)
+VALUES('пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ',2,'пїЅпїЅпїЅпїЅпїЅпїЅ',1985,600,1)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Властелин колей (Две твердыни)','Толкиен',2,'Бостон',1990,600,1)
+VALUES('пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ',2,'пїЅпїЅпїЅпїЅпїЅпїЅ',1990,600,1)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Властелин колей (Возвращение короля)','Толкиен',7,'Бостон',1995,600,1)
+VALUES('пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)','пїЅпїЅпїЅпїЅпїЅпїЅпїЅ',7,'пїЅпїЅпїЅпїЅпїЅпїЅ',1995,600,1)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Всадник без головы','Майн Рид',3,'Лондон',1950,492,1)
+VALUES('пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ','пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ',3,'пїЅпїЅпїЅпїЅпїЅпїЅ',1950,492,1)
 
 --REAL BOOKS
 INSERT INTO real_books(bookDescriptionId,inventoryNumber,cost)

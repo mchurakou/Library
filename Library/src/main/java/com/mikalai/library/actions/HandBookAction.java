@@ -432,8 +432,8 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		for (int i = 0;i < divisions.size();i++){
 			Division division = divisions.get(i);
 			Row row = new Row();
-			row.setId(division.getId());
-			row.setCell(new Object[]{division.getId(),division.getName(),division.getName_ru(),division.getDepartmentId()});
+			row.setId((int) division.getId());
+			row.setCell(new Object[]{division.getId(),division.getName(),division.getDepartment().getId() });
 			listRows.add(row);
 		}
 		

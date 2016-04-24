@@ -1,13 +1,13 @@
 package com.mikalai.library.interceptors;
 
-import java.util.Map;
-
-import com.mikalai.library.utils.Constants;
 import com.mikalai.library.beans.User;
-
+import com.mikalai.library.beans.dictionary.Role;
+import com.mikalai.library.utils.Constants;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
+
+import java.util.Map;
 
 /**
  * Check librarian role
@@ -23,7 +23,7 @@ public class LibrarianInterceptor implements Interceptor {
 	public String intercept(ActionInvocation actionInvocation) throws Exception {
 		Map<String, Object> session = actionInvocation.getInvocationContext().getSession();
 		User user = (User)session.get(Constants.ATTRIBUTE_USER);
-		if (user.getRole().getId() != Constants.LIBRARIAN_ROLE_ID) {
+		if (user.getRole() != Role.LIBRARIAN) {
 			return Action.LOGIN;
 		} else {
 			return actionInvocation.invoke();

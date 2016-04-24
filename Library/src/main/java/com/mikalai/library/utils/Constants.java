@@ -52,13 +52,10 @@ public class Constants {
 	/*fields*/
 	public static String FIELD_ID = "id";
 	public static String FIELD_LOGIN = "login";
-	public static String FIELD_PASSWORD = "password";
 	public static String FIELD_FIRST_NAME = "firstName";
 	public static String FIELD_SECOND_NAME = "secondName";
 	public static String FIELD_EMAIL = "email";
-	public static String FIELD_ROLE = "role";
 	public static String FIELD_ROLE_ID = "roleId";
-	public static String FIELD_CATEGORY = "category";
 	public static String FIELD_CATEGORY_ID = "categoryId";
 	public static String FIELD_AUTHOR = "author";
 	public static String FIELD_BOOK_CATEGORIES_ID = "bookCategoryId";
@@ -69,7 +66,6 @@ public class Constants {
 	public static String FIELD_LANGUAGE_ID = "languageId";
 	public static String FIELD_LANGUAGE = "language";
 	public static String FIELD_USER_CATEGORIES_ID = "userCategoryId";
-	public static String FIELD_USER_CATEGORY = "userCategory";
 	public static String FIELD_NAME = "name";
 	public static String FIELD_BOOK_DESCRIPTION_ID = "bookDescriptionId";
 	public static String FIELD_INVENTORY_NUMBER = "inventoryNumber";
@@ -88,8 +84,6 @@ public class Constants {
 	public static String FIELD_ELECTRONIC_BOOK_ID = "electronicBookId";
 	public static String FIELD_MESSAGE = "message";
 	public static String FIELD_COUNT = "count";
-	public static String FIELD_ROLE_TITLE = "roleTitle";
-	public static String FIELD_CATEGORY_TITLE = "categoryTitle";
 	public static String FIELD_NAME_RU = "name_ru";
 	public static String FIELD_DEPARTMENT_ID = "departmentId";
 	public static String FIELD_DIVISION_ID = "divisionId";
@@ -104,11 +98,6 @@ public class Constants {
 	/*attributes*/
 	public static String ATTRIBUTE_USER = "user";
 
-	/*role id*/
-	public static int NEW_ROLE_ID = 1;
-	public static int USER_ROLE_ID = 2;
-	public static int LIBRARIAN_ROLE_ID = 3;
-	public static int ADMINISTRATOR_ROLE_ID = 4;
 	
 	/*operation*/
 	public static String OPERATION_DELETE = "del";
