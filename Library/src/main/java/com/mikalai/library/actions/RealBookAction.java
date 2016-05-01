@@ -91,14 +91,14 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 	 * 
 	 */
 	public String realBooks() throws Exception{
-		bookCategories = bookDescriptionDAO.getBookCategories(getLocale().getLanguage());
+		bookCategories = bookDescriptionDAO.getBookCategories();
 		String bookCategoryValue = StringBuilder.generateValueForList(bookCategories);
 		request.put("bookCategoryValue", bookCategoryValue);
 		
-		languages = bookDescriptionDAO.getLanguages(getLocale().getLanguage());
+		languages = bookDescriptionDAO.getLanguages();
 		String languagesValue = StringBuilder.generateValueForList(languages);
 		request.put("languagesValue", languagesValue);
-		userCategories = userCategoryDAO.getUserCategories(getLocale().getLanguage());
+		userCategories = userCategoryDAO.getUserCategories();
 		
 		return SUCCESS;
 	}
@@ -115,9 +115,9 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 			count = realBookDAO.getCountOfRealBooks( filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				realBooks =  realBookDAO.getRealBooksForTable(pagination,null,getLocale().getLanguage());
+				realBooks =  realBookDAO.getRealBooksForTable(pagination,null);
 			else
-				realBooks = realBookDAO.getRealBooksForTable(pagination,filters,getLocale().getLanguage());
+				realBooks = realBookDAO.getRealBooksForTable(pagination,filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
@@ -149,9 +149,9 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 			count = realBookDAO.getCountOfRealBooksForUser(filters,userCategoryId);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				realBooks =  realBookDAO.getRealBooksForTableByUserCategory(pagination,null,getLocale().getLanguage(),userCategoryId);
+				realBooks =  realBookDAO.getRealBooksForTableByUserCategory(pagination,null,userCategoryId);
 			else
-				realBooks = realBookDAO.getRealBooksForTableByUserCategory(pagination,filters,getLocale().getLanguage(),userCategoryId);
+				realBooks = realBookDAO.getRealBooksForTableByUserCategory(pagination,filters, userCategoryId);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));

@@ -392,7 +392,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		String departmentValue = "";
 		
 		try {
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments();
 			departmentValue= StringBuilder.generateValueForList(departments);
 				
 			
@@ -496,7 +496,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		
 		List<List<Division>> res = new ArrayList<>();
 		try {
-			res.add(divisionDAO.getDivisionsByDepartmentId(departmentId,getLocale().getLanguage()));
+			res.add(divisionDAO.getDivisionsByDepartmentId(departmentId));
 			
 			
 		} catch (Exception e) {

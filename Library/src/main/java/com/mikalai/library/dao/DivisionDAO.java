@@ -190,13 +190,10 @@ public class DivisionDAO extends GenericDAO{
      * @throws Exception
      * 
      */
-	public List<Division> getDivisionsByDepartmentId(int departmentId,String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<Division> getDivisionsByDepartmentId(int departmentId) throws Exception{
 		List<Division> divisions = new ArrayList<Division>();
 		try {Connection con = getConnection();
-			String sql = "SELECT * from view_divisions" + lang + " where departmentId = ?";
+			String sql = "SELECT * from view_divisions where departmentId = ?";
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1, departmentId);
 			ResultSet rs = s.executeQuery();
@@ -222,13 +219,11 @@ public class DivisionDAO extends GenericDAO{
      * @throws Exception
      * 
      */
-	public List<Division> getDivisions(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<Division> getDivisions() throws Exception{
+
 		List<Division> divisions = new ArrayList<Division>();
 		try {Connection con = getConnection();
-			String sql = "SELECT * from view_divisions" + lang ;
+			String sql = "SELECT * from view_divisions";
 			PreparedStatement s = con.prepareStatement(sql);
 			
 			ResultSet rs = s.executeQuery();

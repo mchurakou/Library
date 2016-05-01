@@ -36,7 +36,6 @@ public class UserDAO extends GenericDAO {
 		user.setFirstName(rs.getString(Constants.FIELD_FIRST_NAME));
 		user.setSecondName(rs.getString(Constants.FIELD_SECOND_NAME));
 		user.setEmail(rs.getString(Constants.FIELD_EMAIL));
-		user.setRole(Role.getById(rs.getInt(Constants.FIELD_ROLE_ID)));
 		user.setCategory(Category.getById(rs.getInt(rs.getInt(Constants.FIELD_CATEGORY_ID))));
 		user.setHaveDebt(rs.getBoolean(Constants.FIELD_HAVE_DEBT));
 		user.setDivision(new Division(rs.getInt(Constants.FIELD_DIVISION_ID)));
@@ -103,42 +102,8 @@ public class UserDAO extends GenericDAO {
 		}
 		
 	}
-	
-	
-	
-	
-	/**
-     * List of users for table with searching
-     * @return list of users
-     * @throws Exception
-     * 
-     */
-	public List<User> getUsersForTable(Pagination pagination, Filter filter,String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
-		
-		String filterStr = SQL.getSqlFilter(filter);
-		List<User> users = new ArrayList<User>();
-		try {Connection con = getConnection();
-			String sql = "SELECT * FROM " +
-						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM view_users" + lang + filterStr + ") as a " +
-						"WHERE row_num BETWEEN ? AND ?";
-			PreparedStatement s = con.prepareStatement(sql);
-			s.setInt(1, pagination.getStart());
-			s.setInt(2, pagination.getEnd());
-			ResultSet rs = s.executeQuery();
-			while (rs.next())
-				users.add(extractUser(rs));
-			s.close();
 
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
-		}
-		return users;
-	}
+
 	
 	/**
      * List of active users for table with searching
@@ -169,31 +134,7 @@ public class UserDAO extends GenericDAO {
 		return users;
 	}
 	
-	
-	/**
-     * count of users
-	 * @param filters 
-     * @return count
-     * @throws Exception
-     * 
-     */
-	public int getCountOfUsers(Filter filter) throws Exception{
-		String filterStr = SQL.getSqlFilter(filter);
-		int count = 0;
-		try {Connection con = getConnection();
-			PreparedStatement s = con.prepareStatement("Select count(*) as count from view_users " +  filterStr);
-			ResultSet rs = s.executeQuery();
-			if (rs.next())
-				count = rs.getInt("count");
-				
-			s.close();
 
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
-		}
-		return count;
-	}
 	
 	/**
      * count of users
@@ -293,13 +234,10 @@ public class UserDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<SimpleBean> getUserCategories(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<SimpleBean> getUserCategories() throws Exception{
 		List<SimpleBean> categories = new ArrayList<SimpleBean>();
 		try {Connection con = getConnection();
-			String sql = "SELECT id, name FROM view_user_categories" + lang; 
+			String sql = "SELECT id, name FROM view_user_categories";
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next()){
@@ -325,26 +263,10 @@ public class UserDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<SimpleBean> getUserRoles(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<SimpleBean> getUserRoles() throws Exception{
 		List<SimpleBean> roles = new ArrayList<SimpleBean>();
-		try {Connection con = getConnection();
-			String sql = "SELECT id, name FROM view_user_roles" + lang; 
-			PreparedStatement s = con.prepareStatement(sql);
-			ResultSet rs = s.executeQuery();
-			while (rs.next()){
-				SimpleBean role = new SimpleBean();
-				role.setId(rs.getInt(Constants.FIELD_ID));
-				role.setName(rs.getString(Constants.FIELD_NAME));
-				roles.add(role);
-			}
-			s.close();
-
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
+		for(Role r: Role.values()){
+			roles.add(new SimpleBean(r.toString()));
 		}
 		return roles;
 	}

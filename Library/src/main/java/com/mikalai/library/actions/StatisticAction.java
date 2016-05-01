@@ -43,18 +43,18 @@ public class StatisticAction extends ActionSupport implements  RequestAware{
 
 	public String statistic(){
 		try {
-			realBooksPipeInformation = statisticDAO.getInformationForRealBooksPipe(getLocale().getLanguage());
+			realBooksPipeInformation = statisticDAO.getInformationForRealBooksPipe();
 			String realBooksPipeLabels = StringBuilder.generateLabelsForPipe(realBooksPipeInformation);
 			request.put("realBooksPipeLabels", realBooksPipeLabels);
 			
-			electronicBooksPipeInformation = statisticDAO.getInformationForElectronicBooksPipe(getLocale().getLanguage());
+			electronicBooksPipeInformation = statisticDAO.getInformationForElectronicBooksPipe();
 			String electronicBooksPipeLabels = StringBuilder.generateLabelsForPipe(electronicBooksPipeInformation);
 			request.put("electronicBooksPipeLabels", electronicBooksPipeLabels);
 			
 		
 			
-			bookStatistic = statisticDAO.bookrStatistic(getLocale().getLanguage());
-			userStatistic = statisticDAO.userStatistic(getLocale().getLanguage());
+			bookStatistic = statisticDAO.bookrStatistic();
+			userStatistic = statisticDAO.userStatistic();
 			
 			String userLabels  = StringBuilder.generateLabelsForPipe(userStatistic);
 			request.put("userLabels", userLabels );

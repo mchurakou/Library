@@ -78,14 +78,14 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 	 * 
 	 */
 	public String eBooks() throws Exception {
-		bookCategories = bookDescriptionDAO.getBookCategories(getLocale().getLanguage());
+		bookCategories = bookDescriptionDAO.getBookCategories();
 		String bookCategoryValue = StringBuilder.generateValueForList(bookCategories);
 		request.put("bookCategoryValue", bookCategoryValue);
 		
-		languages = bookDescriptionDAO.getLanguages(getLocale().getLanguage());
+		languages = bookDescriptionDAO.getLanguages();
 		String languagesValue = StringBuilder.generateValueForList(languages);
 		request.put("languagesValue", languagesValue);
-		userCategories = userCategoryDAO.getUserCategories(getLocale().getLanguage());
+		userCategories = userCategoryDAO.getUserCategories();
 		
 		return SUCCESS;
 	}
@@ -103,9 +103,9 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 			count = electronicBookDAO.getCountOfElectronicBooks(userCategoryId, filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				electronicBooks =  electronicBookDAO.getElectronicBooksForTable(pagination,null,getLocale().getLanguage());
+				electronicBooks =  electronicBookDAO.getElectronicBooksForTable(pagination,null);
 			else
-				electronicBooks = electronicBookDAO.getElectronicBooksForTable(pagination,filters,getLocale().getLanguage());
+				electronicBooks = electronicBookDAO.getElectronicBooksForTable(pagination,filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
@@ -196,9 +196,9 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 			count = electronicBookDAO.getCountOfElectronicBooksForUser( filters,userCategoryId);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				electronicBooks =  electronicBookDAO.getElectronicBooksForTableByUserCategory(pagination, null, getLocale().getLanguage(), userCategoryId);
+				electronicBooks =  electronicBookDAO.getElectronicBooksForTableByUserCategory(pagination, null, userCategoryId);
 			else
-				electronicBooks = electronicBookDAO.getElectronicBooksForTableByUserCategory(pagination, filters, getLocale().getLanguage(), userCategoryId);
+				electronicBooks = electronicBookDAO.getElectronicBooksForTableByUserCategory(pagination, filters, userCategoryId);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));

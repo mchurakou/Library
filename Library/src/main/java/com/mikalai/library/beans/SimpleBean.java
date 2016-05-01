@@ -42,8 +42,12 @@ public class SimpleBean {
 		this.id = id;
 		this.name = name;
 	}
+
+
+	public SimpleBean(String name) {
+		this.name = name;
+	}
 	public SimpleBean() {
-		super();
 	}
 	
 	public String getName_ru() {

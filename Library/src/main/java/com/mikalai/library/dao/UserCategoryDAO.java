@@ -187,14 +187,12 @@ public class UserCategoryDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public  List<SimpleBean> getUserCategories(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";		
+	public  List<SimpleBean> getUserCategories() throws Exception{
+
 		
 		List<SimpleBean> userCategories = new ArrayList<SimpleBean>();
 		try {Connection con = getConnection();
-			String sql = "SELECT * FROM view_user_categories" + lang;
+			String sql = "SELECT * FROM view_user_categories";
 			PreparedStatement s = con.prepareStatement(sql);
 			
 			ResultSet rs = s.executeQuery();

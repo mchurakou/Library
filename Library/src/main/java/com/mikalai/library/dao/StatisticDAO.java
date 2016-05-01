@@ -39,13 +39,11 @@ public class StatisticDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public  List<SimpleBean> getInformationForRealBooksPipe(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public  List<SimpleBean> getInformationForRealBooksPipe() throws Exception{
+
 		List<SimpleBean> result = new ArrayList<SimpleBean>();
 		try {Connection con = getConnection();
-			String sql = "select name, count from " + Constants.DB_DBO + ".statistic_pipe_real_books" + lang + "()"; 
+			String sql = "select name, count from " + Constants.DB_DBO + ".statistic_pipe_real_books()";
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next())
@@ -66,13 +64,11 @@ public class StatisticDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public  List<SimpleBean> getInformationForElectronicBooksPipe(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public  List<SimpleBean> getInformationForElectronicBooksPipe() throws Exception{
+
 		List<SimpleBean> result = new ArrayList<SimpleBean>();
 		try {Connection con = getConnection();
-			String sql = "select name, count from " + Constants.DB_DBO + ".statistic_pipe_electronic_books" + lang + "()"; 
+			String sql = "select name, count from " + Constants.DB_DBO + ".statistic_pipe_electronic_books()";
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next())
@@ -94,13 +90,11 @@ public class StatisticDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public  List<SimpleBean> userStatistic(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public  List<SimpleBean> userStatistic() throws Exception{
+
 		List<SimpleBean> result = new ArrayList<SimpleBean>();
 		try {Connection con = getConnection();
-			String sql = "select name, count from " + Constants.DB_DBO + ".user_statistic" + lang + "()"; 
+			String sql = "select name, count from " + Constants.DB_DBO + ".user_statistic()";
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next())
@@ -122,13 +116,11 @@ public class StatisticDAO extends GenericDAO {
     * @throws Exception
     * 
     */
-	public  List<SimpleBean> bookrStatistic(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public  List<SimpleBean> bookrStatistic() throws Exception{
+
 		List<SimpleBean> result = new ArrayList<SimpleBean>();
 		try {Connection con = getConnection();
-			String sql = "select name, count from " + Constants.DB_DBO + ".book_statistic" + lang + "()"; 
+			String sql = "select name, count from " + Constants.DB_DBO + ".book_statistic()";
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next())

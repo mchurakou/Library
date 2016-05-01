@@ -36,7 +36,7 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAOI 
                     )
             )
         ).setParameter("login", login)
-                .setParameter("password", password);
+         .setParameter("password", password);
 
         User result = null;
         try {
@@ -47,4 +47,9 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAOI 
         return result;
 
     }
+
+
+
+
+
 }

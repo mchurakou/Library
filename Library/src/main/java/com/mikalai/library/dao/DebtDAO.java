@@ -92,17 +92,14 @@ public class DebtDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<Debt> getDebtsForTable(Pagination pagination, Filter filter, long userId, String language) throws Exception{
-		String lang = "";
-		if (language.equals("ru"))
-			lang = "_ru";
-		
+	public List<Debt> getDebtsForTable(Pagination pagination, Filter filter, long userId) throws Exception{
+
 		String filterStr = SQL.getSqlFilter(filter);
 		List<Debt> debts = new ArrayList<Debt>();
 		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM user_debts" + lang + "(?) " +
+						"FROM user_debts (?) " +
 						filterStr + ") as a " +
 						"WHERE row_num BETWEEN ? AND ?"; 
 			PreparedStatement s = con.prepareStatement(sql);
@@ -130,17 +127,14 @@ public class DebtDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<Debt> getAllDebtsForTable(Pagination pagination, Filter filter, String language) throws Exception{
-		String lang = "";
-		if (language.equals("ru"))
-			lang = "_ru";
-		
+	public List<Debt> getAllDebtsForTable(Pagination pagination, Filter filter) throws Exception{
+
 		String filterStr = SQL.getSqlFilter(filter);
 		List<Debt> debts = new ArrayList<Debt>();
 		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM view_all_debts" + lang + filterStr + ") as a " +
+						"FROM view_all_debts " + filterStr + ") as a " +
 						"WHERE row_num BETWEEN ? AND ?"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1, pagination.getStart());

@@ -84,10 +84,10 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 		String languagesValue = "";
 		String userCategoryValue = "";
 		try {
-			bookCategories = bookDescriptionDAO.getBookCategories(getLocale().getLanguage());
+			bookCategories = bookDescriptionDAO.getBookCategories();
 			bookCategoriesValue = StringBuilder.generateValueForList(bookCategories);
 			
-			languages = bookDescriptionDAO.getLanguages(getLocale().getLanguage());
+			languages = bookDescriptionDAO.getLanguages();
 			languagesValue = StringBuilder.generateValueForList(languages);
 			
 			
@@ -113,9 +113,9 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 			count = bookDescriptionDAO.getCountOfBookDescriptions(filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				bookDescriptions = bookDescriptionDAO.getBookDescriptionsForTable(pagination,null,getLocale().getLanguage());
+				bookDescriptions = bookDescriptionDAO.getBookDescriptionsForTable(pagination,null);
 			else
-				bookDescriptions = bookDescriptionDAO.getBookDescriptionsForTable(pagination,filters,getLocale().getLanguage());
+				bookDescriptions = bookDescriptionDAO.getBookDescriptionsForTable(pagination,filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);

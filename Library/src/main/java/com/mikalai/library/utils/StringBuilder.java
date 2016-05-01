@@ -2,7 +2,7 @@ package com.mikalai.library.utils;
 
 import com.mikalai.library.beans.Division;
 import com.mikalai.library.beans.SimpleBean;
-import com.mikalai.library.beans.dictionary.NamedEntity;
+import com.mikalai.library.beans.NamedEntity;
 
 import java.util.List;
 
@@ -20,6 +20,21 @@ public class StringBuilder {
 		
 		return result;
 	}
+
+	public static String generateRoleValueForList(List<SimpleBean> list){
+		String result = "";
+
+		for (int i = 0; i < list.size(); i++ ){
+			SimpleBean bean = list.get(i);
+			if (i == list.size() - 1)
+				result += bean.getName() + ":" + bean.getName();
+			else
+				result += bean.getName() + ":" + bean.getName() + ";";
+		}
+
+		return result;
+	}
+
 
 	public static String generateNamedValueForList(List<Division> list){
 		String result = "";

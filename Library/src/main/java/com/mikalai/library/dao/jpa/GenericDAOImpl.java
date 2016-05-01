@@ -1,9 +1,15 @@
 package com.mikalai.library.dao.jpa;
 
+import com.mikalai.library.ajax_json.Filter;
+import com.mikalai.library.ajax_json.Rule;
+import com.mikalai.library.utils.Constants;
+import com.mikalai.library.utils.Pagination;
+
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -61,5 +67,115 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
                         ? LockModeType.OPTIMISTIC_FORCE_INCREMENT
                         : LockModeType.OPTIMISTIC
         );
+    }
+
+    /**
+     * @param filter
+     * @return count
+
+     *
+     */
+    public Long getCount(Filter filter) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> c = cb.createQuery(Long.class);
+
+        Root<T> root = c.from(entityClass);
+
+        c.select(em.getCriteriaBuilder().count(root));
+
+        if (filter != null){
+            Predicate[] predicates = buildFilter(filter, cb, root);
+            c.where(cb.and(predicates));
+        }
+
+        return em.createQuery(c).getSingleResult();
+
+    }
+
+    private Predicate[] buildFilter(Filter filter, CriteriaBuilder cb, Root<T> root) {
+        Predicate[] predicates = null;
+        String operation = filter.getGroupOp();
+
+        predicates = new Predicate[filter.getRules().size()];
+
+        for (int i = 0; i < filter.getRules().size();i++){
+
+
+            Rule r = filter.getRules().get(i);
+            String field = r.getField();
+
+
+
+            if (field.endsWith("Id")) // search by lookup field
+                field = field.substring(0, field.length() - 2);
+
+            Path f = root.get(field);
+
+            Predicate predicate = null;
+
+
+            if (r.getOp().equals(Constants.EQUALS))
+                predicate = cb.equal(f, r.getData());
+
+
+            if (r.getOp().equals(Constants.NOT_EQUALS))
+                predicate = cb.notEqual(f, r.getData());
+
+            if (r.getOp().equals(Constants.BEGIN_WITH))
+                predicate = cb.like(f, r.getData() + "%");
+
+            if (r.getOp().equals(Constants.CONTAIN))
+                predicate = cb.like(f, "%" + r.getData() + "%");
+
+            if (r.getOp().equals(Constants.LESS))
+                predicate = cb.lessThan(f, r.getData());
+
+            if (r.getOp().equals(Constants.LESS_OR_EQUAL))
+                predicate = cb.lessThanOrEqualTo(f, r.getData());
+
+            if (r.getOp().equals(Constants.GREATER))
+                predicate = cb.greaterThan(f, r.getData());
+
+            if (r.getOp().equals(Constants.GREATER_OR_EQUAL))
+                predicate = cb.greaterThanOrEqualTo(f, r.getData());
+
+
+            predicates[i] = predicate;
+
+
+
+        }
+
+        return predicates;
+    }
+
+
+    public List<T> getListForTable(Pagination pagination, Filter filter){
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<T> c = cb.createQuery(entityClass);
+
+        Root<T> root = c.from(entityClass);
+
+        c.select(root);
+
+        if (filter != null){
+            Predicate[] predicates = buildFilter(filter, cb, root);
+            c.where(cb.and(predicates));
+        }
+
+
+        if ("asc".equals(pagination.getSord())) {
+            c.orderBy(cb.asc(root.get(pagination.getSidx())));
+        } else {
+            c.orderBy(cb.desc(root.get(pagination.getSidx())));
+        }
+
+        TypedQuery tq = em.createQuery(c);
+        tq.setFirstResult(pagination.getStart() - 1);
+        tq.setMaxResults(pagination.getRows());
+
+
+
+        return tq.getResultList();
     }
 }

@@ -114,15 +114,15 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 		String departmentValue = "";
 		String divisionValue = "";
 		try {
-			userCategories = userDAO.getUserCategories(getLocale().getLanguage());
+			userCategories = userDAO.getUserCategories();
 			userCategoryValue = StringBuilder.generateValueForList(userCategories);
-			userRoles = userDAO.getUserRoles(getLocale().getLanguage());
+			userRoles = userDAO.getUserRoles();
 			userRoleValue = StringBuilder.generateValueForList(userRoles);
 			
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments();
 			departmentValue = StringBuilder.generateValueForList(departments);
 			
-			divisions = divisionDAO.getDivisions(getLocale().getLanguage());
+			divisions = divisionDAO.getDivisions();
 			divisionValue = StringBuilder.generateValueForList(divisions);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
@@ -147,10 +147,10 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 		String divisionValue = "";
 		try {
 			
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments();
 			departmentValue = StringBuilder.generateValueForList(departments);
 			
-			divisions = divisionDAO.getDivisions(getLocale().getLanguage());
+			divisions = divisionDAO.getDivisions();
 			divisionValue = StringBuilder.generateValueForList(divisions);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
@@ -197,9 +197,9 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 			count = debtDAO.getCountOfDebts(userId,filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				debts = debtDAO.getDebtsForTable(pagination, null, userId,getLocale().getLanguage());
+				debts = debtDAO.getDebtsForTable(pagination, null, userId);
 			else
-				debts = debtDAO.getDebtsForTable(pagination, filters, userId,getLocale().getLanguage());
+				debts = debtDAO.getDebtsForTable(pagination, filters, userId);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -228,9 +228,9 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 			count = debtDAO.getCountOfAllDebts();
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				debts = debtDAO.getAllDebtsForTable(pagination, null,getLocale().getLanguage());
+				debts = debtDAO.getAllDebtsForTable(pagination, null);
 			else
-				debts = debtDAO.getAllDebtsForTable(pagination,  filters,getLocale().getLanguage());
+				debts = debtDAO.getAllDebtsForTable(pagination,  filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -280,15 +280,15 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 		String departmentValue = "";
 		String divisionValue = "";
 		try {
-			userCategories = userDAO.getUserCategories(getLocale().getLanguage());
+			userCategories = userDAO.getUserCategories();
 			userCategoryValue = StringBuilder.generateValueForList(userCategories);
-			userRoles = userDAO.getUserRoles(getLocale().getLanguage());
+			userRoles = userDAO.getUserRoles();
 			userRoleValue = StringBuilder.generateValueForList(userRoles);
 			
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments();
 			departmentValue = StringBuilder.generateValueForList(departments);
 			
-			divisions = divisionDAO.getDivisions(getLocale().getLanguage());
+			divisions = divisionDAO.getDivisions();
 			divisionValue = StringBuilder.generateValueForList(divisions);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);

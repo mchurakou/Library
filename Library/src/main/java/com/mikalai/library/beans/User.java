@@ -20,7 +20,7 @@ public class User extends BasicEntity {
 	private String firstName;
 	private String secondName;
 	private String email;
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	@Column(name="roleId")
 	private Role role;
 	@Enumerated

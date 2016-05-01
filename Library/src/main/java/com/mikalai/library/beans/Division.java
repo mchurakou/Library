@@ -1,7 +1,5 @@
 package com.mikalai.library.beans;
 
-import com.mikalai.library.beans.dictionary.NamedEntity;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;

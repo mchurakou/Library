@@ -10,12 +10,12 @@ import java.util.List;
  */
 public class Filter {
 	private String groupOp;
-	public Filter() {
-		super();
+
+	public Filter(){
+
 	}
-	
+
 	public Filter(String groupOp, List<Rule> rules) {
-		super();
 		this.groupOp = groupOp;
 		this.rules = rules;
 	}

@@ -1,6 +1,4 @@
-package com.mikalai.library.beans.dictionary;
-
-import com.mikalai.library.beans.BasicEntity;
+package com.mikalai.library.beans;
 
 import javax.persistence.MappedSuperclass;
 
