@@ -85,7 +85,12 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
 
         if (filter != null){
             Predicate[] predicates = buildFilter(filter, cb, root);
-            c.where(cb.and(predicates));
+
+            if ("AND".equals(filter.getGroupOp())){
+                c.where(cb.and(predicates));
+            } else if ("OR".equals(filter.getGroupOp())){
+                c.where(cb.or(predicates));
+            }
         }
 
         return em.createQuery(c).getSingleResult();
@@ -94,8 +99,6 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
 
     private Predicate[] buildFilter(Filter filter, CriteriaBuilder cb, Root<T> root) {
         Predicate[] predicates = null;
-        String operation = filter.getGroupOp();
-
         predicates = new Predicate[filter.getRules().size()];
 
         for (int i = 0; i < filter.getRules().size();i++){
