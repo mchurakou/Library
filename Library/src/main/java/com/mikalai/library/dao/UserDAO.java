@@ -201,7 +201,7 @@ public class UserDAO extends GenericDAO {
      * @throws Exception
      * 
      */	
-	public void editUser(int id, String firstName,String secondName,String email, int roleId, int categoryId, int divisionId) throws Exception  {
+	public void editUser(int id, String firstName,String secondName,String email, String roleId, int categoryId, int divisionId) throws Exception  {
 		try {Connection con = getConnection();
 			PreparedStatement s;
 			s = con.prepareStatement("exec admin_edit_user ?, ?, ?, ?, ?, ?,?");
@@ -209,7 +209,7 @@ public class UserDAO extends GenericDAO {
 			s.setString(2, firstName);
 			s.setString(3, secondName);
 			s.setString(4, email);
-			s.setInt(5, roleId);
+			s.setString(5, roleId);
 			s.setInt(6, categoryId);
 			s.setInt(7, divisionId);
 			s.executeUpdate();

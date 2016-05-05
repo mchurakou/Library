@@ -12,6 +12,16 @@ import javax.persistence.*;
  * @author Mikalai_Churakou
  */
 
+
+
+@NamedQueries({
+		@NamedQuery(
+				name =  "User.login",
+				query = "select u from User u where u.login = :login and u.password = :password"
+		)
+})
+
+
 @Entity
 @Table(name="users")
 public class User extends BasicEntity {

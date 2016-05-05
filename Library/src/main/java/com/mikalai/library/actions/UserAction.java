@@ -46,16 +46,14 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 	@Inject
 	private UserDAOI userDAOI;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private String login;
 	private String password;
 	private String firstName;
 	private String secondName;
 	private String email;
-	private int roleId;
+
+
+	private String roleId;
 	private int categoryId;
 	
 	private String message;
@@ -468,15 +466,6 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		return sord;
 	}
 
-	
-	public int getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
-	}
-
 	public int getCategoryId() {
 		return categoryId;
 	}
@@ -587,6 +576,15 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 
 	public void setDivisionId(int divisionId) {
 		this.divisionId = divisionId;
+	}
+
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 
 
