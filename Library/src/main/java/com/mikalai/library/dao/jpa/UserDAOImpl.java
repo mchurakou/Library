@@ -33,8 +33,18 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAOI 
 
     }
 
+    @Override
+    public User getUser(String login) {
+        TypedQuery<User> query = em.createNamedQuery("User.byLogin", User.class);
+        query.setParameter("login", login);
 
-
-
+        User result = null;
+        try {
+            result = query.getSingleResult();
+        } catch (NoResultException e) {
+            LOG.warn("no user");
+        }
+        return result;
+    }
 
 }

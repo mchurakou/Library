@@ -4,7 +4,6 @@ import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.Division;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
-import com.mikalai.library.beans.dictionary.Category;
 import com.mikalai.library.beans.dictionary.Role;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
@@ -36,47 +35,11 @@ public class UserDAO extends GenericDAO {
 		user.setFirstName(rs.getString(Constants.FIELD_FIRST_NAME));
 		user.setSecondName(rs.getString(Constants.FIELD_SECOND_NAME));
 		user.setEmail(rs.getString(Constants.FIELD_EMAIL));
-		user.setCategory(Category.getById(rs.getInt(rs.getInt(Constants.FIELD_CATEGORY_ID))));
+//		user.setCategory(Category.getById(rs.getInt(rs.getInt(Constants.FIELD_CATEGORY_ID))));
 		user.setHaveDebt(rs.getBoolean(Constants.FIELD_HAVE_DEBT));
 		user.setDivision(new Division(rs.getInt(Constants.FIELD_DIVISION_ID)));
 
 		return user;
-	}
-	
-	/**
-     * Method add new user
-     * @param new user
-     * @return successful or unsuccessful operation
-     */		
-	public boolean add(User user) throws Exception{
-		boolean result = true;
-		try
-			{Connection con = getConnection();
-			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_user(?) as res");
-			s.setString(1, user.getLogin());
-			ResultSet rs = s.executeQuery();
-			rs.next();
-			String res = rs.getString("res");
-			if (res.equals("0")){
-				s = con.prepareStatement("exec add_user ?, ?, ?, ?, ?,?");
-				s.setString(1, user.getLogin());
-				s.setString(2, user.getPassword());
-				s.setString(3, user.getFirstName());
-				s.setString(4, user.getSecondName());
-				s.setString(5, user.getEmail());
-				s.setInt(6, (int) user.getDivision().getId());
-				s.executeUpdate();
-			}
-			else
-				result=false;
-			s.close();
-
-		} catch (SQLException e) {
-			
-			throw new Exception(e);
-		}
-		
-		return result;
 	}
 	
 	/**

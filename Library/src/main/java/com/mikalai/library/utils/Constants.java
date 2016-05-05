@@ -122,7 +122,9 @@ public class Constants {
 	public static final String DATE_FORMAT_SHORT = "d.M.yyyy";
 	public static final String DATE_FORMAT = "dd/MM/yyyy h:mm a";
 	public static final String DATE_FORMAT_REPORT = "dd.MM.yyyy";
-	
+
+
+	public static int CATEGORY_STUDENT = 1;
 	
 	
 }

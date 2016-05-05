@@ -143,7 +143,7 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 	public String prepareRealBooksForUser()  {
 		
 		User user = (User) session.get(Constants.ATTRIBUTE_USER);
-		int userCategoryId = user.getCategory().getId();
+		int userCategoryId = user.getCategoryId();
 		Pagination pagination = null;
 		try {
 			count = realBookDAO.getCountOfRealBooksForUser(filters,userCategoryId);

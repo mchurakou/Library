@@ -7,5 +7,5 @@ import com.mikalai.library.beans.User;
  */
 public interface UserDAOI extends GenericDAO<User, Long>{
     User getUser(String login, String password);
-
+    User getUser(String login);
 }

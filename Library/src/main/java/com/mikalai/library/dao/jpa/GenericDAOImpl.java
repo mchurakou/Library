@@ -2,13 +2,11 @@ package com.mikalai.library.dao.jpa;
 
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.ajax_json.Rule;
+import com.mikalai.library.beans.BasicEntity;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 
-import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.List;
@@ -16,7 +14,7 @@ import java.util.List;
 /**
  * Created by mikalai on 24.04.2016.
  */
-public abstract class GenericDAOImpl<T, ID extends Serializable> implements GenericDAO<T, ID> {
+public abstract class GenericDAOImpl<T extends BasicEntity, ID extends Serializable> implements GenericDAO<T, ID> {
     @PersistenceContext
     protected EntityManager em;
 
@@ -28,46 +26,16 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
     public void setEntityManager(EntityManager em) {
         this.em = em;
     }
-
-
-    public T findById(ID id) {
-        return findById(id, LockModeType.NONE);
-    }
-    public T findById(ID id, LockModeType lockModeType) {
-        return em.find(entityClass, id, lockModeType);
-    }
-    public T findReferenceById(ID id) {
-        return em.getReference(entityClass, id);
-    }
-    public List<T> findAll() {
-        CriteriaQuery<T> c =
-                em.getCriteriaBuilder().createQuery(entityClass);
-        c.select(c.from(entityClass));
-        return em.createQuery(c).getResultList();
-    }
-    public Long getCount() {
-        CriteriaQuery<Long> c =
-                em.getCriteriaBuilder().createQuery(Long.class);
-        c.select(em.getCriteriaBuilder().count(c.from(entityClass)));
-        return em.createQuery(c).getSingleResult();
+    public T save(T instance) {
+        T res = instance;
+        if (instance.getId() != 0){
+            res= em.merge(instance);
+        } else {
+            em.persist(instance);
+        }
+        return res;
     }
 
-    public T makePersistent(T instance) {
-// merge() handles transient AND detached instances
-        return em.merge(instance);
-    }
-    public void makeTransient(T instance) {
-        em.remove(instance);
-    }
-
-    public void checkVersion(T entity, boolean forceUpdate) {
-        em.lock(
-                entity,
-                forceUpdate
-                        ? LockModeType.OPTIMISTIC_FORCE_INCREMENT
-                        : LockModeType.OPTIMISTIC
-        );
-    }
 
     /**
      * @param filter
@@ -102,12 +70,8 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
         predicates = new Predicate[filter.getRules().size()];
 
         for (int i = 0; i < filter.getRules().size();i++){
-
-
             Rule r = filter.getRules().get(i);
             String field = r.getField();
-
-
 
             if (field.endsWith("Id")) // search by lookup field
                 field = field.substring(0, field.length() - 2);
@@ -142,10 +106,7 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
             if (r.getOp().equals(Constants.GREATER_OR_EQUAL))
                 predicate = cb.greaterThanOrEqualTo(f, r.getData());
 
-
             predicates[i] = predicate;
-
-
 
         }
 
@@ -166,7 +127,6 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
             c.where(cb.and(predicates));
         }
 
-
         if ("asc".equals(pagination.getSord())) {
             c.orderBy(cb.asc(root.get(pagination.getSidx())));
         } else {
@@ -177,8 +137,46 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
         tq.setFirstResult(pagination.getStart() - 1);
         tq.setMaxResults(pagination.getRows());
 
-
-
         return tq.getResultList();
+    }
+
+
+
+/**/
+    public T findById(ID id) {
+        return findById(id, LockModeType.NONE);
+    }
+    public T findById(ID id, LockModeType lockModeType) {
+        return em.find(entityClass, id, lockModeType);
+    }
+    public T findReferenceById(ID id) {
+        return em.getReference(entityClass, id);
+    }
+    public List<T> findAll() {
+        CriteriaQuery<T> c =
+                em.getCriteriaBuilder().createQuery(entityClass);
+        c.select(c.from(entityClass));
+        return em.createQuery(c).getResultList();
+    }
+    public Long getCount() {
+        CriteriaQuery<Long> c =
+                em.getCriteriaBuilder().createQuery(Long.class);
+        c.select(em.getCriteriaBuilder().count(c.from(entityClass)));
+        return em.createQuery(c).getSingleResult();
+    }
+
+    public void makeTransient(T instance) {
+        em.remove(instance);
+    }
+
+
+
+    public void checkVersion(T entity, boolean forceUpdate) {
+        em.lock(
+                entity,
+                forceUpdate
+                        ? LockModeType.OPTIMISTIC_FORCE_INCREMENT
+                        : LockModeType.OPTIMISTIC
+        );
     }
 }

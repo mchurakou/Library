@@ -1,8 +1,8 @@
 package com.mikalai.library.beans;
 
 
-import com.mikalai.library.beans.dictionary.Category;
 import com.mikalai.library.beans.dictionary.Role;
+import com.mikalai.library.utils.Constants;
 
 import javax.persistence.*;
 
@@ -18,6 +18,11 @@ import javax.persistence.*;
 		@NamedQuery(
 				name =  "User.login",
 				query = "select u from User u where u.login = :login and u.password = :password"
+		),
+
+		@NamedQuery(
+				name =  "User.byLogin",
+				query = "select u from User u where u.login = :login"
 		)
 })
 
@@ -25,6 +30,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="users")
 public class User extends BasicEntity {
+	@Column(nullable = false,unique = true, length = 50)
 	private String login;
 	private String password;
 	private String firstName;
@@ -33,9 +39,8 @@ public class User extends BasicEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name="roleId")
 	private Role role;
-	@Enumerated
-	@Column(name="categoryId")
-	private Category category;
+
+	private int categoryId;
 
 	@Transient
 	private boolean haveDebt;
@@ -91,12 +96,14 @@ public class User extends BasicEntity {
 		this.role = role;
 	}
 
-	public Category getCategory() {
-		return category;
+
+
+	public int getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 		
 	public User(String login, String password, String firstName,
@@ -106,7 +113,10 @@ public class User extends BasicEntity {
 		this.firstName = firstName;
 		this.secondName = secondName;
 		this.email = email;
-//		this.divisionId = divisionId;
+		this.role = Role.NEW;
+		this.categoryId = Constants.CATEGORY_STUDENT;
+
+		this.division = new Division(divisionId);
 		
 	}
 	

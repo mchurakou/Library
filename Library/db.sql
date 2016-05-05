@@ -50,8 +50,8 @@ CREATE TABLE users
 	 firstName VARCHAR(50) NOT NULL,
    secondName VARCHAR(50) NOT NULL,
 	 email VARCHAR(50) NOT NULL,
-	 roleId  VARCHAR(20) NOT NULL DEFAULT 'NEW',
-	 categoryId INT NOT NULL DEFAULT 1,
+	 roleId  VARCHAR(20) NOT NULL,
+	 categoryId INT NOT NULL,
 	 divisionId INT 
 	
 	 )
@@ -301,10 +301,10 @@ WHERE comments.userId = users.id
 GO
 
 DROP VIEW view_user_categories
-GO 
+GO
 CREATE VIEW view_user_categories
 AS
-SELECT id as id, name 
+SELECT id as id, name
 FROM user_categories
 GO
 
@@ -355,18 +355,6 @@ GO
 
 
 --FUNCTION
-DROP FUNCTION exist_user
-Go
-CREATE FUNCTION exist_user (@login VARCHAR(50))
-RETURNS INT
-AS
-BEGIN
-	IF EXISTS(SELECT * FROM users WHERE login=@login)
-		RETURN 1
-	RETURN 0
-END
-GO
-
 DROP FUNCTION exist_real_book
 Go
 CREATE FUNCTION exist_real_book (@inv int)
@@ -758,23 +746,7 @@ GO
 
 
 --PROCEDURE
-DROP PROC add_user 
-GO
-CREATE PROC add_user @login VARCHAR(50),@password VARCHAR(50),@firstName VARCHAR(50),@secondName VARCHAR(50),
-@email VARCHAR(50), @divisionId INT 
-AS
-INSERT INTO users(login,password,firstName,secondName,email,divisionId)
-VALUES(@login,@password,@firstName,@secondName,@email,@divisionId)
-GO
-
-DROP PROC delete_user 
-GO
-CREATE PROC delete_user @id int
-AS
-DELETE FROM users WHERE id=@id
-GO
-
-DROP PROC edit_user 
+DROP PROC edit_user
 GO
 CREATE PROC edit_user @id int,@firstName VARCHAR(50),@secondName VARCHAR(50),@email VARCHAR(50),@divisionId INT
 AS

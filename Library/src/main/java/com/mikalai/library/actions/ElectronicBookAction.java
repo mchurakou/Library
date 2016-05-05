@@ -96,7 +96,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 	 */
 	public String prepareElectronicBooks()  {
 		User user = (User) session.get(Constants.ATTRIBUTE_USER);
-		int userCategoryId = user.getCategory().getId();
+		int userCategoryId = user.getCategoryId();
 		
 		Pagination pagination = null;
 		try {
@@ -189,7 +189,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 	 */
 	public String prepareElectronicBooksForUser()  {
 		User user = (User) session.get(Constants.ATTRIBUTE_USER);
-		int userCategoryId = user.getCategory().getId();
+		int userCategoryId = user.getCategoryId();
 		
 		Pagination pagination = null;
 		try {
