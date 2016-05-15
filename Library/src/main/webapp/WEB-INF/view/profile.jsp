@@ -38,12 +38,10 @@
 						<s:text name="registration.Department" />:
 					</td>
 					<td>
-					
-					
 						<select id="departmentId"  name="departmentId" style="width:148px" onchange="selectDepartment();">
 							<option ><s:text name="registration.Select_department" /></option>
 							<s:iterator value="departments" status="status" var="department">
-								<option <s:if test="user.departmentId == id">selected</s:if> value="<s:property value="id"/>"><s:property value="name"/></option>
+								<option <s:if test="user.division.department.id == id">selected</s:if> value="<s:property value="id"/>"><s:property value="name"/></option>
 							</s:iterator>
 							
 						</select>
@@ -54,10 +52,10 @@
 						<s:text name="registration.Division" />:
 					</td>
 					<td>
-						<select id="divisionId" name="divisionId" style="width:148px" <s:if test="user.departmentId == id">selected</s:if>disabled="true">
+						<select id="divisionId" name="divisionId" style="width:148px" disabled="true">
 							<option ><s:text name="registration.Select_division" /></option>
 							<s:iterator value="divisions" status="status" var="division">
-								<option <s:if test="user.divisionId == id">selected</s:if> value="<s:property value="id"/>"><s:property value="name"/></option>
+								<option <s:if test="user.division.id == id">selected</s:if> value="<s:property value="id"/>"><s:property value="name"/></option>
 							</s:iterator>
 						</select>
 					</td>

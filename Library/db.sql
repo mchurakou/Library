@@ -746,20 +746,7 @@ GO
 
 
 --PROCEDURE
-DROP PROC edit_user
-GO
-CREATE PROC edit_user @id int,@firstName VARCHAR(50),@secondName VARCHAR(50),@email VARCHAR(50),@divisionId INT
-AS
-UPDATE users
-SET
-firstName=@firstName,
-secondName=@secondName,
-email=@email,
-divisionId=@divisionId
-WHERE id=@id
-GO
-
-DROP PROC admin_edit_user 
+DROP PROC admin_edit_user
 GO
 CREATE PROC admin_edit_user @id int,@firstName VARCHAR(50),@secondName VARCHAR(50),@email VARCHAR(50), @roleId VARCHAR(20), @categoryId INT,@divisionId INT
 AS

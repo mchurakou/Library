@@ -42,32 +42,7 @@ public class UserDAO extends GenericDAO {
 		return user;
 	}
 	
-	/**
-     * Change profile
-     * @param user
-     * @throws Exception
-     * 
-     */	
-	public void changeProfile(User user) throws Exception  {
-		try {Connection con = getConnection();
-			PreparedStatement s;
-			s = con.prepareStatement("exec edit_user ?, ?, ?, ?,?");
-			s.setLong(1, user.getId());
-			s.setString(2, user.getFirstName());
-			s.setString(3, user.getSecondName());
-			s.setString(4, user.getEmail());
-			s.setInt(5, (int) user.getDivision().getId());
-			s.executeUpdate();
-			s.close();
 
-		} catch (SQLException e) {
-			throw new Exception(e);
-		}
-		
-	}
-
-
-	
 	/**
      * List of active users for table with searching
      * @return list of users

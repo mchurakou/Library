@@ -226,7 +226,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		user.setDivision(new Division(divisionId));
 
 		try {
-			userDAO.changeProfile(user);
+			user = userService.save(user);
 			departments = departmentDAO.getDepartments();
 			divisions = divisionDAO.getDivisionsByDepartmentId((int) user.getDivision().getDepartment().getId());
 		} catch (Exception e) {

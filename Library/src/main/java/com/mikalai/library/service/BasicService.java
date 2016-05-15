@@ -23,4 +23,8 @@ public abstract class BasicService<T, S extends GenericDAO> {
     public List<T> getListForTable(Pagination pagination, Filter f) {
         return dao.getListForTable(pagination, f);
     }
+
+    public T save(T entity){
+        return (T) dao.save(entity);
+    }
 }
