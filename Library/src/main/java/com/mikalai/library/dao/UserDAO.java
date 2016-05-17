@@ -1,12 +1,10 @@
 package com.mikalai.library.dao;
 
-import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.Division;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
 import com.mikalai.library.beans.dictionary.Role;
 import com.mikalai.library.utils.Constants;
-import com.mikalai.library.utils.Pagination;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,63 +39,12 @@ public class UserDAO extends GenericDAO {
 
 		return user;
 	}
-	
 
-	/**
-     * List of active users for table with searching
-     * @return list of users
-     * @throws Exception
-     * 
-     */
-	public List<User> getActiveUsersForTable(Pagination pagination, Filter filter) throws Exception{
-		String filterStr = SQL.getSqlFilter(filter);
-		List<User> users = new ArrayList<User>();
-		try {Connection con = getConnection();
-			String sql = "SELECT * FROM " +
-						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM view_active_users " + filterStr + ") as a " +
-						"WHERE row_num BETWEEN ? AND ?"; 
-			PreparedStatement s = con.prepareStatement(sql);
-			s.setInt(1, pagination.getStart());
-			s.setInt(2, pagination.getEnd());
-			ResultSet rs = s.executeQuery();
-			while (rs.next())
-				users.add(extractUser(rs));
-			s.close();
 
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
-		}
-		return users;
-	}
-	
 
-	
-	/**
-     * count of users
-     * @return count
-     * @throws Exception
-     * 
-     */
-	public int getCountOfActiveUsers() throws Exception{
-		int count = 0;
-		try {Connection con = getConnection();
-			PreparedStatement s = con.prepareStatement("Select count(*) as count from view_active_users ");
-			ResultSet rs = s.executeQuery();
-			if (rs.next())
-				count = rs.getInt("count");
-				
-			s.close();
 
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
-		}
-		return count;
-	}
-	
-	
+
+
 	/**
      * delete user
      * @param id of user

@@ -39,28 +39,20 @@ import java.util.Map;
  */
 public class DebtAction extends ActionSupport implements RequestAware, SessionAware{
 	private static final Logger LOG = LogManager.getLogger();
-
-	@Inject
-	private UserDAO userDAO;
-
-	@Inject
-	private QueueDAO queueDAO;
-
-	@Inject
-	private DivisionDAO divisionDAO;
-
-	@Inject
-	private DepartmentDAO departmentDAO;
-
-	@Inject
-	private DebtDAO debtDAO;
-
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-
-	
+	@Inject
+	private UserDAO userDAO;
+	@Inject
+	private QueueDAO queueDAO;
+	@Inject
+	private DivisionDAO divisionDAO;
+	@Inject
+	private DepartmentDAO departmentDAO;
+	@Inject
+	private DebtDAO debtDAO;
 	private AjaxResult result;
 	private int realBookId;
 	private long userId;
@@ -117,13 +109,13 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 			userCategories = userDAO.getUserCategories();
 			userCategoryValue = StringBuilder.generateValueForList(userCategories);
 			userRoles = userDAO.getUserRoles();
-			userRoleValue = StringBuilder.generateValueForList(userRoles);
+			userRoleValue = StringBuilder.generateRoleValueForList(userRoles);
 			
 			departments = departmentDAO.getDepartments();
 			departmentValue = StringBuilder.generateValueForList(departments);
 			
 			divisions = divisionDAO.getDivisions();
-			divisionValue = StringBuilder.generateValueForList(divisions);
+			divisionValue = StringBuilder.generateNamedValueForList(divisions);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
@@ -283,7 +275,7 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 			userCategories = userDAO.getUserCategories();
 			userCategoryValue = StringBuilder.generateValueForList(userCategories);
 			userRoles = userDAO.getUserRoles();
-			userRoleValue = StringBuilder.generateValueForList(userRoles);
+			userRoleValue = StringBuilder.generateRoleValueForList(userRoles);
 			
 			departments = departmentDAO.getDepartments();
 			departmentValue = StringBuilder.generateValueForList(departments);

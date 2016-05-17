@@ -1,9 +1,12 @@
 package com.mikalai.library.service;
 
+import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.User;
 import com.mikalai.library.dao.jpa.UserDAOI;
+import com.mikalai.library.utils.Pagination;
 
 import javax.ejb.Stateless;
+import java.util.List;
 
 /**
  * Created by mikalai on 05.05.2016.
@@ -26,6 +29,26 @@ public class UserService extends BasicService<User, UserDAOI> {
 
     public User getUser(String login, String password){
         return dao.getUser(login, password);
+    }
+
+
+
+    /**
+     * List of active users for table with searching
+     * @return list of users
+     *
+     */
+    public List<User> getActiveUsersForTable(Pagination pagination, Filter filter){
+        return dao.getActiveUsersForTable(pagination, filter);
+    }
+
+    /**
+     * count of users
+     * @return count
+     *
+     */
+    public int getCountOfActiveUsers(){
+        return dao.getCountOfActiveUsers();
     }
 
 

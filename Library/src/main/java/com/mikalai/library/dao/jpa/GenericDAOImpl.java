@@ -15,10 +15,9 @@ import java.util.List;
  * Created by mikalai on 24.04.2016.
  */
 public abstract class GenericDAOImpl<T extends BasicEntity, ID extends Serializable> implements GenericDAO<T, ID> {
+    protected final Class<T> entityClass;
     @PersistenceContext
     protected EntityManager em;
-
-    protected final Class<T> entityClass;
 
     protected GenericDAOImpl(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -65,7 +64,7 @@ public abstract class GenericDAOImpl<T extends BasicEntity, ID extends Serializa
 
     }
 
-    private Predicate[] buildFilter(Filter filter, CriteriaBuilder cb, Root<T> root) {
+    protected Predicate[] buildFilter(Filter filter, CriteriaBuilder cb, Root<T> root) {
         Predicate[] predicates = null;
         predicates = new Predicate[filter.getRules().size()];
 
@@ -127,6 +126,11 @@ public abstract class GenericDAOImpl<T extends BasicEntity, ID extends Serializa
             c.where(cb.and(predicates));
         }
 
+        TypedQuery tq = getTypedQueryWithFilterAndPagination(pagination, cb, c, root);
+        return tq.getResultList();
+    }
+
+    protected TypedQuery getTypedQueryWithFilterAndPagination(Pagination pagination, CriteriaBuilder cb, CriteriaQuery<T> c, Root<T> root) {
         if ("asc".equals(pagination.getSord())) {
             c.orderBy(cb.asc(root.get(pagination.getSidx())));
         } else {
@@ -136,13 +140,11 @@ public abstract class GenericDAOImpl<T extends BasicEntity, ID extends Serializa
         TypedQuery tq = em.createQuery(c);
         tq.setFirstResult(pagination.getStart() - 1);
         tq.setMaxResults(pagination.getRows());
-
-        return tq.getResultList();
+        return tq;
     }
 
 
-
-/**/
+    /**/
     public T findById(ID id) {
         return findById(id, LockModeType.NONE);
     }

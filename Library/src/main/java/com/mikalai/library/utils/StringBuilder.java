@@ -63,21 +63,7 @@ public class StringBuilder {
 		
 		return result;
 	}
-	
-	public static String generateClearLabels(List<SimpleBean> list){
-		String result = "";
-		
-		for (int i = 0; i < list.size(); i++ ){
-			SimpleBean bean = list.get(i);
-			if (i == list.size() - 1)
-				result += "'" + bean.getName( )+ "'";
-			else
-				result += "'" + bean.getName() + "'" + ",";
-		}
-		
-		return result;
-	}
-	
+
 	public static String generateClearCounts(List<SimpleBean> list){
 		String result = "";
 		

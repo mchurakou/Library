@@ -296,12 +296,12 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 	public String prepareActiveUsers()  {
 		Pagination pagination = null;
 		try {
-			count = userDAO.getCountOfActiveUsers();
+			count = userService.getCountOfActiveUsers();
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				users = userDAO.getActiveUsersForTable(pagination,null);
+				users = userService.getActiveUsersForTable(pagination,null);
 			else
-				users = userDAO.getActiveUsersForTable(pagination,filters);
+				users = userService.getActiveUsersForTable(pagination,filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -467,6 +467,10 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		return sord;
 	}
 
+	public void setSord(String sord) {
+		this.sord = sord;
+	}
+
 	public int getCategoryId() {
 		return categoryId;
 	}
@@ -474,11 +478,6 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
-	public void setSord(String sord) {
-		this.sord = sord;
-	}
-
-	
 
 	public int getRows() {
 		return rows;
