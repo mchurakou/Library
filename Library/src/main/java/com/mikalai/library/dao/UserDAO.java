@@ -5,6 +5,7 @@ import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
 import com.mikalai.library.beans.dictionary.Role;
 import com.mikalai.library.utils.Constants;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +20,7 @@ import java.util.List;
  * 
  * @author Mikalai_Churakou
  */
+@Repository
 public class UserDAO extends GenericDAO {
 
 	/**

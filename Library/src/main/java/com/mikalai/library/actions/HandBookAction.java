@@ -11,6 +11,7 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 
 import javax.inject.Inject;
@@ -24,24 +25,21 @@ import java.util.Map;
  */
 
 public class HandBookAction extends ActionSupport implements RequestAware{
+	private static final Logger LOG = Logger.getLogger(HandBookAction.class);
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private UserCategoryDAO userCategoryDAO;
 	@Inject
 	private LanguageDAO languageDAO;
-
 	@Inject
 	private DivisionDAO divisionDAO;
-
 	@Inject
 	private DepartmentDAO departmentDAO;
-
 	@Inject
 	private BookCategoryDAO bookCategoryDAO;
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private AjaxTableResult tableResult;
 	private int count;
 	private Filter filters;

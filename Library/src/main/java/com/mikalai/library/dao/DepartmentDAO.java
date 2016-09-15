@@ -13,12 +13,16 @@ import com.mikalai.library.beans.SimpleBean;
 
 
 import com.mikalai.library.ajax_json.Filter;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 ;
 /**
  * Action for work with departments
  * 
  * @author Mikalai_Churakou
  */
+@Repository
+@Transactional
 public class DepartmentDAO extends GenericDAO {
 	
 	/**

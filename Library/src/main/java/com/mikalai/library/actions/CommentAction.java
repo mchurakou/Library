@@ -9,8 +9,8 @@ import com.mikalai.library.dao.ElectronicBookDAO;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 
 import javax.inject.Inject;
@@ -23,15 +23,15 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class CommentAction extends ActionSupport  implements SessionAware{
+	private static final Logger LOG = Logger.getLogger(CommentAction.class);
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private ElectronicBookDAO electronicBookDAO;
 	@Inject
 	private CommentDAO commentDAO;
-	private static final Logger LOG = LogManager.getLogger();
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private int electronicBookId;
 	private ElectronicBook electronicBook;
 	private String error;

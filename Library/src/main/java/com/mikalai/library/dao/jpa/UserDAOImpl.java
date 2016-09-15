@@ -3,8 +3,9 @@ package com.mikalai.library.dao.jpa;
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.User;
 import com.mikalai.library.utils.Pagination;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -16,8 +17,9 @@ import java.util.List;
 /**
  * Created by mikalai on 24.04.2016.
  */
+@Repository
 public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAOI {
-    private static final Logger LOG = LogManager.getLogger();
+    private static final Logger LOG = Logger.getLogger(UserDAOImpl.class);
 
     public UserDAOImpl() {
         super(User.class);

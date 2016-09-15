@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /**
  * Created by Mikalai_Churakou on 4/6/2016.
  */
-public class GenericDAO {
+public abstract class GenericDAO {
 
     @PersistenceContext(name = "libraryPU")
     protected EntityManager em;

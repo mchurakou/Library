@@ -6,7 +6,10 @@ import com.mikalai.library.beans.BasicEntity;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +19,9 @@ import java.util.List;
  */
 public abstract class GenericDAOImpl<T extends BasicEntity, ID extends Serializable> implements GenericDAO<T, ID> {
     protected final Class<T> entityClass;
+
+    //@Inject
+    //@Autowired
     @PersistenceContext
     protected EntityManager em;
 

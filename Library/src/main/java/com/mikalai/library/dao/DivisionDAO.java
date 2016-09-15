@@ -5,6 +5,8 @@ import com.mikalai.library.beans.Department;
 import com.mikalai.library.beans.Division;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +20,8 @@ import java.util.List;
  * 
  * @author Mikalai_Churakou
  */
+@Repository
+@Transactional
 public class DivisionDAO extends GenericDAO{
 
 	/**

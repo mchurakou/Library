@@ -5,6 +5,7 @@ import com.mikalai.library.dao.StatisticDAO;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.ActionSupport;
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 
 import javax.inject.Inject;
@@ -18,15 +19,13 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class StatisticAction extends ActionSupport implements  RequestAware{
-	@Inject
-	private StatisticDAO statisticDAO;
-
-	
+	private static final Logger LOG = Logger.getLogger(StatisticAction.class);
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	@Inject
+	private StatisticDAO statisticDAO;
 	private String error;
 	
 	private List<SimpleBean> realBooksPipeInformation;

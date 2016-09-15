@@ -6,8 +6,8 @@ import com.mikalai.library.utils.Constants;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
 import org.apache.struts2.StrutsStatics;
 import org.apache.struts2.interceptor.RequestAware;
 
@@ -31,19 +31,15 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class ReportAction  extends ActionSupport implements RequestAware{
-	private static final Logger LOG = LogManager.getLogger();
+	private static final Logger LOG = Logger.getLogger(ReportAction.class);
+	SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_FORMAT_REPORT);
+	List<LibrarianReportRecord> records;
 	@Inject
 	private ReportDAO reportDAO;
-
 	private ActionContext ac = ActionContext.getContext();
 	private ServletContext sc =  (ServletContext)ac.get(StrutsStatics.SERVLET_CONTEXT);
-
-	SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_FORMAT_REPORT);
 	private Timestamp start;
-	
 	private Timestamp end;
-	List<LibrarianReportRecord> records;
-	
 	private Map<String, Object> request;
 	private HashMap reportParameters = new HashMap();
 	

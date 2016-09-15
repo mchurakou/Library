@@ -12,8 +12,8 @@ import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -28,18 +28,14 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class ElectronicBookAction extends ActionSupport implements SessionAware, RequestAware{
-	private static final Logger LOG = LogManager.getLogger();
-
+	private static final Logger LOG = Logger.getLogger(ElectronicBookAction.class);
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private UserCategoryDAO userCategoryDAO;
-
 	@Inject
 	private ElectronicBookDAO electronicBookDAO;
-
 	@Inject
 	private BookDescriptionDAO bookDescriptionDAO;
-
-	private static final long serialVersionUID = 1L;
 	private List<SimpleBean> bookCategories;
 	private List<SimpleBean> languages;
 	private List<SimpleBean> userCategories;

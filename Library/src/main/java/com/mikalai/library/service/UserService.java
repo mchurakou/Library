@@ -4,15 +4,17 @@ import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.User;
 import com.mikalai.library.dao.jpa.UserDAOI;
 import com.mikalai.library.utils.Pagination;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.ejb.Stateless;
 import java.util.List;
 
 /**
  * Created by mikalai on 05.05.2016.
  */
 
-@Stateless
+@Service
+@Transactional
 public class UserService extends BasicService<User, UserDAOI> {
 
     public boolean add(User user){

@@ -13,8 +13,8 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 
 import javax.inject.Inject;
@@ -27,18 +27,13 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class BookDescriptionAction extends ActionSupport implements RequestAware{
-	@Inject
-	private BookDescriptionDAO bookDescriptionDAO;
-
-	private static final Logger logger = LogManager.getLogger();
-
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
-
+	Logger LOG = Logger.getLogger(BookDescriptionAction.class);
+	@Inject
+	private BookDescriptionDAO bookDescriptionDAO;
 	private AjaxResult result;
 	private AjaxTableResult tableResult;
 	
