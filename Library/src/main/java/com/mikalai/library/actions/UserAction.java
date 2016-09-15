@@ -164,7 +164,6 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		
 		user = null;
 		try {
-			LOG.info("TEST");
 			user = userService.getUser(login, password);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
