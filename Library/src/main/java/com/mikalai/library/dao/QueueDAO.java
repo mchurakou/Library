@@ -46,11 +46,11 @@ public class QueueDAO extends GenericDAO{
      * @param user id, real book id
      * @throws Exception
      */
-	public  boolean addUserInQueue(int userId,int realBookId) throws Exception{
+	public  boolean addUserInQueue(long userId,int realBookId) throws Exception{
 		boolean result = true;
 		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_queue(?,?) as res");
-			s.setInt(1, userId);
+			s.setLong(1, userId);
 			s.setInt(2, realBookId);
 			ResultSet rs=s.executeQuery();
 			rs.next();
@@ -58,7 +58,7 @@ public class QueueDAO extends GenericDAO{
 			if (res.equals("0")){
 				String sql = "exec add_user_in_queue ?,?"; 
 				s = con.prepareStatement(sql);
-				s.setInt(1, userId);
+				s.setLong(1, userId);
 				s.setInt(2, realBookId);
 				s.executeUpdate();
 			}
@@ -137,11 +137,11 @@ public class QueueDAO extends GenericDAO{
      * @throws Exception
      * 
      */
-	public boolean deleteUserFromQueue(int userId,int realBookId) throws Exception{
+	public boolean deleteUserFromQueue(long userId,int realBookId) throws Exception{
 		boolean result = true;
 		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_queue(?,?) as res");
-			s.setInt(1, userId);
+			s.setLong(1, userId);
 			s.setInt(2, realBookId);
 			ResultSet rs=s.executeQuery();
 			rs.next();
@@ -149,7 +149,7 @@ public class QueueDAO extends GenericDAO{
 			if (res.equals("1")){
 				String sql = "exec delete_user_from_queue ?,?"; 
 				s = con.prepareStatement(sql);
-				s.setInt(1, userId);
+				s.setLong(1, userId);
 				s.setInt(2, realBookId);
 				s.executeUpdate();
 			}

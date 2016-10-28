@@ -1,5 +1,3 @@
-ALTER TABLE users DROP CONSTRAINT users_roles
-
 ALTER TABLE users DROP CONSTRAINT users_user_categories
 
 ALTER TABLE book_descriptions DROP CONSTRAINT book_descriptions_book_categories
@@ -34,16 +32,14 @@ ALTER TABLE privileges_electronic DROP CONSTRAINT privileges_electronic_electron
 DROP TABLE departments
 CREATE TABLE departments
 	(id INT identity PRIMARY KEY,
-	 name VARCHAR(50) NOT NULL UNIQUE,
-     name_ru VARCHAR(50) NOT NULL UNIQUE
+	 name VARCHAR(50) NOT NULL UNIQUE
 )
 
 DROP TABLE divisions
 CREATE TABLE divisions
 	(id INT identity PRIMARY KEY,
 	 name VARCHAR(50) NOT NULL UNIQUE,
-     name_ru VARCHAR(50) NOT NULL UNIQUE,
-	 departmentId INT NOT NULL,
+   departmentId INT NOT NULL
 )
 
 DROP TABLE users
@@ -52,28 +48,18 @@ CREATE TABLE users
 	 login VARCHAR(50) NOT NULL UNIQUE,
 	 password VARCHAR(50) NOT NULL,
 	 firstName VARCHAR(50) NOT NULL,
-     secondName VARCHAR(50) NOT NULL,
+   secondName VARCHAR(50) NOT NULL,
 	 email VARCHAR(50) NOT NULL,
-	 roleId INT NOT NULL DEFAULT 1,
-	 categoryId INT NOT NULL DEFAULT 1,
+	 roleId  VARCHAR(20) NOT NULL,
+	 categoryId INT NOT NULL,
 	 divisionId INT 
 	
 	 )
 
-DROP TABLE roles
-CREATE TABLE roles
-	(id INT identity PRIMARY KEY,
-	 name VARCHAR(50) NOT NULL UNIQUE,
-     title VARCHAR(50) NOT NULL UNIQUE,
-	 title_ru VARCHAR(50) NOT NULL UNIQUE
-	 
-)
-
 DROP TABLE user_categories
 CREATE TABLE user_categories
 	(id INT identity PRIMARY KEY,
-	 name VARCHAR(50) NOT NULL UNIQUE,
-	 name_ru VARCHAR(50) NOT NULL UNIQUE
+	 name VARCHAR(50) NOT NULL UNIQUE
 )
 
 DROP TABLE book_descriptions
@@ -85,14 +71,14 @@ CREATE TABLE book_descriptions
 	 publicationPlace VARCHAR(50) NOT NULL,
 	 publicationYear INT NOT NULL,
 	 size INT NOT NULL,
-	 languageId INT NOT NULL,
+	 languageId INT NOT NULL
 	 )
 
 DROP TABLE book_categories
 CREATE TABLE book_categories
 	(id INT identity PRIMARY KEY,
-	 name NVARCHAR(50) NOT NULL UNIQUE,
-     name_ru NVARCHAR(50) NOT NULL UNIQUE)
+	 name NVARCHAR(50) NOT NULL UNIQUE
+)
 
 DROP TABLE real_books
 CREATE TABLE real_books
@@ -115,8 +101,7 @@ CREATE TABLE debts
 DROP TABLE languages
 CREATE TABLE languages
 	(id INT identity PRIMARY KEY,
-	 name VARCHAR(50) NOT NULL UNIQUE,
-	 name_ru VARCHAR(50) NOT NULL UNIQUE)
+	 name VARCHAR(50) NOT NULL UNIQUE)
 
 DROP TABLE comments
 CREATE TABLE comments
@@ -165,9 +150,6 @@ CREATE TABLE reports
      realBookId INT NOT NULL,
      userId INT NOT NULL)
 --ADD CONSTRAINT
-
-ALTER TABLE users ADD CONSTRAINT users_roles
-FOREIGN KEY ([roleId]) REFERENCES roles
 
 ALTER TABLE users ADD CONSTRAINT users_user_categories
 FOREIGN KEY ([categoryId]) REFERENCES user_categories
@@ -223,66 +205,28 @@ DROP VIEW view_users_all
 GO 
 CREATE VIEW view_users_all
 AS
-    SELECT haveDebt,t.id ,login,password,firstName,secondName,email,roleId,role,roleTitle, categoryId, category,divisionId,departmentId
+    SELECT haveDebt,t.id ,login,password,firstName,secondName,email,roleId, categoryId, category,divisionId,departmentId
 FROM (
-SELECT dbo.have_debt(users.id) as haveDebt,users.id as id,login,password,firstName,secondName,email,roles.id as roleId,roles.name as role,roles.title as roleTitle, categoryId,user_categories.name as category,divisionId
-	FROM users,roles,user_categories
-	WHERE users.roleId=roles.id AND
-	users.categoryId=user_categories.id) as t
+SELECT dbo.have_debt(users.id) as haveDebt,users.id as id,login,password,firstName,secondName,email,users.roleId as roleId,categoryId,user_categories.name as category,divisionId
+	FROM users,user_categories
+	WHERE users.categoryId=user_categories.id) as t
 LEFT JOIN divisions
 ON t.divisionId = divisions.id
 GO
-
-
-
-DROP VIEW view_users_all_ru
-GO 
-CREATE VIEW view_users_all_ru
-AS
-
-    SELECT haveDebt,t.id ,login,password,firstName,secondName,email,roleId,role,roleTitle, categoryId, category,divisionId,departmentId
-FROM (
-SELECT dbo.have_debt(users.id) as haveDebt,users.id as id,login,password,firstName,secondName,email,roles.id as roleId,roles.name as role,roles.title_ru as roleTitle, categoryId,user_categories.name_ru as category,divisionId
-	FROM users,roles,user_categories
-	WHERE users.roleId=roles.id AND
-	users.categoryId=user_categories.id) as t
-LEFT JOIN divisions
-ON t.divisionId = divisions.id
-	 
-GO
-
 
 
 DROP VIEW view_users
 GO 
 CREATE VIEW view_users
 AS
-SELECT haveDebt,t.id ,login,password,firstName,secondName,email,roleId,role,roleTitle, categoryId, category,divisionId,departmentId,departments.name as department,divisions.name as division
+SELECT haveDebt,t.id ,login,password,firstName,secondName,email,roleId, categoryId, category,divisionId,departmentId,departments.name as department,divisions.name as division
 FROM (
 
 
-SELECT dbo.have_debt(users.id) as haveDebt,users.id as id,login,password,firstName,secondName,email,roles.id as roleId,roles.name as role,roles.title as roleTitle, categoryId,user_categories.name as category,divisionId  
-FROM users,roles,user_categories
-WHERE users.roleId=roles.id AND
-	  users.categoryId=user_categories.id AND
-      roles.name not like 'administrator') as t
-LEFT JOIN divisions
-ON t.divisionId = divisions.id
-LEFT JOIN departments
-ON departmentId = departments.id
-GO
-
-DROP VIEW view_users_ru
-GO 
-CREATE VIEW view_users_ru
-AS
-SELECT haveDebt,t.id ,login,password,firstName,secondName,email,roleId,role,roleTitle, categoryId, category,divisionId,departmentId,departments.name_ru as department,divisions.name_ru as division
-FROM (
-SELECT dbo.have_debt(users.id) as haveDebt,users.id as id,login,password,firstName,secondName,email,roles.id as roleId,roles.name as role,roles.title_ru as roleTitle,categoryId,user_categories.name_ru as category  ,divisionId
-FROM users,roles,user_categories
-WHERE users.roleId=roles.id AND
-	  users.categoryId=user_categories.id AND
-	   roles.name not like 'administrator') as t
+SELECT dbo.have_debt(users.id) as haveDebt,users.id as id,login,password,firstName,secondName,email,users.roleId as roleId, categoryId,user_categories.name as category,divisionId
+FROM users,user_categories
+WHERE  users.categoryId=user_categories.id AND
+			 users.roleId not like 'ADMINISTRATOR') as t
 LEFT JOIN divisions
 ON t.divisionId = divisions.id
 LEFT JOIN departments
@@ -293,33 +237,15 @@ DROP VIEW view_active_users
 GO 
 CREATE VIEW view_active_users
 AS
-SELECT haveDebt,t.id ,login,password,firstName,secondName,email,roleId,role,roleTitle, categoryId, category,divisionId,departmentId,departments.name as department,divisions.name as division
+SELECT haveDebt,t.id ,login,password,firstName,secondName,email,roleId, categoryId, category,divisionId,departmentId,departments.name as department,divisions.name as division
 FROM (
 
 
-SELECT dbo.have_debt(users.id) as haveDebt, users.id as id,login,password,firstName,secondName,email,roles.id as roleId,roles.name as role,roles.title as roleTitle,categoryId,user_categories.name as category,divisionId 
-FROM users,roles,user_categories
-WHERE users.roleId=roles.id AND
-	  users.categoryId=user_categories.id AND
-      roles.name not like 'new' AND
-	  roles.name not like 'administrator') as t
-LEFT JOIN divisions
-ON t.divisionId = divisions.id
-LEFT JOIN departments
-ON departmentId = departments.id
-GO
-
-DROP VIEW view_active_users_ru
-GO 
-CREATE VIEW view_active_users_ru
-AS
-SELECT haveDebt,t.id ,login,password,firstName,secondName,email,roleId,role,roleTitle, categoryId, category,divisionId,departmentId,departments.name_ru as department,divisions.name_ru as division
-FROM (SELECT dbo.have_debt(users.id) as haveDebt, users.id as id,login,password,firstName,secondName,email,roles.id as roleId,roles.name as role,roles.title_ru as roleTitle,categoryId,user_categories.name_ru as category ,divisionId
-FROM users,roles,user_categories
-WHERE users.roleId=roles.id AND
-	  users.categoryId=user_categories.id AND
-      roles.name not like 'new' AND
-	  roles.name not like 'administrator') as t
+SELECT dbo.have_debt(users.id) as haveDebt, users.id as id,login,password,firstName,secondName,email,users.roleId as roleId,categoryId,user_categories.name as category,divisionId
+FROM users,user_categories
+WHERE users.categoryId=user_categories.id AND
+			users.roleId not like 'NEW' AND
+			users.roleId not like 'ADMINISTRATOR') as t
 LEFT JOIN divisions
 ON t.divisionId = divisions.id
 LEFT JOIN departments
@@ -338,18 +264,6 @@ WHERE	bookCategoryId =  book_categories.id AND
 	   
 GO
 
-
-DROP VIEW view_book_descriptions_ru
-GO 
-CREATE VIEW view_book_descriptions_ru
-AS
-SELECT book_descriptions.id as id, book_descriptions.name as name, author, bookCategoryId,book_categories.name_ru as bookCategory, publicationPlace,publicationYear,size, languageId as languageId,languages.name_ru as language
-FROM book_descriptions, book_categories,languages
-WHERE	bookCategoryId =  book_categories.id AND
-	    languageId = languages.id
-	    
-GO
-
 DROP VIEW view_real_books
 GO 
 CREATE VIEW view_real_books
@@ -357,15 +271,6 @@ AS
 SELECT dbo.have_book(real_books.id) as available, real_books.id as id, inventoryNumber, cost,view_book_descriptions.id as bookDescriptionId, name, author, bookCategoryId,bookCategory, publicationPlace,publicationYear,size, languageId,language
 FROM view_book_descriptions,real_books
 WHERE	real_books.bookDescriptionId = view_book_descriptions.id
-GO
-
-DROP VIEW view_real_books_ru
-GO 
-CREATE VIEW view_real_books_ru
-AS
-SELECT dbo.have_book(real_books.id) as available, real_books.id as id, inventoryNumber, cost,view_book_descriptions_ru.id as bookDescriptionId, name, author, bookCategoryId,bookCategory, publicationPlace,publicationYear,size, languageId,language
-FROM view_book_descriptions_ru,real_books
-WHERE	real_books.bookDescriptionId = view_book_descriptions_ru.id
 GO
 
 DROP VIEW view_electronic_books
@@ -376,16 +281,6 @@ SELECT  electronic_books.id as id, fileName, capacity, extension, view_book_desc
 FROM view_book_descriptions,electronic_books
 WHERE	electronic_books.bookDescriptionId = view_book_descriptions.id
 GO
-
-DROP VIEW view_electronic_books_ru
-GO 
-CREATE VIEW view_electronic_books_ru
-AS
-SELECT  electronic_books.id as id, fileName, capacity, extension, view_book_descriptions_ru.id as bookDescriptionId, name, author, bookCategoryId,bookCategory, publicationPlace,publicationYear,view_book_descriptions_ru.size, languageId,language
-FROM view_book_descriptions_ru,electronic_books
-WHERE	electronic_books.bookDescriptionId = view_book_descriptions_ru.id
-GO
-
 
 DROP VIEW view_queues
 GO 
@@ -406,53 +301,18 @@ WHERE comments.userId = users.id
 GO
 
 DROP VIEW view_user_categories
-GO 
+GO
 CREATE VIEW view_user_categories
 AS
-SELECT id as id, name 
+SELECT id as id, name
 FROM user_categories
 GO
-
-
-DROP VIEW view_user_categories_ru
-GO 
-CREATE VIEW view_user_categories_ru
-AS
-SELECT id as id,name_ru as name 
-FROM user_categories
-GO
-
-DROP VIEW view_user_roles
-GO 
-CREATE VIEW view_user_roles
-AS
-SELECT id as id,title as name 
-FROM roles
-GO
-
-
-DROP VIEW view_user_roles_ru
-GO 
-CREATE VIEW view_user_roles_ru
-AS
-SELECT id as id,title_ru as name 
-FROM roles
-GO
-
 
 DROP VIEW view_book_categories
 GO 
 CREATE VIEW view_book_categories
 AS
 SELECT id as id,name as name 
-FROM book_categories
-GO
-
-DROP VIEW view_book_categories_ru
-GO 
-CREATE VIEW view_book_categories_ru
-AS
-SELECT id as id,name_ru as name 
 FROM book_categories
 GO
 
@@ -464,14 +324,6 @@ SELECT id as id,name as name
 FROM languages
 GO
 
-DROP VIEW view_languages_ru
-GO 
-CREATE VIEW view_languages_ru
-AS
-SELECT id as id,name_ru as name 
-FROM languages
-GO
-
 DROP VIEW view_departments
 GO 
 CREATE VIEW view_departments
@@ -480,27 +332,11 @@ SELECT id as id,name as name
 FROM departments
 GO
 
-DROP VIEW view_departments_ru
-GO 
-CREATE VIEW view_departments_ru
-AS
-SELECT id as id,name_ru as name 
-FROM departments
-GO
-
 DROP VIEW view_divisions
 GO 
 CREATE VIEW view_divisions
 AS
 SELECT id as id,name as name,departmentId 
-FROM divisions
-GO
-
-DROP VIEW view_divisions_ru
-GO 
-CREATE VIEW view_divisions_ru
-AS
-SELECT id as id,name_ru as name ,departmentId 
 FROM divisions
 GO
 
@@ -518,38 +354,7 @@ ON divisions.id = divisionId
 GO
 
 
-DROP VIEW view_all_debts_ru
-GO
-CREATE VIEW view_all_debts_ru
-AS
-SELECT t.id, behind,startPeriod, endPeriod,inventoryNumber,t.name,author,cost, userId, login, firstName , secondName,email,divisions.departmentId as departmentId,divisionId
-FROM
-
-(select debts.id as id, dbo.behind_ru(endPeriod) as behind,startPeriod, endPeriod,inventoryNumber,name,author,cost,users.id as userId, login, firstName , secondName,email,divisionId
-from debts,view_real_books,users
-where debts.realBookId = view_real_books.id and debts.userId = users.id) as t
-LEFT JOIN divisions
-ON divisions.id = divisionId
-GO
-
-
-
-
-
-
 --FUNCTION
-DROP FUNCTION exist_user
-Go
-CREATE FUNCTION exist_user (@login VARCHAR(50))
-RETURNS INT
-AS
-BEGIN
-	IF EXISTS(SELECT * FROM users WHERE login=@login)
-		RETURN 1
-	RETURN 0
-END
-GO
-
 DROP FUNCTION exist_real_book
 Go
 CREATE FUNCTION exist_real_book (@inv int)
@@ -638,18 +443,6 @@ BEGIN
 END
 GO
 
-DROP FUNCTION behind_ru
-Go
-CREATE FUNCTION behind_ru (@end smalldatetime)
-RETURNS VARCHAR(3)
-AS
-BEGIN
-	IF (getdate()>@end)
-		RETURN 'Да' 
-	RETURN 'Нет'
-END
-GO
-
 DROP FUNCTION user_debts
 GO
 CREATE FUNCTION user_debts (@userId int)
@@ -665,29 +458,6 @@ LEFT JOIN divisions
 ON divisionId = divisions.id
 
 GO
-
-DROP FUNCTION user_debts_ru
-GO
-CREATE FUNCTION user_debts_ru (@userId int)
-RETURNS TABLE
-AS
-RETURN
-SELECT t.id as id, behind,startPeriod, endPeriod,inventoryNumber,t.name as name,author,cost,userId, login, firstName , secondName, email,divisionId,divisions.departmentId as departmentId
-FROM
-(select debts.id as id, dbo.behind_ru(endPeriod) as behind,startPeriod, endPeriod,inventoryNumber,name,author,cost,users.id as userId, login, firstName , secondName, email,divisionId
-from debts,view_real_books_ru,users
-where debts.realBookId = view_real_books_ru.id and debts.userId = @userId and debts.userId = users.id) as t
-LEFT JOIN divisions
-ON divisionId = divisions.id
-
-GO
-
-
-
-
-
-
-
 
 
 
@@ -752,15 +522,6 @@ select min(bookCategory) as name, count(*) as count from view_real_books
 group by bookCategoryId
 GO
 
-DROP FUNCTION statistic_pipe_real_books_ru
-GO
-CREATE FUNCTION statistic_pipe_real_books_ru ()
-RETURNS TABLE
-AS
-RETURN
-select min(bookCategory) as name, count(*) as count from view_real_books_ru
-group by bookCategoryId
-GO
 
 DROP FUNCTION statistic_pipe_electronic_books
 GO
@@ -769,16 +530,6 @@ RETURNS TABLE
 AS
 RETURN
 select min(bookCategory) as name, count(*) as count from view_electronic_books
-group by bookCategoryId
-GO
-
-DROP FUNCTION statistic_pipe_electronic_books_ru
-GO
-CREATE FUNCTION statistic_pipe_electronic_books_ru ()
-RETURNS TABLE
-AS
-RETURN
-select min(bookCategory) as name, count(*) as count from view_electronic_books_ru
 group by bookCategoryId
 GO
 
@@ -798,11 +549,11 @@ GO
 
 DROP FUNCTION exist_department
 Go
-CREATE FUNCTION exist_department (@id INT, @name VARCHAR(50), @name_ru VARCHAR(50))
+CREATE FUNCTION exist_department (@id INT, @name VARCHAR(50))
 RETURNS INT
 AS
 BEGIN
-	IF EXISTS(SELECT * FROM departments WHERE (name=@name or @name_ru=name_ru) and (departments.id <> @id OR @id = 0))
+	IF EXISTS(SELECT * FROM departments WHERE name=@name  and (departments.id <> @id OR @id = 0))
 		RETURN 1
 	RETURN 0
 END
@@ -822,11 +573,11 @@ GO
 
 DROP FUNCTION exist_book_category
 Go
-CREATE FUNCTION exist_book_category (@id INT, @name VARCHAR(50), @name_ru VARCHAR(50))
+CREATE FUNCTION exist_book_category (@id INT, @name VARCHAR(50))
 RETURNS INT
 AS
 BEGIN
-	IF EXISTS(SELECT * FROM book_categories WHERE (name=@name or @name_ru=name_ru) and (book_categories.id <> @id OR @id = 0))
+	IF EXISTS(SELECT * FROM book_categories WHERE name=@name and (book_categories.id <> @id OR @id = 0))
 		RETURN 1
 	RETURN 0
 END
@@ -834,11 +585,11 @@ GO
 
 DROP FUNCTION exist_language
 Go
-CREATE FUNCTION exist_language (@id INT, @name VARCHAR(50), @name_ru VARCHAR(50))
+CREATE FUNCTION exist_language (@id INT, @name VARCHAR(50))
 RETURNS INT
 AS
 BEGIN
-	IF EXISTS(SELECT * FROM languages WHERE (name=@name or @name_ru=name_ru) and (languages.id <> @id OR @id = 0))
+	IF EXISTS(SELECT * FROM languages WHERE name=@name and (languages.id <> @id OR @id = 0))
 		RETURN 1
 	RETURN 0
 END
@@ -859,11 +610,11 @@ GO
 
 DROP FUNCTION exist_user_category
 Go
-CREATE FUNCTION exist_user_category (@id INT, @name VARCHAR(50), @name_ru VARCHAR(50))
+CREATE FUNCTION exist_user_category (@id INT, @name VARCHAR(50))
 RETURNS INT
 AS
 BEGIN
-	IF EXISTS(SELECT * FROM user_categories WHERE (name=@name or @name_ru=name_ru) and (user_categories.id <> @id OR @id = 0))
+	IF EXISTS(SELECT * FROM user_categories WHERE name=@name and (user_categories.id <> @id OR @id = 0))
 		RETURN 1
 	RETURN 0
 END
@@ -884,11 +635,11 @@ GO
 
 DROP FUNCTION exist_division
 Go
-CREATE FUNCTION exist_division (@id INT, @name VARCHAR(50), @name_ru VARCHAR(50))
+CREATE FUNCTION exist_division (@id INT, @name VARCHAR(50))
 RETURNS INT
 AS
 BEGIN
-	IF EXISTS(SELECT * FROM divisions WHERE (name=@name or @name_ru=name_ru) and (divisions.id <> @id OR @id = 0))
+	IF EXISTS(SELECT * FROM divisions WHERE name=@name and (divisions.id <> @id OR @id = 0))
 		RETURN 1
 	RETURN 0
 END
@@ -919,22 +670,9 @@ group by categoryId
 union
 select 'User' as name,count(*)as count from view_active_users
 union
-Select 'Librarian' as name, count(*) as count from view_active_users where role = 'librarian'
+Select 'Librarian' as name, count(*) as count from view_active_users where roleId = 'LIBRARIAN'
 GO
 
-DROP FUNCTION user_statistic_ru
-GO
-CREATE FUNCTION user_statistic_ru ()
-RETURNS TABLE
-AS
-RETURN
-select min(category) as name, count(*) as count from view_active_users_ru
-group by categoryId
-union
-select 'Пользователь' as name,count(*)as count from view_active_users
-union
-Select 'Библиотекарь' as name, count(*) as count from view_active_users where role = 'librarian'
-GO
 
 
 DROP FUNCTION book_statistic
@@ -949,21 +687,6 @@ Select 'Electronic book' as name, count(*) as count from view_electronic_books
 union
 Select 'Comments' as name, count(*) as count from view_comments
 GO
-
-DROP FUNCTION book_statistic_ru
-GO
-CREATE FUNCTION book_statistic_ru()
-RETURNS TABLE
-AS
-RETURN
-Select 'Реальная книга' as name, count(*) as count from view_real_books
-union
-Select 'Электронная книга' as name, count(*) as count from view_electronic_books
-union
-Select 'Комментарий' as name, count(*) as count from view_comments
-GO
-
-
 
 
 DROP FUNCTION real_books_for_user_category
@@ -980,20 +703,6 @@ userCategoryId = @categoryId
 GO
 
 
-DROP FUNCTION real_books_for_user_category_ru
-GO
-CREATE FUNCTION real_books_for_user_category_ru (@categoryId INT)
-RETURNS TABLE
-AS
-RETURN
-SELECT available,view_real_books_ru.id as id, inventoryNumber, cost,bookDescriptionId, name, author, bookCategoryId,bookCategory, publicationPlace,publicationYear,size, languageId,language  
-FROM view_real_books_ru,privileges_real
-WHERE
-view_real_books_ru.id =  realBookId AND
-userCategoryId = @categoryId
-GO
-
-
 DROP FUNCTION electronic_books_for_user_category
 GO
 CREATE FUNCTION electronic_books_for_user_category (@categoryId INT)
@@ -1004,19 +713,6 @@ SELECT view_electronic_books.id as id, fileName, capacity, extension, bookDescri
 FROM view_electronic_books,privileges_electronic
 WHERE
 view_electronic_books.id =  electronicBookId AND
-userCategoryId = @categoryId
-GO
-
-DROP FUNCTION electronic_books_for_user_category_ru
-GO
-CREATE FUNCTION electronic_books_for_user_category_ru (@categoryId INT)
-RETURNS TABLE
-AS
-RETURN
-SELECT view_electronic_books_ru.id as id, fileName, capacity, extension, bookDescriptionId, name, author, bookCategoryId,bookCategory, publicationPlace,publicationYear,size, languageId,language
-FROM view_electronic_books_ru,privileges_electronic
-WHERE
-view_electronic_books_ru.id =  electronicBookId AND
 userCategoryId = @categoryId
 GO
 
@@ -1050,38 +746,9 @@ GO
 
 
 --PROCEDURE
-DROP PROC add_user 
+DROP PROC admin_edit_user
 GO
-CREATE PROC add_user @login VARCHAR(50),@password VARCHAR(50),@firstName VARCHAR(50),@secondName VARCHAR(50),
-@email VARCHAR(50), @divisionId INT 
-AS
-INSERT INTO users(login,password,firstName,secondName,email,divisionId)
-VALUES(@login,@password,@firstName,@secondName,@email,@divisionId)
-GO
-
-DROP PROC delete_user 
-GO
-CREATE PROC delete_user @id int
-AS
-DELETE FROM users WHERE id=@id
-GO
-
-DROP PROC edit_user 
-GO
-CREATE PROC edit_user @id int,@firstName VARCHAR(50),@secondName VARCHAR(50),@email VARCHAR(50),@divisionId INT
-AS
-UPDATE users
-SET
-firstName=@firstName,
-secondName=@secondName,
-email=@email,
-divisionId=@divisionId
-WHERE id=@id
-GO
-
-DROP PROC admin_edit_user 
-GO
-CREATE PROC admin_edit_user @id int,@firstName VARCHAR(50),@secondName VARCHAR(50),@email VARCHAR(50), @roleId INT, @categoryId INT,@divisionId INT
+CREATE PROC admin_edit_user @id int,@firstName VARCHAR(50),@secondName VARCHAR(50),@email VARCHAR(50), @roleId VARCHAR(20), @categoryId INT,@divisionId INT
 AS
 UPDATE users
 SET
@@ -1233,21 +900,20 @@ GO
 
 DROP PROC edit_department
 GO
-CREATE PROC edit_department @id int, @name VARCHAR(55),@name_ru VARCHAR(55)
+CREATE PROC edit_department @id int, @name VARCHAR(55)
 AS
 UPDATE departments
 SET
-name=@name,
-name_ru=@name_ru
+name=@name
 WHERE id=@id
 GO
 
 DROP PROC add_department
 GO
-CREATE PROC add_department  @name VARCHAR(55),@name_ru VARCHAR(55)
+CREATE PROC add_department  @name VARCHAR(55)
 AS
-INSERT INTO departments(name,name_ru)
-VALUES(@name,@name_ru)
+INSERT INTO departments(name)
+VALUES(@name)
 GO
 
 DROP PROC delete_book_category 
@@ -1260,29 +926,28 @@ GO
 
 DROP PROC edit_book_category
 GO
-CREATE PROC edit_book_category @id int, @name VARCHAR(55),@name_ru VARCHAR(55)
+CREATE PROC edit_book_category @id int, @name VARCHAR(55)
 AS
 UPDATE book_categories
 SET
-name=@name,
-name_ru=@name_ru
+name=@name
 WHERE id=@id
 GO
 
 DROP PROC add_book_category
 GO
-CREATE PROC add_book_category  @name VARCHAR(55),@name_ru VARCHAR(55)
+CREATE PROC add_book_category  @name VARCHAR(55)
 AS
-INSERT INTO book_categories(name,name_ru)
-VALUES(@name,@name_ru)
+INSERT INTO book_categories(name)
+VALUES(@name)
 GO
 
 DROP PROC add_language
 GO
-CREATE PROC add_language @name VARCHAR(55),@name_ru VARCHAR(55)
+CREATE PROC add_language @name VARCHAR(55)
 AS
-INSERT INTO languages(name,name_ru)
-VALUES(@name,@name_ru)
+INSERT INTO languages(name)
+VALUES(@name)
 GO
 
 DROP PROC delete_language 
@@ -1295,21 +960,20 @@ GO
 
 DROP PROC edit_language
 GO
-CREATE PROC edit_language @id int, @name VARCHAR(55),@name_ru VARCHAR(55)
+CREATE PROC edit_language @id int, @name VARCHAR(55)
 AS
 UPDATE languages
 SET
-name=@name,
-name_ru=@name_ru
+name=@name
 WHERE id=@id
 GO
 
 DROP PROC add_user_category
 GO
-CREATE PROC add_user_category @name VARCHAR(55),@name_ru VARCHAR(55)
+CREATE PROC add_user_category @name VARCHAR(55)
 AS
-INSERT INTO user_categories(name,name_ru)
-VALUES(@name,@name_ru)
+INSERT INTO user_categories(name)
+VALUES(@name)
 GO
 
 DROP PROC delete_user_category
@@ -1322,21 +986,20 @@ GO
 
 DROP PROC edit_user_category
 GO
-CREATE PROC edit_user_category @id int, @name VARCHAR(55),@name_ru VARCHAR(55)
+CREATE PROC edit_user_category @id int, @name VARCHAR(55)
 AS
 UPDATE user_categories
 SET
-name=@name,
-name_ru=@name_ru
+name=@name
 WHERE id=@id
 GO
 
 DROP PROC add_division
 GO
-CREATE PROC add_division @name VARCHAR(55),@name_ru VARCHAR(55),@departmentId INT
+CREATE PROC add_division @name VARCHAR(55),@departmentId INT
 AS
-INSERT INTO divisions(name,name_ru,departmentId)
-VALUES(@name,@name_ru,@departmentId)
+INSERT INTO divisions(name,departmentId)
+VALUES(@name,@departmentId)
 GO
 
 DROP PROC delete_division
@@ -1349,12 +1012,11 @@ GO
 
 DROP PROC edit_division
 GO
-CREATE PROC edit_division @id int, @name VARCHAR(55),@name_ru VARCHAR(55), @departmentId INT
+CREATE PROC edit_division @id int, @name VARCHAR(55),@departmentId INT
 AS
 UPDATE divisions
 SET
 name=@name,
-name_ru=@name_ru,
 departmentId = @departmentId
 WHERE id=@id
 GO
@@ -1409,113 +1071,104 @@ GO
 --INSERT DATE
 
 --DEPARTMENTS
-INSERT INTO departments(name,name_ru)
-VALUES('Mathematical','Математический')
-INSERT INTO departments(name,name_ru)
-VALUES('Physical','Физический')
-INSERT INTO departments(name,name_ru)
-VALUES('Historical','Исторический')
-INSERT INTO departments(name,name_ru)
-VALUES('Juridical','Юридический')
+INSERT INTO departments(name)
+VALUES('Mathematical')
+INSERT INTO departments(name)
+VALUES('Physical')
+INSERT INTO departments(name)
+VALUES('Historical')
+INSERT INTO departments(name)
+VALUES('Juridical')
 
 --DIVISIONS
 
-INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('POIT-51','ПОИТ-51',1)
-INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('PM-51','ПМ-51',1)
-INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('EK-51','ЭК-51',1)
-INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('MPU','МПУ',1)
-INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('VMiP','ВМиП',1)
-INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('DY','ДУ',1)
-INSERT INTO divisions(name,name_ru,departmentId)
-VALUES('ASOI','АСОИ',2)
+INSERT INTO divisions(name,departmentId)
+VALUES('POIT-51',1)
+INSERT INTO divisions(name,departmentId)
+VALUES('PM-51',1)
+INSERT INTO divisions(name,departmentId)
+VALUES('EK-51',1)
+INSERT INTO divisions(name,departmentId)
+VALUES('MPU',1)
+INSERT INTO divisions(name,departmentId)
+VALUES('VMiP',1)
+INSERT INTO divisions(name,departmentId)
+VALUES('DY',1)
+INSERT INTO divisions(name,departmentId)
+VALUES('ASOI',2)
 
 
 
---ROLES
-INSERT INTO roles(name,title,title_ru)
-VALUES('new','New','Новый')
-INSERT INTO roles(name,title,title_ru)
-VALUES('user','User','Пользователь')
-INSERT INTO roles(name,title,title_ru)
-VALUES('librarian','Librarian','Библиотекарь')
-INSERT INTO roles(name,title,title_ru)
-VALUES('administrator','Administrator','Администратор')
 
 --USER CATEGORIES
-INSERT INTO user_categories(name,name_ru)
-VALUES('Student','Студент')
-INSERT INTO user_categories(name,name_ru)
-VALUES('Employee','Сотрудник')
-INSERT INTO user_categories(name,name_ru)
-VALUES('Graduate','Аспирант')
-INSERT INTO user_categories(name,name_ru)
-VALUES('Teacher','Преподаватель')
+INSERT INTO user_categories(name)
+VALUES('Student')
+INSERT INTO user_categories(name)
+VALUES('Employee')
+INSERT INTO user_categories(name)
+VALUES('Graduate')
+INSERT INTO user_categories(name)
+VALUES('Teacher')
 
 --USERS
 INSERT INTO users(login,password,secondName,firstName,email,roleId,categoryId)
-VALUES('admin','admin','админ','админ','админ',4,2)
+VALUES('admin','admin','admin','admin','admin','ADMINISTRATOR',2)
 INSERT INTO users(login,password,secondName,firstName,email,roleId,categoryId,divisionId)
-VALUES('a','1','Чураков','Николай','badbug1@yandex.ru',3,2,1)
+VALUES('a','1','Mikalai','Churakou','badbug1@yandex.ru','LIBRARIAN',2,1)
 INSERT INTO users(login,password,secondName,firstName,email,roleId,categoryId,divisionId)
-VALUES('b','2','Кожемякин','Сергей','1@yandex.ru',2,2,2)
+VALUES('b','2','user1','user1','1@yandex.ru','USER',2,2)
 INSERT INTO users(login,password,secondName,firstName,email,roleId,divisionId)
-VALUES('c','3','Большаков','Валентин','2@yandex.ru',2,1)
+VALUES('c','3','user2','user2','2@yandex.ru','USER',1)
 
 DECLARE @i INT;
 SET @i=1;
 WHILE @i < 20 
 BEGIN
     INSERT INTO users(login,password,secondName,firstName,email,roleId,divisionId)
-	VALUES(@i,@i,convert(varchar,@i)+'s',convert(varchar,@i)+'f',convert(varchar,@i)+'@yandex.ru',2,1)
+	VALUES(@i,@i,convert(varchar,@i)+'s',convert(varchar,@i)+'f',convert(varchar,@i)+'@yandex.ru','USER',1)
     SET @i = @i + 1;
 END
 GO
 
 --BOOK CATEGORIES
-INSERT INTO book_categories(name,name_ru)
-VALUES('Detective','Детектив')
-INSERT INTO book_categories(name,name_ru)
-VALUES('Child','Детские')
-INSERT INTO book_categories(name,name_ru)
-VALUES('History','История')
-INSERT INTO book_categories(name,name_ru)
-VALUES('Romance','Роман')
-INSERT INTO book_categories(name,name_ru)
-VALUES('Adventure','Приключения')
-INSERT INTO book_categories(name,name_ru)
-VALUES('Prose','Проза')
-INSERT INTO book_categories(name,name_ru)
-VALUES('Fantasy','Фентази')
-INSERT INTO book_categories(name,name_ru)
-VALUES('Humor','Юмор')
+INSERT INTO book_categories(name)
+VALUES('Detective')
+INSERT INTO book_categories(name)
+VALUES('Child')
+INSERT INTO book_categories(name)
+VALUES('History')
+INSERT INTO book_categories(name)
+VALUES('Romance')
+INSERT INTO book_categories(name)
+VALUES('Adventure')
+INSERT INTO book_categories(name)
+VALUES('Prose')
+INSERT INTO book_categories(name)
+VALUES('Fantasy')
+INSERT INTO book_categories(name)
+VALUES('Humor')
 
 --LANGUAGES
-INSERT INTO languages(name,name_ru)
-VALUES('Russian','Русский')
-INSERT INTO languages(name,name_ru)
-VALUES('English','Английский')
+INSERT INTO languages(name)
+VALUES('Russian')
+INSERT INTO languages(name)
+VALUES('English')
 
 --BOOK DESCRIPTIONS
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Приручи своих драконов','Стивенс Дж.',4,'Москва',1990,421,2)
+VALUES('NAME1','AUTHOR1',4,'PLACE1',1990,421,2)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Война и мир','Толстой',4,'Москва',1965,1242,1)
+VALUES('NAME2','AUTHOR2',4,'PLACE1',1965,1242,1)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Двенадцать стульев','Петров',8,'Петербург',1948,678,1)
+VALUES('NAME3','AUTHOR3',8,'PLACE1',1948,678,1)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Властелин колей (Братство кольца)','Толкиен',2,'Бостон',1985,600,1)
+VALUES('NAME4','AUTHOR4',2,'PLACE1',1985,600,1)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Властелин колей (Две твердыни)','Толкиен',2,'Бостон',1990,600,1)
+VALUES('NAME5','AUTHOR5',2,'PLACE12',1990,600,1)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Властелин колей (Возвращение короля)','Толкиен',7,'Бостон',1995,600,1)
+VALUES('NAME6','AUTHOR6',7,'PLACE12',1995,600,1)
 INSERT INTO book_descriptions(name,author,bookCategoryId,publicationPlace,publicationYear,size,languageId)
-VALUES('Всадник без головы','Майн Рид',3,'Лондон',1950,492,1)
+VALUES('NAME7','AUTHOR7',3,'PLACE12',1950,492,1)
 
 --REAL BOOKS
 INSERT INTO real_books(bookDescriptionId,inventoryNumber,cost)

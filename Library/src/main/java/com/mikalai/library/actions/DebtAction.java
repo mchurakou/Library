@@ -18,8 +18,8 @@ import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -38,32 +38,24 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class DebtAction extends ActionSupport implements RequestAware, SessionAware{
-	private static final Logger LOG = LogManager.getLogger();
-
-	@Inject
-	private UserDAO userDAO;
-
-	@Inject
-	private QueueDAO queueDAO;
-
-	@Inject
-	private DivisionDAO divisionDAO;
-
-	@Inject
-	private DepartmentDAO departmentDAO;
-
-	@Inject
-	private DebtDAO debtDAO;
-
+	private static final Logger LOG = Logger.getLogger(ActionSupport.class);
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-
-	
+	@Inject
+	private UserDAO userDAO;
+	@Inject
+	private QueueDAO queueDAO;
+	@Inject
+	private DivisionDAO divisionDAO;
+	@Inject
+	private DepartmentDAO departmentDAO;
+	@Inject
+	private DebtDAO debtDAO;
 	private AjaxResult result;
 	private int realBookId;
-	private int userId;
+	private long userId;
 	private Timestamp start;
 	
 	private Timestamp end;
@@ -114,16 +106,16 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 		String departmentValue = "";
 		String divisionValue = "";
 		try {
-			userCategories = userDAO.getUserCategories(getLocale().getLanguage());
+			userCategories = userDAO.getUserCategories();
 			userCategoryValue = StringBuilder.generateValueForList(userCategories);
-			userRoles = userDAO.getUserRoles(getLocale().getLanguage());
-			userRoleValue = StringBuilder.generateValueForList(userRoles);
+			userRoles = userDAO.getUserRoles();
+			userRoleValue = StringBuilder.generateRoleValueForList(userRoles);
 			
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments();
 			departmentValue = StringBuilder.generateValueForList(departments);
 			
-			divisions = divisionDAO.getDivisions(getLocale().getLanguage());
-			divisionValue = StringBuilder.generateValueForList(divisions);
+			divisions = divisionDAO.getDivisions();
+			divisionValue = StringBuilder.generateNamedValueForList(divisions);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
@@ -147,10 +139,10 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 		String divisionValue = "";
 		try {
 			
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments();
 			departmentValue = StringBuilder.generateValueForList(departments);
 			
-			divisions = divisionDAO.getDivisions(getLocale().getLanguage());
+			divisions = divisionDAO.getDivisions();
 			divisionValue = StringBuilder.generateValueForList(divisions);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
@@ -197,9 +189,9 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 			count = debtDAO.getCountOfDebts(userId,filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				debts = debtDAO.getDebtsForTable(pagination, null, userId,getLocale().getLanguage());
+				debts = debtDAO.getDebtsForTable(pagination, null, userId);
 			else
-				debts = debtDAO.getDebtsForTable(pagination, filters, userId,getLocale().getLanguage());
+				debts = debtDAO.getDebtsForTable(pagination, filters, userId);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -228,9 +220,9 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 			count = debtDAO.getCountOfAllDebts();
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				debts = debtDAO.getAllDebtsForTable(pagination, null,getLocale().getLanguage());
+				debts = debtDAO.getAllDebtsForTable(pagination, null);
 			else
-				debts = debtDAO.getAllDebtsForTable(pagination,  filters,getLocale().getLanguage());
+				debts = debtDAO.getAllDebtsForTable(pagination,  filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -280,15 +272,15 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 		String departmentValue = "";
 		String divisionValue = "";
 		try {
-			userCategories = userDAO.getUserCategories(getLocale().getLanguage());
+			userCategories = userDAO.getUserCategories();
 			userCategoryValue = StringBuilder.generateValueForList(userCategories);
-			userRoles = userDAO.getUserRoles(getLocale().getLanguage());
-			userRoleValue = StringBuilder.generateValueForList(userRoles);
+			userRoles = userDAO.getUserRoles();
+			userRoleValue = StringBuilder.generateRoleValueForList(userRoles);
 			
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments();
 			departmentValue = StringBuilder.generateValueForList(departments);
 			
-			divisions = divisionDAO.getDivisions(getLocale().getLanguage());
+			divisions = divisionDAO.getDivisions();
 			divisionValue = StringBuilder.generateValueForList(divisions);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
@@ -324,11 +316,11 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 		this.realBookId = realBookId;
 	}
 
-	public int getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 

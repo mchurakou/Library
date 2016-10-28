@@ -1,106 +1,146 @@
 package com.mikalai.library.beans;
 
 
+import com.mikalai.library.beans.dictionary.Role;
+import com.mikalai.library.utils.Constants;
+
+import javax.persistence.*;
+
 /**
  * Class contain information about user
  * 
  * @author Mikalai_Churakou
  */
-public class User {
-	private int id;
+
+
+
+@NamedQueries({
+		@NamedQuery(
+				name =  "User.login",
+				query = "select u from User u where u.login = :login and u.password = :password"
+		),
+
+		@NamedQuery(
+				name =  "User.byLogin",
+				query = "select u from User u where u.login = :login"
+		),
+		@NamedQuery(
+				name =  "User.getActiveUsers",
+				query = "select count(u) from User u where u.role not in ('NEW', 'ADMINISTRATOR')"
+		)
+
+})
+
+
+@Entity
+@Table(name="users")
+public class User extends BasicEntity {
+	@Column(nullable = false,unique = true, length = 50)
 	private String login;
 	private String password;
 	private String firstName;
 	private String secondName;
 	private String email;
-	private SimpleBean role;
-	private SimpleBean category;
-	private boolean haveDebt;
-	private int divisionId;
-	private int departmentId;
-	
+	@Enumerated(EnumType.STRING)
+	@Column(name="roleId")
+	private Role role;
 
-	public int getDivisionId() {
-		return divisionId;
+	private int categoryId;
+
+	@Transient
+	private boolean haveDebt;
+
+
+	@ManyToOne
+	@JoinColumn(name="divisionId")
+	private Division division;
+
+	public User(String login, String password, String firstName,
+			String secondName, String email,int divisionId) {
+		this.login = login;
+		this.password = password;
+		this.firstName = firstName;
+		this.secondName = secondName;
+		this.email = email;
+		this.role = Role.NEW;
+		this.categoryId = Constants.CATEGORY_STUDENT;
+
+		this.division = new Division(divisionId);
+
 	}
-	public void setDivisionId(int divisionId) {
-		this.divisionId = divisionId;
+	public User() {
 	}
-	public int getDepartmentId() {
-		return departmentId;
-	}
-	public void setDepartmentId(int departmentId) {
-		this.departmentId = departmentId;
-	}
+
 	public boolean isHaveDebt() {
 		return haveDebt;
 	}
+
 	public void setHaveDebt(boolean haveDebt) {
 		this.haveDebt = haveDebt;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public String getLogin() {
 		return login;
 	}
+
 	public void setLogin(String login) {
 		this.login = login;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getSecondName() {
 		return secondName;
 	}
+
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-		
-	public SimpleBean getRole() {
+
+	public Role getRole() {
 		return role;
 	}
-	public void setRole(SimpleBean role) {
+
+	public void setRole(Role role) {
 		this.role = role;
 	}
-	public SimpleBean getCategory() {
-		return category;
-	}
-	public void setCategory(SimpleBean category) {
-		this.category = category;
-	}
-	public User(String login, String password, String firstName,
-			String secondName, String email,int divisionId) {
-		super();
-		this.login = login;
-		this.password = password;
-		this.firstName = firstName;
-		this.secondName = secondName;
-		this.email = email;
-		this.divisionId = divisionId;
 		
+	public int getCategoryId() {
+		return categoryId;
 	}
 	
-	public User() {
-		super();
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public Division getDivision() {
+		return division;
+	}
+
+	public void setDivision(Division division) {
+		this.division = division;
 	}
 	
 }

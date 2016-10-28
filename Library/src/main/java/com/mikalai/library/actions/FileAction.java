@@ -6,8 +6,8 @@ import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.ZipFile;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -18,14 +18,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class FileAction extends ActionSupport {
-	private static final Logger LOG = LogManager.getLogger();
-
+	private static final Logger LOG = Logger.getLogger(FileAction.class);
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private ElectronicBookDAO electronicBookDAO;
-
-
-	private static final long serialVersionUID = 1L;
-
 	private int bookDescriptionId;
 	private int id;
 	

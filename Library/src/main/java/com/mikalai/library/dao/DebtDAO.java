@@ -1,17 +1,13 @@
 package com.mikalai.library.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.mikalai.library.utils.Constants;
-import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.Debt;
+import com.mikalai.library.utils.Constants;
+import com.mikalai.library.utils.Pagination;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 ;
 
@@ -56,24 +52,24 @@ public class DebtDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public void giveBook(int realBookId,int userId,Timestamp start, Timestamp end,int librarianId) throws Exception{
+	public void giveBook(int realBookId,long userId,Timestamp start, Timestamp end,long librarianId) throws Exception{
 		try {Connection con = getConnection();
 			String sql = "exec give_book ?,?,?,?"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1, realBookId);
-			s.setInt(2, userId);
+			s.setLong(2, userId);
 			s.setTimestamp(3, start);
 			s.setTimestamp(4, end);
 			s.executeUpdate();
 			
 			sql = "exec add_report ?,?,?,?,?,?";
 			s = con.prepareStatement(sql);
-			s.setInt(1,librarianId);
+			s.setLong(1,librarianId);
 			s.setString(2, "given");
 			s.setTimestamp(3, start);
 			s.setTimestamp(4, end);
 			s.setInt(5, realBookId);
-			s.setInt(6, userId);
+			s.setLong(6, userId);
 			s.executeUpdate();
 			
 			
@@ -96,21 +92,18 @@ public class DebtDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<Debt> getDebtsForTable(Pagination pagination, Filter filter, int userId, String language) throws Exception{
-		String lang = "";
-		if (language.equals("ru"))
-			lang = "_ru";
-		
+	public List<Debt> getDebtsForTable(Pagination pagination, Filter filter, long userId) throws Exception{
+
 		String filterStr = SQL.getSqlFilter(filter);
 		List<Debt> debts = new ArrayList<Debt>();
 		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM user_debts" + lang + "(?) " +
+						"FROM user_debts (?) " +
 						filterStr + ") as a " +
 						"WHERE row_num BETWEEN ? AND ?"; 
 			PreparedStatement s = con.prepareStatement(sql);
-			s.setInt(1, userId);
+			s.setLong(1, userId);
 			s.setInt(2, pagination.getStart());
 			s.setInt(3, pagination.getEnd());
 			ResultSet rs = s.executeQuery();
@@ -134,17 +127,14 @@ public class DebtDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<Debt> getAllDebtsForTable(Pagination pagination, Filter filter, String language) throws Exception{
-		String lang = "";
-		if (language.equals("ru"))
-			lang = "_ru";
-		
+	public List<Debt> getAllDebtsForTable(Pagination pagination, Filter filter) throws Exception{
+
 		String filterStr = SQL.getSqlFilter(filter);
 		List<Debt> debts = new ArrayList<Debt>();
 		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM view_all_debts" + lang + filterStr + ") as a " +
+						"FROM view_all_debts " + filterStr + ") as a " +
 						"WHERE row_num BETWEEN ? AND ?"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1, pagination.getStart());
@@ -169,12 +159,12 @@ public class DebtDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public int getCountOfDebts(int userId, Filter filter) throws Exception{
+	public int getCountOfDebts(long userId, Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		int count = 0;
 		try {Connection con = getConnection();
 			PreparedStatement s = con.prepareStatement("Select count(*) as count from user_debts(?) " + filterStr);
-			s.setInt(1, userId);
+			s.setLong(1, userId);
 			ResultSet rs = s.executeQuery();
 			
 			if (rs.next())
@@ -217,7 +207,7 @@ public class DebtDAO extends GenericDAO {
 	
 
 
-	public void returnBook(int debtId,int librarianId) throws Exception {
+	public void returnBook(int debtId,long librarianId) throws Exception {
 		try {Connection con = getConnection();
 			
 			String sql = "select * from debts where id = ?";
@@ -229,16 +219,16 @@ public class DebtDAO extends GenericDAO {
 			Timestamp start  = rs.getTimestamp("startPeriod");
 			Timestamp end  = rs.getTimestamp("endPeriod");
 			int realBookId = rs.getInt("realBookId");
-			int userId = rs.getInt("userId");
+			long userId = rs.getInt("userId");
 			
 			sql = "exec add_report ?,?,?,?,?,?";
 			s = con.prepareStatement(sql);
-			s.setInt(1,librarianId);
+			s.setLong(1,librarianId);
 			s.setString(2, "returned");
 			s.setTimestamp(3, start);
 			s.setTimestamp(4, end);
 			s.setInt(5, realBookId);
-			s.setInt(6, userId);
+			s.setLong(6, userId);
 			s.executeUpdate();
 			
 			

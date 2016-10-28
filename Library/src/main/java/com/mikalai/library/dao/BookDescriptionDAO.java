@@ -80,16 +80,13 @@ public class BookDescriptionDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<BookDescription> getBookDescriptionsForTable(Pagination pagination, Filter filter, String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<BookDescription> getBookDescriptionsForTable(Pagination pagination, Filter filter) throws Exception{
 		String filterStr = SQL.getSqlFilter(filter);
 		List<BookDescription> bookDescriptions = new ArrayList<BookDescription>();
 		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM view_book_descriptions" + lang + filterStr + ") as a " +
+						"FROM view_book_descriptions " + filterStr + ") as a " +
 						"WHERE row_num BETWEEN ? AND ?"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1, pagination.getStart());
@@ -113,13 +110,10 @@ public class BookDescriptionDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<SimpleBean> getBookCategories(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<SimpleBean> getBookCategories() throws Exception{
 		List<SimpleBean> bookCategories = new ArrayList<SimpleBean>();
 		try{Connection con = getConnection();
-			String sql = "SELECT id, name FROM view_book_categories" + lang; 
+			String sql = "SELECT id, name FROM view_book_categories";
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next()){
@@ -144,13 +138,10 @@ public class BookDescriptionDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<SimpleBean> getLanguages(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<SimpleBean> getLanguages() throws Exception{
 		List<SimpleBean> languages = new ArrayList<SimpleBean>();
 		try {Connection con = getConnection();
-			String sql = "SELECT id, name FROM view_languages" + lang; 
+			String sql = "SELECT id, name FROM view_languages";
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next()){

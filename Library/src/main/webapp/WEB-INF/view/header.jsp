@@ -11,18 +11,18 @@ $(document).ready(function(){
     <div id="header">
     	<table align="right">
     		<tr><td><s:text name="header.User" />:</td><td><s:property value="#session.user.firstName"/> <s:property value="#session.user.secondName"/></td></tr>
-    		<tr><td><s:text name="header.Role" />:</td><td><s:property value="#session.user.role.title"/></td></tr>
-    		<tr><td><s:text name="header.Category" />:</td><td><s:property value="#session.user.category.name"/></td></tr>
+    		<tr><td><s:text name="header.Role" />:</td><td><s:property value="#session.user.role"/></td></tr>
+    		<tr><td><s:text name="header.Category" />:</td><td><s:property value="#session.user.category"/></td></tr>
     	</table>
     </div>
     <div class="menu">
         <ul class="topnav">
-        	<s:if test="#session.user.role.name eq 'user' or #session.user.role.name eq 'librarian'">
+        	<s:if test="#session.user.role.toString() eq 'USER' or #session.user.role.toString() eq 'LIBRARIAN'">
             	<li><a href="profile"><s:text name="header.Profile" /></a></li>
             </s:if>
             
             <!-- librarian begin-->
-             <s:if test="#session.user.role.name eq 'librarian'">
+             <s:if test="#session.user.role.toString() eq 'LIBRARIAN'">
              	<li></li>
              	<li><a ><s:text name="header.Books" /></a>
             	   <ul class="subnav">
@@ -53,7 +53,7 @@ $(document).ready(function(){
             	
             
             <!-- administrator begin-->
-            <s:if test="#session.user.role.name eq 'administrator'">
+            <s:if test="#session.user.role.toString() eq 'ADMINISTRATOR'">
             	<li>
             		
                 	<a href="userAdministration"><s:text name="header.Users" /></a>
@@ -71,7 +71,7 @@ $(document).ready(function(){
             <!-- administrator end -->
             
             <!-- user begin-->
-            <s:if test="#session.user.role.name eq 'user'" >
+            <s:if test="#session.user.role.toString() eq 'USER'" >
             	<li><a ><s:text name="header.Books" /></a>
             	   <ul class="subnav">
             	   		<li><a href="realBooksForUser"><s:text name="header.Real_books" /></a></li>

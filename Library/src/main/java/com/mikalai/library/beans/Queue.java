@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  */
 public class Queue extends User{
 	private int id;
-	private int userId;
+	private long userId;
 	
 	
 	private int realBookId;
@@ -20,7 +20,7 @@ public class Queue extends User{
 	public Queue() {
 		super();
 	}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -34,10 +34,10 @@ public class Queue extends User{
 	public void setDate(Timestamp date) {
 		this.date = date;
 	}
-	public int getUserId() {
+	public long getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 	

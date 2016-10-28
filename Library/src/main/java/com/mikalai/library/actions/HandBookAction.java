@@ -11,6 +11,7 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 
 import javax.inject.Inject;
@@ -24,24 +25,21 @@ import java.util.Map;
  */
 
 public class HandBookAction extends ActionSupport implements RequestAware{
+	private static final Logger LOG = Logger.getLogger(HandBookAction.class);
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private UserCategoryDAO userCategoryDAO;
 	@Inject
 	private LanguageDAO languageDAO;
-
 	@Inject
 	private DivisionDAO divisionDAO;
-
 	@Inject
 	private DepartmentDAO departmentDAO;
-
 	@Inject
 	private BookCategoryDAO bookCategoryDAO;
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private AjaxTableResult tableResult;
 	private int count;
 	private Filter filters;
@@ -392,7 +390,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		String departmentValue = "";
 		
 		try {
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments();
 			departmentValue= StringBuilder.generateValueForList(departments);
 				
 			
@@ -432,8 +430,8 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		for (int i = 0;i < divisions.size();i++){
 			Division division = divisions.get(i);
 			Row row = new Row();
-			row.setId(division.getId());
-			row.setCell(new Object[]{division.getId(),division.getName(),division.getName_ru(),division.getDepartmentId()});
+			row.setId((int) division.getId());
+			row.setCell(new Object[]{division.getId(),division.getName(),division.getDepartment().getId() });
 			listRows.add(row);
 		}
 		
@@ -496,7 +494,7 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 		
 		List<List<Division>> res = new ArrayList<>();
 		try {
-			res.add(divisionDAO.getDivisionsByDepartmentId(departmentId,getLocale().getLanguage()));
+			res.add(divisionDAO.getDivisionsByDepartmentId(departmentId));
 			
 			
 		} catch (Exception e) {

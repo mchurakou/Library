@@ -12,8 +12,8 @@ import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -27,21 +27,17 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class RealBookAction extends ActionSupport implements SessionAware,RequestAware {
-	private static final Logger LOG = LogManager.getLogger();
-
-	@Inject
-	private UserCategoryDAO userCategoryDAO;
-
-	@Inject
-	private RealBookDAO realBookDAO;
-
-	@Inject
-	private BookDescriptionDAO bookDescriptionDAO;
-
+	private static final Logger LOG = Logger.getLogger(RealBookAction.class);
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
+	@Inject
+	private UserCategoryDAO userCategoryDAO;
+	@Inject
+	private RealBookDAO realBookDAO;
+	@Inject
+	private BookDescriptionDAO bookDescriptionDAO;
 	private AjaxResult result;
 	private AjaxTableResult tableResult;
 	
@@ -91,14 +87,14 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 	 * 
 	 */
 	public String realBooks() throws Exception{
-		bookCategories = bookDescriptionDAO.getBookCategories(getLocale().getLanguage());
+		bookCategories = bookDescriptionDAO.getBookCategories();
 		String bookCategoryValue = StringBuilder.generateValueForList(bookCategories);
 		request.put("bookCategoryValue", bookCategoryValue);
 		
-		languages = bookDescriptionDAO.getLanguages(getLocale().getLanguage());
+		languages = bookDescriptionDAO.getLanguages();
 		String languagesValue = StringBuilder.generateValueForList(languages);
 		request.put("languagesValue", languagesValue);
-		userCategories = userCategoryDAO.getUserCategories(getLocale().getLanguage());
+		userCategories = userCategoryDAO.getUserCategories();
 		
 		return SUCCESS;
 	}
@@ -115,9 +111,9 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 			count = realBookDAO.getCountOfRealBooks( filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				realBooks =  realBookDAO.getRealBooksForTable(pagination,null,getLocale().getLanguage());
+				realBooks =  realBookDAO.getRealBooksForTable(pagination,null);
 			else
-				realBooks = realBookDAO.getRealBooksForTable(pagination,filters,getLocale().getLanguage());
+				realBooks = realBookDAO.getRealBooksForTable(pagination,filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
@@ -143,15 +139,15 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 	public String prepareRealBooksForUser()  {
 		
 		User user = (User) session.get(Constants.ATTRIBUTE_USER);
-		int userCategoryId = user.getCategory().getId();
+		int userCategoryId = user.getCategoryId();
 		Pagination pagination = null;
 		try {
 			count = realBookDAO.getCountOfRealBooksForUser(filters,userCategoryId);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				realBooks =  realBookDAO.getRealBooksForTableByUserCategory(pagination,null,getLocale().getLanguage(),userCategoryId);
+				realBooks =  realBookDAO.getRealBooksForTableByUserCategory(pagination,null,userCategoryId);
 			else
-				realBooks = realBookDAO.getRealBooksForTableByUserCategory(pagination,filters,getLocale().getLanguage(),userCategoryId);
+				realBooks = realBookDAO.getRealBooksForTableByUserCategory(pagination,filters, userCategoryId);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,getText(Constants.MSG_DB_PROBLEM));
@@ -284,19 +280,17 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 		return page;
 	}
 
-	public int getBookDescriptionId() {
-		return bookDescriptionId;
-	}
-
-
-	public void setBookDescriptionId(int bookDescriptionId) {
-		this.bookDescriptionId = bookDescriptionId;
-	}
-
 	public void setPage(int page) {
 		this.page = page;
 	}
 
+	public int getBookDescriptionId() {
+		return bookDescriptionId;
+	}
+
+	public void setBookDescriptionId(int bookDescriptionId) {
+		this.bookDescriptionId = bookDescriptionId;
+	}
 
 	public int getRows() {
 		return rows;

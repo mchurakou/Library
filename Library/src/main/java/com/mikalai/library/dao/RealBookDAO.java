@@ -84,11 +84,8 @@ public class RealBookDAO  extends GenericDAO{
      * @throws Exception
      * 
      */
-	public List<RealBook> getRealBooksForTable(Pagination pagination, Filter filter, String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
-		
+	public List<RealBook> getRealBooksForTable(Pagination pagination, Filter filter) throws Exception{
+
 		
 		String filterStr = SQL.getSqlFilter(filter);
 		
@@ -96,7 +93,7 @@ public class RealBookDAO  extends GenericDAO{
 		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM view_real_books" + lang + filterStr + ") as a " +
+						"FROM view_real_books " + filterStr + ") as a " +
 						"WHERE row_num BETWEEN ? AND ?"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1, pagination.getStart());
@@ -300,19 +297,15 @@ public class RealBookDAO  extends GenericDAO{
      * @throws Exception
      * 
      */
-	public List<RealBook> getRealBooksForTableByUserCategory(Pagination pagination, Filter filter, String language,int userCategoryId) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
-		
-		
+	public List<RealBook> getRealBooksForTableByUserCategory(Pagination pagination, Filter filter, int userCategoryId) throws Exception{
+
 		String filterStr = SQL.getSqlFilter(filter);
 		
 		List<RealBook> realBooks = new ArrayList<RealBook>();
 		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM " + Constants.DB_DBO + ".real_books_for_user_category(?) " + lang + filterStr + ") as a " +
+						"FROM " + Constants.DB_DBO + ".real_books_for_user_category(?) " + filterStr + ") as a " +
 						"WHERE row_num BETWEEN ? AND ?"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1,userCategoryId);

@@ -51,11 +51,11 @@ public class CommentDAO extends GenericDAO{
 	    * @throws Exception
 	    * 
 	    */	
-		public void addComment(int userId,int electronicBookId, String message) throws Exception{
+		public void addComment(long userId,int electronicBookId, String message) throws Exception{
 			
 			try{Connection con = getConnection();
 				PreparedStatement s = con.prepareStatement("exec add_comment ?, ?,?");
-				s.setInt(1, userId);
+				s.setLong(1, userId);
 				s.setInt(2, electronicBookId);
 				s.setString(3, message);
 				

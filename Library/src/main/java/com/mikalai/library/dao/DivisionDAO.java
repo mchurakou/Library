@@ -1,9 +1,12 @@
 package com.mikalai.library.dao;
 
 import com.mikalai.library.ajax_json.Filter;
+import com.mikalai.library.beans.Department;
 import com.mikalai.library.beans.Division;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +20,8 @@ import java.util.List;
  * 
  * @author Mikalai_Churakou
  */
+@Repository
+@Transactional
 public class DivisionDAO extends GenericDAO{
 
 	/**
@@ -67,8 +72,7 @@ public class DivisionDAO extends GenericDAO{
 				Division division = new Division();
 				division.setId(rs.getInt(Constants.FIELD_ID));
 				division.setName(rs.getString(Constants.FIELD_NAME));
-				division.setName_ru(rs.getString(Constants.FIELD_NAME_RU));
-				division.setDepartmentId(rs.getInt(Constants.FIELD_DEPARTMENT_ID));
+				division.setDepartment(new Department(rs.getInt(Constants.FIELD_DEPARTMENT_ID)));
 				divisions.add(division);
 			}
 			s.close();
@@ -190,13 +194,10 @@ public class DivisionDAO extends GenericDAO{
      * @throws Exception
      * 
      */
-	public List<Division> getDivisionsByDepartmentId(int departmentId,String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<Division> getDivisionsByDepartmentId(int departmentId) throws Exception{
 		List<Division> divisions = new ArrayList<Division>();
 		try {Connection con = getConnection();
-			String sql = "SELECT * from view_divisions" + lang + " where departmentId = ?";
+			String sql = "SELECT * from view_divisions where departmentId = ?";
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1, departmentId);
 			ResultSet rs = s.executeQuery();
@@ -204,7 +205,7 @@ public class DivisionDAO extends GenericDAO{
 				Division division = new Division();
 				division.setId(rs.getInt(Constants.FIELD_ID));
 				division.setName(rs.getString(Constants.FIELD_NAME));
-				division.setDepartmentId(rs.getInt(Constants.FIELD_DEPARTMENT_ID));
+				division.setDepartment(new Department(rs.getInt(Constants.FIELD_DEPARTMENT_ID)));
 				divisions.add(division);
 			}
 			s.close();
@@ -222,13 +223,11 @@ public class DivisionDAO extends GenericDAO{
      * @throws Exception
      * 
      */
-	public List<Division> getDivisions(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<Division> getDivisions() throws Exception{
+
 		List<Division> divisions = new ArrayList<Division>();
 		try {Connection con = getConnection();
-			String sql = "SELECT * from view_divisions" + lang ;
+			String sql = "SELECT * from view_divisions";
 			PreparedStatement s = con.prepareStatement(sql);
 			
 			ResultSet rs = s.executeQuery();
@@ -236,7 +235,7 @@ public class DivisionDAO extends GenericDAO{
 				Division division = new Division();
 				division.setId(rs.getInt(Constants.FIELD_ID));
 				division.setName(rs.getString(Constants.FIELD_NAME));
-				division.setDepartmentId(rs.getInt(Constants.FIELD_DEPARTMENT_ID));
+				division.setDepartment(new Department(rs.getInt(Constants.FIELD_DEPARTMENT_ID)));
 				divisions.add(division);
 			}
 			s.close();

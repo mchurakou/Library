@@ -10,8 +10,8 @@ import com.mikalai.library.dao.QueueDAO;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 
 import javax.inject.Inject;
@@ -24,14 +24,13 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class QueueAction extends ActionSupport implements SessionAware{
-	@Inject
-	private QueueDAO queueDAO;
-
-	private static final Logger LOG = LogManager.getLogger();
+	private static final Logger LOG = Logger.getLogger(QueueAction.class);
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -8358452265769880826L;
+	@Inject
+	private QueueDAO queueDAO;
 	private Map<String, Object> session;
 	private AjaxResult result;
 	private int realBookId;
@@ -87,7 +86,7 @@ public class QueueAction extends ActionSupport implements SessionAware{
 		for (int i = 0;i < queues.size();i++){
 			Queue queue = queues.get(i);
 			Row row = new Row();
-			row.setId(queue.getId());
+			row.setId((int) queue.getId());
 			row.setCell(new Object[]{queue.getId(),queue.getUserId(),queue.getLogin(),queue.getFirstName(),queue.getSecondName(),queue.getDate(),queue.getEmail()});
 			listRows.add(row);
 		}

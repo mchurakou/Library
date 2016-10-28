@@ -141,18 +141,15 @@ public class ElectronicBookDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<ElectronicBook> getElectronicBooksForTable(Pagination pagination, Filter filter, String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
-				
+	public List<ElectronicBook> getElectronicBooksForTable(Pagination pagination, Filter filter) throws Exception{
+
 		String filterStr = SQL.getSqlFilter(filter);
 		
 		List<ElectronicBook> electronicBooks = new ArrayList<ElectronicBook>();
 		try {Connection con = getConnection();
 			String sql = "SELECT * FROM " +
 						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM view_electronic_books" + lang + filterStr + ") as a " +
+						"FROM view_electronic_books " + filterStr + ") as a " +
 						"WHERE row_num BETWEEN ? AND ?"; 
 			PreparedStatement s = con.prepareStatement(sql);
 			s.setInt(1, pagination.getStart());
@@ -337,11 +334,8 @@ public class ElectronicBookDAO extends GenericDAO {
 	     * @throws Exception
 	     * 
 	     */
-		public List<ElectronicBook> getElectronicBooksForTableByUserCategory(Pagination pagination, Filter filter, String language,int userCategoryId) throws Exception{
-			String lang = " ";
-			if (language.equals("ru"))
-				lang = "_ru  ";
-			
+		public List<ElectronicBook> getElectronicBooksForTableByUserCategory(Pagination pagination, Filter filter, int userCategoryId) throws Exception{
+
 			
 			String filterStr = SQL.getSqlFilter(filter);
 			
@@ -349,7 +343,7 @@ public class ElectronicBookDAO extends GenericDAO {
 			try {Connection con = getConnection();
 				String sql = "SELECT * FROM " +
 							"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-							"FROM " + Constants.DB_DBO + ".electronic_books_for_user_category(?) " + lang + filterStr + ") as a " +
+							"FROM " + Constants.DB_DBO + ".electronic_books_for_user_category(?) " + filterStr + ") as a " +
 							"WHERE row_num BETWEEN ? AND ?"; 
 				PreparedStatement s = con.prepareStatement(sql);
 				s.setInt(1,userCategoryId);

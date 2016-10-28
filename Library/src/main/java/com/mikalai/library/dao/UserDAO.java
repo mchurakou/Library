@@ -1,10 +1,11 @@
 package com.mikalai.library.dao;
 
-import com.mikalai.library.ajax_json.Filter;
+import com.mikalai.library.beans.Division;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
+import com.mikalai.library.beans.dictionary.Role;
 import com.mikalai.library.utils.Constants;
-import com.mikalai.library.utils.Pagination;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +20,7 @@ import java.util.List;
  * 
  * @author Mikalai_Churakou
  */
+@Repository
 public class UserDAO extends GenericDAO {
 
 	/**
@@ -28,241 +30,23 @@ public class UserDAO extends GenericDAO {
      */	
 	private static User extractUser(ResultSet rs) throws SQLException{
 		User user = new User();
-		user.setId(rs.getInt(Constants.FIELD_ID));
+		user.setId(rs.getLong(Constants.FIELD_ID));
 		user.setLogin(rs.getString(Constants.FIELD_LOGIN));
 		user.setFirstName(rs.getString(Constants.FIELD_FIRST_NAME));
 		user.setSecondName(rs.getString(Constants.FIELD_SECOND_NAME));
 		user.setEmail(rs.getString(Constants.FIELD_EMAIL));
-		SimpleBean role =  new SimpleBean();
-		role.setId(rs.getInt(Constants.FIELD_ROLE_ID));
-		role.setName(rs.getString(Constants.FIELD_ROLE));
-		role.setTitle(rs.getString(Constants.FIELD_ROLE_TITLE));
-		user.setRole(role);
-		SimpleBean category =  new SimpleBean();
-		category.setId(rs.getInt(Constants.FIELD_CATEGORY_ID));
-		category.setName(rs.getString(Constants.FIELD_CATEGORY));
-		user.setCategory(category);
+//		user.setCategory(Category.getById(rs.getInt(rs.getInt(Constants.FIELD_CATEGORY_ID))));
 		user.setHaveDebt(rs.getBoolean(Constants.FIELD_HAVE_DEBT));
-		user.setDivisionId(rs.getInt(Constants.FIELD_DIVISION_ID));
-		user.setDepartmentId(rs.getInt(Constants.FIELD_DEPARTMENT_ID));
-		
-		return user;
-	}
-	
-	/**
-     * Method add new user
-     * @param new user
-     * @return successful or unsuccessful operation
-     */		
-	public boolean add(User user) throws Exception{
-		boolean result = true;
-		try
-			{Connection con = getConnection();
-			PreparedStatement s = con.prepareStatement("select " + Constants.DB_DBO + ".exist_user(?) as res");
-			s.setString(1, user.getLogin());
-			ResultSet rs = s.executeQuery();
-			rs.next();
-			String res = rs.getString("res");
-			if (res.equals("0")){
-				s = con.prepareStatement("exec add_user ?, ?, ?, ?, ?,?");
-				s.setString(1, user.getLogin());
-				s.setString(2, user.getPassword());
-				s.setString(3, user.getFirstName());
-				s.setString(4, user.getSecondName());
-				s.setString(5, user.getEmail());
-				s.setInt(6, user.getDivisionId());
-				s.executeUpdate();
-			}
-			else
-				result=false;
-			s.close();
+		user.setDivision(new Division(rs.getInt(Constants.FIELD_DIVISION_ID)));
 
-		} catch (SQLException e) {
-			
-			throw new Exception(e);
-		}
-		
-		return result;
-	}
-	
-	/**
-     * Method return user by login and password
-     * @param login 
-     * @param password
-	 * @param string 
-     * @return user with such login and password
-     */	
-	public User getUser(String login, String password, String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
-
-
-
-		User user = null;
-		try
-				{Connection con = getConnection();
-
-
-			PreparedStatement s = con.prepareStatement("Select * " +
-													   "from view_users_all" + lang +
-													   "where "+
-													   "login=? and "+
-													   "password=?");
-			s.setString(1, login);
-			s.setString(2, password);
-			ResultSet rs=s.executeQuery();
-			if (rs.next())
-				user = extractUser(rs);
-		    s.close();
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
-		}
 		return user;
 	}
 
 
 
-	/**
-     * Change profile
-     * @param user
-     * @throws Exception
-     * 
-     */	
-	public void changeProfile(User user) throws Exception  {
-		try {Connection con = getConnection();
-			PreparedStatement s;
-			s = con.prepareStatement("exec edit_user ?, ?, ?, ?,?");
-			s.setInt(1, user.getId());
-			s.setString(2, user.getFirstName());
-			s.setString(3, user.getSecondName());
-			s.setString(4, user.getEmail());
-			s.setInt(5, user.getDivisionId());
-			s.executeUpdate();
-			s.close();
 
-		} catch (SQLException e) {
-			throw new Exception(e);
-		}
-		
-	}
-	
-	
-	
-	
-	/**
-     * List of users for table with searching
-     * @return list of users
-     * @throws Exception
-     * 
-     */
-	public List<User> getUsersForTable(Pagination pagination, Filter filter,String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
-		
-		String filterStr = SQL.getSqlFilter(filter);
-		List<User> users = new ArrayList<User>();
-		try {Connection con = getConnection();
-			String sql = "SELECT * FROM " +
-						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM view_users" + lang + filterStr + ") as a " +
-						"WHERE row_num BETWEEN ? AND ?";
-			PreparedStatement s = con.prepareStatement(sql);
-			s.setInt(1, pagination.getStart());
-			s.setInt(2, pagination.getEnd());
-			ResultSet rs = s.executeQuery();
-			while (rs.next())
-				users.add(extractUser(rs));
-			s.close();
 
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
-		}
-		return users;
-	}
-	
-	/**
-     * List of active users for table with searching
-     * @return list of users
-     * @throws Exception
-     * 
-     */
-	public List<User> getActiveUsersForTable(Pagination pagination, Filter filter) throws Exception{
-		String filterStr = SQL.getSqlFilter(filter);
-		List<User> users = new ArrayList<User>();
-		try {Connection con = getConnection();
-			String sql = "SELECT * FROM " +
-						"(SELECT *,row_number() over(order by " + pagination.getSidx() + " " + pagination.getSord() + ") as row_num " + 
-						"FROM view_active_users " + filterStr + ") as a " +
-						"WHERE row_num BETWEEN ? AND ?"; 
-			PreparedStatement s = con.prepareStatement(sql);
-			s.setInt(1, pagination.getStart());
-			s.setInt(2, pagination.getEnd());
-			ResultSet rs = s.executeQuery();
-			while (rs.next())
-				users.add(extractUser(rs));
-			s.close();
 
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
-		}
-		return users;
-	}
-	
-	
-	/**
-     * count of users
-	 * @param filters 
-     * @return count
-     * @throws Exception
-     * 
-     */
-	public int getCountOfUsers(Filter filter) throws Exception{
-		String filterStr = SQL.getSqlFilter(filter);
-		int count = 0;
-		try {Connection con = getConnection();
-			PreparedStatement s = con.prepareStatement("Select count(*) as count from view_users " +  filterStr);
-			ResultSet rs = s.executeQuery();
-			if (rs.next())
-				count = rs.getInt("count");
-				
-			s.close();
-
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
-		}
-		return count;
-	}
-	
-	/**
-     * count of users
-     * @return count
-     * @throws Exception
-     * 
-     */
-	public int getCountOfActiveUsers() throws Exception{
-		int count = 0;
-		try {Connection con = getConnection();
-			PreparedStatement s = con.prepareStatement("Select count(*) as count from view_active_users ");
-			ResultSet rs = s.executeQuery();
-			if (rs.next())
-				count = rs.getInt("count");
-				
-			s.close();
-
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
-		}
-		return count;
-	}
-	
-	
 	/**
      * delete user
      * @param id of user
@@ -304,7 +88,7 @@ public class UserDAO extends GenericDAO {
      * @throws Exception
      * 
      */	
-	public void editUser(int id, String firstName,String secondName,String email, int roleId, int categoryId, int divisionId) throws Exception  {
+	public void editUser(int id, String firstName,String secondName,String email, String roleId, int categoryId, int divisionId) throws Exception  {
 		try {Connection con = getConnection();
 			PreparedStatement s;
 			s = con.prepareStatement("exec admin_edit_user ?, ?, ?, ?, ?, ?,?");
@@ -312,7 +96,7 @@ public class UserDAO extends GenericDAO {
 			s.setString(2, firstName);
 			s.setString(3, secondName);
 			s.setString(4, email);
-			s.setInt(5, roleId);
+			s.setString(5, roleId);
 			s.setInt(6, categoryId);
 			s.setInt(7, divisionId);
 			s.executeUpdate();
@@ -337,13 +121,10 @@ public class UserDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<SimpleBean> getUserCategories(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<SimpleBean> getUserCategories() throws Exception{
 		List<SimpleBean> categories = new ArrayList<SimpleBean>();
 		try {Connection con = getConnection();
-			String sql = "SELECT id, name FROM view_user_categories" + lang; 
+			String sql = "SELECT id, name FROM view_user_categories";
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next()){
@@ -369,26 +150,10 @@ public class UserDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<SimpleBean> getUserRoles(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<SimpleBean> getUserRoles() throws Exception{
 		List<SimpleBean> roles = new ArrayList<SimpleBean>();
-		try {Connection con = getConnection();
-			String sql = "SELECT id, name FROM view_user_roles" + lang; 
-			PreparedStatement s = con.prepareStatement(sql);
-			ResultSet rs = s.executeQuery();
-			while (rs.next()){
-				SimpleBean role = new SimpleBean();
-				role.setId(rs.getInt(Constants.FIELD_ID));
-				role.setName(rs.getString(Constants.FIELD_NAME));
-				roles.add(role);
-			}
-			s.close();
-
-		} catch (SQLException e) {
-			throw new Exception(e);
-					
+		for(Role r: Role.values()){
+			roles.add(new SimpleBean(r.toString()));
 		}
 		return roles;
 	}

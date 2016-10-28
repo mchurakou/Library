@@ -13,8 +13,8 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 
 import javax.inject.Inject;
@@ -27,18 +27,13 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class BookDescriptionAction extends ActionSupport implements RequestAware{
-	@Inject
-	private BookDescriptionDAO bookDescriptionDAO;
-
-	private static final Logger logger = LogManager.getLogger();
-
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
-
+	Logger LOG = Logger.getLogger(BookDescriptionAction.class);
+	@Inject
+	private BookDescriptionDAO bookDescriptionDAO;
 	private AjaxResult result;
 	private AjaxTableResult tableResult;
 	
@@ -84,10 +79,10 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 		String languagesValue = "";
 		String userCategoryValue = "";
 		try {
-			bookCategories = bookDescriptionDAO.getBookCategories(getLocale().getLanguage());
+			bookCategories = bookDescriptionDAO.getBookCategories();
 			bookCategoriesValue = StringBuilder.generateValueForList(bookCategories);
 			
-			languages = bookDescriptionDAO.getLanguages(getLocale().getLanguage());
+			languages = bookDescriptionDAO.getLanguages();
 			languagesValue = StringBuilder.generateValueForList(languages);
 			
 			
@@ -113,9 +108,9 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 			count = bookDescriptionDAO.getCountOfBookDescriptions(filters);
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				bookDescriptions = bookDescriptionDAO.getBookDescriptionsForTable(pagination,null,getLocale().getLanguage());
+				bookDescriptions = bookDescriptionDAO.getBookDescriptionsForTable(pagination,null);
 			else
-				bookDescriptions = bookDescriptionDAO.getBookDescriptionsForTable(pagination,filters,getLocale().getLanguage());
+				bookDescriptions = bookDescriptionDAO.getBookDescriptionsForTable(pagination,filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);

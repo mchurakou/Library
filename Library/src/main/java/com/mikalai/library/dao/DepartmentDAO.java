@@ -13,12 +13,16 @@ import com.mikalai.library.beans.SimpleBean;
 
 
 import com.mikalai.library.ajax_json.Filter;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 ;
 /**
  * Action for work with departments
  * 
  * @author Mikalai_Churakou
  */
+@Repository
+@Transactional
 public class DepartmentDAO extends GenericDAO {
 	
 	/**
@@ -189,13 +193,10 @@ public class DepartmentDAO extends GenericDAO {
      * @throws Exception
      * 
      */
-	public List<SimpleBean> getDepartments(String language) throws Exception{
-		String lang = " ";
-		if (language.equals("ru"))
-			lang = "_ru  ";
+	public List<SimpleBean> getDepartments() throws Exception{
 		List<SimpleBean> departments = new ArrayList<SimpleBean>();
 		try {Connection con = getConnection();
-			String sql = "SELECT id, name FROM view_departments" + lang; 
+			String sql = "SELECT id, name FROM view_departments";
 			PreparedStatement s = con.prepareStatement(sql);
 			ResultSet rs = s.executeQuery();
 			while (rs.next()){

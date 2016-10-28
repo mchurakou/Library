@@ -8,7 +8,7 @@ public class Debt extends RealBook {
 	private String behind;
 	private Timestamp startPeriod;
 	private Timestamp endPeriod;
-	private int userId;
+	private long userId;
 	private String login;
 	private String firstName;
 	private String secondName;
@@ -34,10 +34,10 @@ public class Debt extends RealBook {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getUserId() {
+	public long getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 	public String getLogin() {

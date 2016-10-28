@@ -1,27 +1,25 @@
 package com.mikalai.library.actions;
 
 
-import com.mikalai.library.ajax_json.AjaxResult;
-import com.mikalai.library.ajax_json.AjaxTableResult;
-import com.mikalai.library.ajax_json.ConverterJSON;
-import com.mikalai.library.ajax_json.Filter;
-import com.mikalai.library.ajax_json.Row;
+import com.mikalai.library.ajax_json.*;
 import com.mikalai.library.beans.Division;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
+import com.mikalai.library.beans.dictionary.Role;
 import com.mikalai.library.dao.DepartmentDAO;
 import com.mikalai.library.dao.DivisionDAO;
 import com.mikalai.library.dao.UserDAO;
+import com.mikalai.library.service.UserService;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +32,7 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class UserAction extends ActionSupport implements SessionAware, RequestAware{
-	private static final Logger LOG = LogManager.getLogger();
+	private static final Logger LOG = Logger.getLogger(UserAction.class);
 
 	@Inject
 	private UserDAO userDAO;
@@ -45,16 +43,17 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 	@Inject
 	private DepartmentDAO departmentDAO;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	@EJB
+	private UserService userService;
+
 	private String login;
 	private String password;
 	private String firstName;
 	private String secondName;
 	private String email;
-	private int roleId;
+
+
+	private String roleId;
 	private int categoryId;
 	
 	private String message;
@@ -73,7 +72,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 	private Filter filters;
 		
 	private String sord;
-	private int count; 
+	private int count;
 	
 	private User user;
 	private List<User> users;
@@ -103,17 +102,17 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		String departmentValue = "";
 		String divisionValue = "";
 		try {
-			userCategories = userDAO.getUserCategories(getLocale().getLanguage());
+			userCategories = userDAO.getUserCategories();
 			userCategoryValue = StringBuilder.generateValueForList(userCategories);
 			
-			userRoles = userDAO.getUserRoles(getLocale().getLanguage());
-			userRoleValue = StringBuilder.generateValueForList(userRoles);
+			userRoles = userDAO.getUserRoles();
+			userRoleValue = StringBuilder.generateRoleValueForList(userRoles);
 			
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments();
 			departmentValue = StringBuilder.generateValueForList(departments);
 			
-			divisions = divisionDAO.getDivisions(getLocale().getLanguage());
-			divisionValue = StringBuilder.generateValueForList(divisions);
+			divisions = divisionDAO.getDivisions();
+			divisionValue = StringBuilder.generateNamedValueForList(divisions);
 			
 			
 				
@@ -138,9 +137,9 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		user = new User(login, password, firstName, secondName, email,divisionId);
 		
 		try {
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
-			
-			if (!userDAO.add(user)){
+			departments = departmentDAO.getDepartments();
+
+			if (!userService.add(user)){
 				setError(getText(Constants.MSG_REPEAT_LOGIN)); //repeat login
 				return INPUT;
 			}
@@ -165,7 +164,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		
 		user = null;
 		try {
-			user = userDAO.getUser(login, password,getLocale().getLanguage());
+			user = userService.getUser(login, password);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
@@ -173,13 +172,13 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		}
 		
 		if (user != null){
-			if (user.getRole().getId() != Constants.NEW_ROLE_ID){ //login
+			if (user.getRole() != Role.NEW){ //login
 				session.put(Constants.ATTRIBUTE_USER, user);
-				if (user.getRole().getId() == Constants.USER_ROLE_ID) //user
+				if (user.getRole() == Role.USER) //user
 					return "user";
-				if (user.getRole().getId() == Constants.LIBRARIAN_ROLE_ID) //librarian
+				if (user.getRole() == Role.LIBRARIAN) //librarian
 					return "librarian";
-				if (user.getRole().getId() == Constants.ADMINISTRATOR_ROLE_ID) //administrator
+				if (user.getRole() == Role.ADMINISTRATOR) //administrator
 					return "administrator";
 			}
 			else{
@@ -203,8 +202,8 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		user = (User) session.get(Constants.ATTRIBUTE_USER);
 		
 		try {
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
-			divisions = divisionDAO.getDivisionsByDepartmentId(user.getDepartmentId(),getLocale().getLanguage());
+			departments = departmentDAO.getDepartments();
+			divisions = divisionDAO.getDivisionsByDepartmentId((int) user.getDivision().getDepartment().getId());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
@@ -223,13 +222,12 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		user.setFirstName(firstName);
 		user.setSecondName(secondName);
 		user.setEmail(email);
-		user.setDivisionId(divisionId);
-		user.setDepartmentId(departmentId);
-	
+		user.setDivision(new Division(divisionId));
+
 		try {
-			userDAO.changeProfile(user);
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
-			divisions = divisionDAO.getDivisionsByDepartmentId(user.getDepartmentId(),getLocale().getLanguage());
+			user = userService.save(user);
+			departments = departmentDAO.getDepartments();
+			divisions = divisionDAO.getDivisionsByDepartmentId((int) user.getDivision().getDepartment().getId());
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
@@ -259,23 +257,30 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		Pagination pagination = null;
 		try {
 					
-			count = userDAO.getCountOfUsers(filters);
+			count = userService.getCount(filters).intValue();
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				users = userDAO.getUsersForTable(pagination,null,getLocale().getLanguage());
+				users = userService.getListForTable(pagination,null);
 			else
-				users = userDAO.getUsersForTable(pagination,filters,getLocale().getLanguage());
+				users = userService.getListForTable(pagination,filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
-			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
+			result = new AjaxResult(false, Constants.MSG_DB_PROBLEM);
 		}
 				
-		List<Row> listRows = new ArrayList<Row>();
+		List<Row> listRows = new ArrayList<>();
 		for (int i = 0;i < users.size();i++){
 			User user = users.get(i);
 			Row row = new Row();
-			row.setId(user.getId());
-			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole().getId(),user.getCategory().getId(),user.getDepartmentId(),user.getDivisionId()});
+			row.setId((int) user.getId());
+
+			long departmentId = 0;
+			long divisionId = 0;
+			if (user.getDivision() != null){
+				divisionId = user.getDivision().getId();
+				departmentId = user.getDivision().getDepartment().getId();
+			}
+			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole(),user.getCategoryId(),departmentId,divisionId});
 			listRows.add(row);
 		}
 		
@@ -290,12 +295,12 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 	public String prepareActiveUsers()  {
 		Pagination pagination = null;
 		try {
-			count = userDAO.getCountOfActiveUsers();
+			count = userService.getCountOfActiveUsers();
 			pagination = new Pagination(sidx,rows,count,page,sord);
 			if (!_search)	  
-				users = userDAO.getActiveUsersForTable(pagination,null);
+				users = userService.getActiveUsersForTable(pagination,null);
 			else
-				users = userDAO.getActiveUsersForTable(pagination,filters);
+				users = userService.getActiveUsersForTable(pagination,filters);
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			result = new AjaxResult(false,Constants.MSG_DB_PROBLEM);
@@ -305,8 +310,8 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		for (int i = 0;i < users.size();i++){
 			User user = users.get(i);
 			Row row = new Row();
-			row.setId(user.getId());
-			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole().getId(),user.getCategory().getId(),user.isHaveDebt(),user.getDepartmentId(),user.getDivisionId()});
+			row.setId((int) user.getId());
+			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole(), user.getCategoryId(),user.isHaveDebt(),(int) user.getDivision().getDepartment().getId(),user.getDivision().getId()});
 			listRows.add(row);
 		}
 		
@@ -344,7 +349,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 	public String loadDepartments(){
 		
 		try {
-			departments = departmentDAO.getDepartments(getLocale().getLanguage());
+			departments = departmentDAO.getDepartments();
 		} catch (Exception e) {
 			LOG.error(e.getMessage(),e);
 			setError(getText(Constants.MSG_DB_PROBLEM));
@@ -461,13 +466,8 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		return sord;
 	}
 
-	
-	public int getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
+	public void setSord(String sord) {
+		this.sord = sord;
 	}
 
 	public int getCategoryId() {
@@ -477,11 +477,6 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
-	public void setSord(String sord) {
-		this.sord = sord;
-	}
-
-	
 
 	public int getRows() {
 		return rows;
@@ -580,6 +575,15 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 
 	public void setDivisionId(int divisionId) {
 		this.divisionId = divisionId;
+	}
+
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 
 
