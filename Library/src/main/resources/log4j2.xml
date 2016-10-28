@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <File name="FILE" fileName="logs/app.log" append="false">
+            <PatternLayout pattern="%d %-5p [%t] %C:%L - %m%n"/>
+        </File>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %-5p [%t] %C:%L - %m%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.opensymphony.xwork2" level="INFO" />
+
+        <Logger name="org.apache.struts2" level="DEBUG" />
+
+        <Logger name="org.hibernate.SQL" level="TRACE" />
+
+        <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />
+
+        <Logger name="org.springframework.beans.factory" level="DEBUG" />
+
+        <Logger name="com.mikalai.library" level="INFO" />
+
+        <Root level="ERROR">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="FILE"/>
+        </Root>
+    </Loggers>
+</Configuration>

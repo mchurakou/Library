@@ -15,7 +15,7 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger; import org.apache.logging.log4j.LogManager;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -32,7 +32,7 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class UserAction extends ActionSupport implements SessionAware, RequestAware{
-	private static final Logger LOG = Logger.getLogger(UserAction.class);
+	private static final Logger LOG = LogManager.getLogger(UserAction.class);
 
 	@Inject
 	private UserDAO userDAO;
@@ -173,6 +173,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		
 		if (user != null){
 			if (user.getRole() != Role.NEW){ //login
+				LOG.info("user logged in " + user.getLogin());
 				session.put(Constants.ATTRIBUTE_USER, user);
 				if (user.getRole() == Role.USER) //user
 					return "user";

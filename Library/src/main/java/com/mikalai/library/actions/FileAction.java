@@ -7,7 +7,7 @@ import com.mikalai.library.utils.ZipFile;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger; import org.apache.logging.log4j.LogManager;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class FileAction extends ActionSupport {
-	private static final Logger LOG = Logger.getLogger(FileAction.class);
+	private static final Logger LOG = LogManager.getLogger(FileAction.class);
 	private static final long serialVersionUID = 1L;
 	@Inject
 	private ElectronicBookDAO electronicBookDAO;

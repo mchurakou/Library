@@ -19,7 +19,7 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.ActionSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger; import org.apache.logging.log4j.LogManager;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -38,7 +38,7 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class DebtAction extends ActionSupport implements RequestAware, SessionAware{
-	private static final Logger LOG = Logger.getLogger(ActionSupport.class);
+	private static final Logger LOG = LogManager.getLogger(ActionSupport.class);
 	/**
 	 *
 	 */

@@ -7,7 +7,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import net.sf.jasperreports.engine.JasperCompileManager;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger; import org.apache.logging.log4j.LogManager;
 import org.apache.struts2.StrutsStatics;
 import org.apache.struts2.interceptor.RequestAware;
 
@@ -31,7 +31,7 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class ReportAction  extends ActionSupport implements RequestAware{
-	private static final Logger LOG = Logger.getLogger(ReportAction.class);
+	private static final Logger LOG = LogManager.getLogger(ReportAction.class);
 	SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_FORMAT_REPORT);
 	List<LibrarianReportRecord> records;
 	@Inject

@@ -11,7 +11,7 @@ import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.opensymphony.xwork2.ActionSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger; import org.apache.logging.log4j.LogManager;
 import org.apache.struts2.interceptor.SessionAware;
 
 import javax.inject.Inject;
@@ -24,7 +24,7 @@ import java.util.Map;
  * @author Mikalai_Churakou
  */
 public class QueueAction extends ActionSupport implements SessionAware{
-	private static final Logger LOG = Logger.getLogger(QueueAction.class);
+	private static final Logger LOG = LogManager.getLogger(QueueAction.class);
 	/**
 	 *
 	 */

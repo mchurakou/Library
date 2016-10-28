@@ -14,7 +14,8 @@ import com.mikalai.library.utils.StringBuilder;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.apache.struts2.interceptor.RequestAware;
 
 import javax.inject.Inject;
@@ -31,7 +32,7 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	Logger LOG = Logger.getLogger(BookDescriptionAction.class);
+	Logger LOG = LogManager.getLogger(BookDescriptionAction.class);
 	@Inject
 	private BookDescriptionDAO bookDescriptionDAO;
 	private AjaxResult result;
