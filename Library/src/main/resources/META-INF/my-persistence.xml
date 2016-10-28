@@ -12,11 +12,8 @@
             <property name="javax.persistence.jdbc.user" value="badbug"/>
             <property name="javax.persistence.jdbc.password" value="123"/>
 
-
-            <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
-
 
         </properties>
     </persistence-unit>

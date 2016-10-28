@@ -2,7 +2,7 @@ package com.mikalai.library.utils;
 
 import com.mikalai.library.beans.Division;
 import com.mikalai.library.beans.SimpleBean;
-import com.mikalai.library.beans.NamedEntity;
+import com.mikalai.library.beans.base.NamedEntity;
 
 import java.util.List;
 

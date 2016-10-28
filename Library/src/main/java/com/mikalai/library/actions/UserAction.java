@@ -281,7 +281,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 				divisionId = user.getDivision().getId();
 				departmentId = user.getDivision().getDepartment().getId();
 			}
-			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole(),user.getCategoryId(),departmentId,divisionId});
+			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole(),user.getCategory().getId(),departmentId,divisionId});
 			listRows.add(row);
 		}
 		
@@ -312,7 +312,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 			User user = users.get(i);
 			Row row = new Row();
 			row.setId((int) user.getId());
-			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole(), user.getCategoryId(),user.isHaveDebt(),(int) user.getDivision().getDepartment().getId(),user.getDivision().getId()});
+			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole(), user.getCategory().getId(),user.isHaveDebt(),(int) user.getDivision().getDepartment().getId(),user.getDivision().getId()});
 			listRows.add(row);
 		}
 		

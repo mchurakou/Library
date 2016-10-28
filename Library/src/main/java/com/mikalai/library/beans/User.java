@@ -1,6 +1,7 @@
 package com.mikalai.library.beans;
 
 
+import com.mikalai.library.beans.base.BasicEntity;
 import com.mikalai.library.beans.dictionary.Role;
 import com.mikalai.library.utils.Constants;
 
@@ -17,7 +18,8 @@ import javax.persistence.*;
 @NamedQueries({
 		@NamedQuery(
 				name =  "User.login",
-				query = "select u from User u where u.login = :login and u.password = :password"
+				query = "select u from User u join fetch u.category c join fetch u.division d join fetch d.department  " +
+                        "where u.login = :login and u.password = :password"
 		),
 
 		@NamedQuery(
@@ -45,7 +47,11 @@ public class User extends BasicEntity {
 	@Column(name="roleId")
 	private Role role;
 
-	private int categoryId;
+
+
+	@ManyToOne
+	@JoinColumn(name="categoryId")
+	private Category category;
 
 	@Transient
 	private boolean haveDebt;
@@ -63,7 +69,7 @@ public class User extends BasicEntity {
 		this.secondName = secondName;
 		this.email = email;
 		this.role = Role.NEW;
-		this.categoryId = Constants.CATEGORY_STUDENT;
+		this.category = new Category(Constants.CATEGORY_STUDENT);
 
 		this.division = new Division(divisionId);
 
@@ -127,20 +133,20 @@ public class User extends BasicEntity {
 		this.role = role;
 	}
 		
-	public int getCategoryId() {
-		return categoryId;
-	}
-	
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
-
 	public Division getDivision() {
 		return division;
 	}
 
 	public void setDivision(Division division) {
 		this.division = division;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 	
 }

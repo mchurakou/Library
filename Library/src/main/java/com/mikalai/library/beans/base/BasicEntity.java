@@ -1,4 +1,4 @@
-package com.mikalai.library.beans;
+package com.mikalai.library.beans.base;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

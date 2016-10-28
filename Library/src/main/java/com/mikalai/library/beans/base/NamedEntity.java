@@ -1,4 +1,6 @@
-package com.mikalai.library.beans;
+package com.mikalai.library.beans.base;
+
+import com.mikalai.library.beans.base.BasicEntity;
 
 import javax.persistence.MappedSuperclass;
 

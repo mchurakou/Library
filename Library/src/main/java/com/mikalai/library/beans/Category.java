@@ -6,18 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * Created by mikalai on 25.04.2016.
+ * Created by mikalai on 28.10.2016.
  */
 
 @Entity
-@Table(name="departments")
-public class Department extends NamedEntity {
-
-
-
-    public Department(int id) {
+@Table(name="user_categories")
+public class Category extends NamedEntity {
+    public Category(int id) {
         setId(id);
     }
-    public Department() {
+
+    public Category() {
     }
 }

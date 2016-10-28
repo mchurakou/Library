@@ -2,7 +2,7 @@ package com.mikalai.library.dao.jpa;
 
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.ajax_json.Rule;
-import com.mikalai.library.beans.BasicEntity;
+import com.mikalai.library.beans.base.BasicEntity;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 

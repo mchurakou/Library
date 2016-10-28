@@ -12,7 +12,7 @@ $(document).ready(function(){
     	<table align="right">
     		<tr><td><s:text name="header.User" />:</td><td><s:property value="#session.user.firstName"/> <s:property value="#session.user.secondName"/></td></tr>
     		<tr><td><s:text name="header.Role" />:</td><td><s:property value="#session.user.role"/></td></tr>
-    		<tr><td><s:text name="header.Category" />:</td><td><s:property value="#session.user.category"/></td></tr>
+    		<tr><td><s:text name="header.Category" />:</td><td><s:property value="#session.user.category.name"/></td></tr>
     	</table>
     </div>
     <div class="menu">
