@@ -33,9 +33,7 @@ public class CommentDAO extends GenericDAO{
 		Comment comment = new Comment();
 		comment.setId(rs.getInt(Constants.FIELD_ID));
 		comment.setElectronicBookId(rs.getInt(Constants.FIELD_ELECTRONIC_BOOK_ID));
-		comment.setUserId(rs.getInt(Constants.FIELD_USER_ID));
-		comment.setFirstName(rs.getString(Constants.FIELD_FIRST_NAME));
-		comment.setSecondName(rs.getString(Constants.FIELD_SECOND_NAME));
+
 		comment.setDate(rs.getTimestamp(Constants.FIELD_DATE));
 		comment.setMessage(rs.getString(Constants.FIELD_MESSAGE));
 		

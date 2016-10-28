@@ -123,8 +123,8 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 		for (int i = 0;i < realBooks.size();i++){
 			RealBook realBook = realBooks.get(i);
 			Row row = new Row();
-			row.setId(realBook.getId());
-			row.setCell(new Object[]{realBook.getId(),realBook.getInventoryNumber(),realBook.getCost(),realBook.getName(),realBook.getAuthor(),realBook.getBookCategory().getName(),realBook.getPublicationPlace(),realBook.getPublicationYear(),realBook.getSize(),realBook.getLanguage().getName(),realBook.isAvailable()});
+			row.setId((int)realBook.getId());
+			row.setCell(new Object[]{realBook.getId(),realBook.getInventoryNumber(),realBook.getCost(),realBook.getBookDescription().getName(),realBook.getBookDescription().getAuthor(),realBook.getBookDescription().getBookCategory().getName(),realBook.getBookDescription().getPublicationPlace(),realBook.getBookDescription().getPublicationYear(),realBook.getBookDescription().getSize(),realBook.getBookDescription().getLanguage().getName(),realBook.isAvailable()});
 			listRows.add(row);
 		}
 		
@@ -139,7 +139,7 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 	public String prepareRealBooksForUser()  {
 		
 		User user = (User) session.get(Constants.ATTRIBUTE_USER);
-		int userCategoryId = (int)user.getCategory().getId();
+		int userCategoryId = (int)user.getUserCategory().getId();
 		Pagination pagination = null;
 		try {
 			count = realBookDAO.getCountOfRealBooksForUser(filters,userCategoryId);
@@ -157,8 +157,8 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 		for (int i = 0;i < realBooks.size();i++){
 			RealBook realBook = realBooks.get(i);
 			Row row = new Row();
-			row.setId(realBook.getId());
-			row.setCell(new Object[]{realBook.getId(),realBook.getInventoryNumber(),realBook.getCost(),realBook.getName(),realBook.getAuthor(),realBook.getBookCategory().getName(),realBook.getPublicationPlace(),realBook.getPublicationYear(),realBook.getSize(),realBook.getLanguage().getName(),realBook.isAvailable()});
+			row.setId((int)realBook.getId());
+			row.setCell(new Object[]{realBook.getId(),realBook.getInventoryNumber(),realBook.getCost(),realBook.getBookDescription().getName(),realBook.getBookDescription().getAuthor(),realBook.getBookDescription().getBookCategory().getName(),realBook.getBookDescription().getPublicationPlace(),realBook.getBookDescription().getPublicationYear(),realBook.getBookDescription().getSize(),realBook.getBookDescription().getLanguage().getName(),realBook.isAvailable()});
 			listRows.add(row);
 		}
 		

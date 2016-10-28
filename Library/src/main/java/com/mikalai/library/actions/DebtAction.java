@@ -201,8 +201,8 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 		for (int i = 0;i < debts.size();i++){
 			Debt debt = debts.get(i);
 			Row row = new Row();
-			row.setId(debt.getId());
-			row.setCell(new Object[]{debt.getId(),debt.getBehind(),debt.getStartPeriod(),debt.getEndPeriod(),debt.getInventoryNumber(),debt.getName(),debt.getAuthor(),debt.getCost()});
+			row.setId((int)debt.getId());
+			row.setCell(new Object[]{debt.getId(),debt.getBehind(),debt.getStartPeriod(),debt.getEndPeriod(),debt.getRealBook().getInventoryNumber(),debt.getRealBook().getBookDescription().getName(),debt.getRealBook().getBookDescription().getAuthor(),debt.getRealBook().getCost()});
 			listRows.add(row);
 		}
 		
@@ -232,8 +232,8 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 		for (int i = 0;i < debts.size();i++){
 			Debt debt = debts.get(i);
 			Row row = new Row();
-			row.setId(debt.getId());
-			row.setCell(new Object[]{debt.getId(),debt.getBehind(),debt.getStartPeriod(),debt.getEndPeriod(),debt.getInventoryNumber(),debt.getName(),debt.getAuthor(),debt.getCost(),debt.getLogin(),debt.getFirstName(),debt.getSecondName(),debt.getEmail(),debt.getDepartmentId(),debt.getDivisionId()});
+			row.setId((int)debt.getId());
+			row.setCell(new Object[]{debt.getId(),debt.getBehind(),debt.getStartPeriod(),debt.getEndPeriod(),debt.getRealBook().getInventoryNumber(),debt.getRealBook().getBookDescription().getName(),debt.getRealBook().getBookDescription().getAuthor(),debt.getRealBook().getCost(),debt.getUser().getLogin(),debt.getUser().getFirstName(),debt.getUser().getSecondName(),debt.getUser().getEmail(),debt.getUser().getDivision().getDepartment().getId(),debt.getUser().getDivision().getId()});
 			listRows.add(row);
 		}
 		

@@ -9,7 +9,7 @@ import com.mikalai.library.beans.dictionary.Role;
 import com.mikalai.library.dao.DepartmentDAO;
 import com.mikalai.library.dao.DivisionDAO;
 import com.mikalai.library.dao.UserDAO;
-import com.mikalai.library.service.UserService;
+import com.mikalai.library.service.user.UserService;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;
@@ -281,7 +281,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 				divisionId = user.getDivision().getId();
 				departmentId = user.getDivision().getDepartment().getId();
 			}
-			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole(),user.getCategory().getId(),departmentId,divisionId});
+			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole(),user.getUserCategory().getId(),departmentId,divisionId});
 			listRows.add(row);
 		}
 		
@@ -312,7 +312,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 			User user = users.get(i);
 			Row row = new Row();
 			row.setId((int) user.getId());
-			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole(), user.getCategory().getId(),user.isHaveDebt(),(int) user.getDivision().getDepartment().getId(),user.getDivision().getId()});
+			row.setCell(new Object[]{user.getId(),user.getLogin(),user.getFirstName(),user.getSecondName(),user.getEmail(),user.getRole(), user.getUserCategory().getId(),user.getDebts().isEmpty(),(int) user.getDivision().getDepartment().getId(),user.getDivision().getId()});
 			listRows.add(row);
 		}
 		
@@ -330,7 +330,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		boolean success = true;
 		try {
 			if (oper.equals(Constants.OPERATION_DELETE)) //delete
-				success = userDAO.deleteUser(id);
+				success = userService.deleteUser(id);
 			if (oper.equals(Constants.OPERATION_EDIT)) //edit
 				userDAO.editUser(id, firstName, secondName, email, roleId, categoryId,divisionId);
 		} catch (Exception e) {

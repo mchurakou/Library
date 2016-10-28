@@ -26,22 +26,10 @@ public class DebtDAO extends GenericDAO {
 	private static Debt extractDebt(ResultSet rs) throws SQLException{
 		Debt debt = new Debt();
 		debt.setId(rs.getInt(Constants.FIELD_ID));
-		debt.setBehind(rs.getString(Constants.FIELD_BEHIND));
-		debt.setInventoryNumber(rs.getInt(Constants.FIELD_INVENTORY_NUMBER));
+
 		debt.setStartPeriod(rs.getTimestamp(Constants.FIELD_START_PERIOD));
 		debt.setEndPeriod(rs.getTimestamp(Constants.FIELD_END_PERIOD));
-		debt.setName(rs.getString(Constants.FIELD_NAME));
-		debt.setAuthor(rs.getString(Constants.FIELD_AUTHOR));
-		debt.setCost(rs.getInt(Constants.FIELD_COST));
-		
-		debt.setUserId(rs.getInt(Constants.FIELD_USER_ID));
-		debt.setLogin(rs.getString(Constants.FIELD_LOGIN));
-		debt.setFirstName(rs.getString(Constants.FIELD_FIRST_NAME));
-		debt.setSecondName(rs.getString(Constants.FIELD_SECOND_NAME));
-		debt.setEmail(rs.getString(Constants.FIELD_EMAIL));
-		
-		debt.setDepartmentId(rs.getInt(Constants.FIELD_DEPARTMENT_ID));
-		debt.setDivisionId(rs.getInt(Constants.FIELD_DIVISION_ID));
+
 		return debt;
 	}
 	

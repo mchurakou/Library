@@ -42,15 +42,13 @@ public class ElectronicBookDAO extends GenericDAO {
 		SimpleBean bookCategory =  new SimpleBean();
 		bookCategory.setId(rs.getInt(Constants.FIELD_BOOK_CATEGORIES_ID));
 		bookCategory.setName(rs.getString(Constants.FIELD_BOOK_CATEGORY));
-		electronicBook.setBookCategory(bookCategory);
 		electronicBook.setPublicationPlace(rs.getString(Constants.FIELD_PUBLICATION_PLACE));
 		electronicBook.setPublicationYear(rs.getInt(Constants.FIELD_PUBLICATION_YEAR));
 		electronicBook.setSize(rs.getInt(Constants.FIELD_SIZE));
 		SimpleBean language =  new SimpleBean();
 		language.setId(rs.getInt(Constants.FIELD_LANGUAGE_ID));
 		language.setName(rs.getString(Constants.FIELD_LANGUAGE));
-		electronicBook.setLanguage(language);
-				
+
 		return electronicBook;
 	}
 	
@@ -254,7 +252,6 @@ public class ElectronicBookDAO extends GenericDAO {
 				s.setInt(1, electronicBookId);
 				
 				ResultSet rs=s.executeQuery();
-				int i = 0;
 				while (rs.next()){
 					result.add(rs.getInt(Constants.FIELD_USER_CATEGORIES_ID));
 				}

@@ -1,8 +1,9 @@
-package com.mikalai.library.service;
+package com.mikalai.library.service.user;
 
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.User;
-import com.mikalai.library.dao.jpa.UserDAOI;
+import com.mikalai.library.dao.jpa.user.UserDAOI;
+import com.mikalai.library.service.base.BasicServiceImpl;
 import com.mikalai.library.utils.Pagination;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +16,10 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserService extends BasicService<User, UserDAOI> {
+public class UserServiceImpl extends BasicServiceImpl<User, UserDAOI> implements UserService {
 
+
+    @Override
     public boolean add(User user){
         if(dao.getUser(user.getLogin()) != null){
             return false;
@@ -28,7 +31,7 @@ public class UserService extends BasicService<User, UserDAOI> {
 
     }
 
-
+    @Override
     public User getUser(String login, String password){
         return dao.getUser(login, password);
     }
@@ -40,6 +43,7 @@ public class UserService extends BasicService<User, UserDAOI> {
      * @return list of users
      *
      */
+    @Override
     public List<User> getActiveUsersForTable(Pagination pagination, Filter filter){
         return dao.getActiveUsersForTable(pagination, filter);
     }
@@ -49,8 +53,14 @@ public class UserService extends BasicService<User, UserDAOI> {
      * @return count
      *
      */
+    @Override
     public int getCountOfActiveUsers(){
         return dao.getCountOfActiveUsers();
+    }
+
+    @Override
+    public boolean deleteUser(int id) {
+        return dao.deleteUser(id);
     }
 
 

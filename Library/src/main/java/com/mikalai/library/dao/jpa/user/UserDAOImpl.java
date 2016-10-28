@@ -1,7 +1,9 @@
-package com.mikalai.library.dao.jpa;
+package com.mikalai.library.dao.jpa.user;
 
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.User;
+import com.mikalai.library.dao.jpa.base.GenericDAOImpl;
+import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 
 import org.apache.logging.log4j.Logger; import org.apache.logging.log4j.LogManager;
@@ -11,6 +13,10 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -76,8 +82,6 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAOI 
 
         c.select(root);
 
-
-
         Path f = root.get("role");
 
         Predicate[] predicates = new Predicate[1];
@@ -90,12 +94,30 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAOI 
         }
         predicates[predicates.length - 1] = predicate;
 
-
-
-
         c.where(cb.and(predicates));
 
         TypedQuery tq = getTypedQueryWithFilterAndPagination(pagination, cb, c, root);
         return tq.getResultList();
+    }
+
+    /**
+     * delete user
+     * @param id of user
+     * @throws Exception
+     *
+     */
+    @Override
+    public boolean deleteUser(long id) {
+        User user = findById(id);
+        boolean result = false;
+
+        if (user.getDebts().isEmpty() && user.getComments().isEmpty() && user.getQueues().isEmpty()){
+            remove(user);
+            result = true;
+        }
+
+
+        return result;
+
     }
 }

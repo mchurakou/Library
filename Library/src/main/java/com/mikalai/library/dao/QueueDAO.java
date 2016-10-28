@@ -29,11 +29,6 @@ public class QueueDAO extends GenericDAO{
 	private static Queue extractQueue(ResultSet rs) throws SQLException{
 		Queue queue = new Queue();
 		queue.setId(rs.getInt(Constants.FIELD_ID));
-		queue.setUserId(rs.getInt(Constants.FIELD_USER_ID));
-		queue.setLogin(rs.getString(Constants.FIELD_LOGIN));
-		queue.setFirstName(rs.getString(Constants.FIELD_FIRST_NAME));
-		queue.setSecondName(rs.getString(Constants.FIELD_SECOND_NAME));
-		queue.setEmail(rs.getString(Constants.FIELD_EMAIL));
 		queue.setRealBookId(rs.getInt(Constants.FIELD_REAL_BOOK_ID));
 		queue.setDate(rs.getTimestamp(Constants.FIELD_DATE));
 		return queue;

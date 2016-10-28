@@ -1,4 +1,4 @@
-package com.mikalai.library.dao.jpa;
+package com.mikalai.library.dao.jpa.base;
 
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.utils.Pagination;
@@ -14,7 +14,7 @@ public interface GenericDAO<T, ID> {
     List<T> getListForTable(Pagination pagination, Filter filter);
     T save(T instance);
 
-
+    void remove(T t);
 
     T findById(ID id);
     T findById(ID id, LockModeType lockModeType);
@@ -22,8 +22,6 @@ public interface GenericDAO<T, ID> {
     List<T> findAll() ;
     Long getCount();
 
-
-    void makeTransient(T instance);
     void checkVersion(T entity, boolean forceUpdate);
 
 

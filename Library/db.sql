@@ -392,19 +392,6 @@ BEGIN
 END
 GO
 
-DROP FUNCTION can_delete_user
-Go
-CREATE FUNCTION can_delete_user (@id int)
-RETURNS INT
-AS
-BEGIN
-	IF EXISTS(SELECT * FROM debts WHERE debts.userId=@id) OR
-       EXISTS(SELECT * FROM comments WHERE comments.userId=@id) OR
-	   EXISTS(SELECT * FROM queues WHERE queues.userId=@id) 
-	   RETURN 0
-	RETURN 1
-END
-GO
 
 DROP FUNCTION can_delete_real_book
 Go

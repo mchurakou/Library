@@ -121,7 +121,7 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 		for (int i = 0;i < bookDescriptions.size();i++){
 			BookDescription bookDescription = bookDescriptions.get(i);
 			Row row = new Row();
-			row.setId(bookDescription.getId());
+			row.setId((int)bookDescription.getId());
 			row.setCell(new Object[]{bookDescription.getId(),bookDescription.getName(),bookDescription.getAuthor(),bookDescription.getBookCategory().getId(),bookDescription.getPublicationPlace(),bookDescription.getPublicationYear(),bookDescription.getSize(),bookDescription.getLanguage().getId()});
 			listRows.add(row);
 		}

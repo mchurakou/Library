@@ -92,7 +92,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 	 */
 	public String prepareElectronicBooks()  {
 		User user = (User) session.get(Constants.ATTRIBUTE_USER);
-		int userCategoryId = (int)user.getCategory().getId();
+		int userCategoryId = (int)user.getUserCategory().getId();
 		
 		Pagination pagination = null;
 		try {
@@ -111,7 +111,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 		for (int i = 0;i < electronicBooks.size();i++){
 			ElectronicBook electronicBook = electronicBooks.get(i);
 			Row row = new Row();
-			row.setId(electronicBook.getId());
+			row.setId((int)electronicBook.getId());
 			row.setCell(new Object[]{electronicBook.getId(),electronicBook.getFileName(),electronicBook.getCapacity(),electronicBook.getExtension(),electronicBook.getName(),electronicBook.getAuthor(),electronicBook.getBookCategory().getName(),electronicBook.getSize(),electronicBook.getLanguage().getName()});
 			listRows.add(row);
 		}
@@ -185,7 +185,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 	 */
 	public String prepareElectronicBooksForUser()  {
 		User user = (User) session.get(Constants.ATTRIBUTE_USER);
-		int userCategoryId = (int) user.getCategory().getId();
+		int userCategoryId = (int) user.getUserCategory().getId();
 		
 		Pagination pagination = null;
 		try {
@@ -204,7 +204,7 @@ public class ElectronicBookAction extends ActionSupport implements SessionAware,
 		for (int i = 0;i < electronicBooks.size();i++){
 			ElectronicBook electronicBook = electronicBooks.get(i);
 			Row row = new Row();
-			row.setId(electronicBook.getId());
+			row.setId((int)electronicBook.getId());
 			row.setCell(new Object[]{electronicBook.getId(),electronicBook.getFileName(),electronicBook.getCapacity(),electronicBook.getExtension(),electronicBook.getName(),electronicBook.getAuthor(),electronicBook.getBookCategory().getName(),electronicBook.getSize(),electronicBook.getLanguage().getName()});
 			listRows.add(row);
 		}

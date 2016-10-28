@@ -35,14 +35,12 @@ public class BookDescriptionDAO extends GenericDAO {
 		SimpleBean bookCategory =  new SimpleBean();
 		bookCategory.setId(rs.getInt(Constants.FIELD_BOOK_CATEGORIES_ID));
 		bookCategory.setName(rs.getString(Constants.FIELD_BOOK_CATEGORY));
-		bookDescription.setBookCategory(bookCategory);
 		bookDescription.setPublicationPlace(rs.getString(Constants.FIELD_PUBLICATION_PLACE));
 		bookDescription.setPublicationYear(rs.getInt(Constants.FIELD_PUBLICATION_YEAR));
 		bookDescription.setSize(rs.getInt(Constants.FIELD_SIZE));
 		SimpleBean language =  new SimpleBean();
 		language.setId(rs.getInt(Constants.FIELD_LANGUAGE_ID));
 		language.setName(rs.getString(Constants.FIELD_LANGUAGE));
-		bookDescription.setLanguage(language);
 		return bookDescription;
 	}
 	

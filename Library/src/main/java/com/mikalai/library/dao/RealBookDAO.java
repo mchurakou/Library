@@ -31,23 +31,16 @@ public class RealBookDAO  extends GenericDAO{
 	private static RealBook extractRealBook(ResultSet rs) throws SQLException{
 		RealBook realBook = new RealBook();
 		realBook.setId(rs.getInt(Constants.FIELD_ID));
-		realBook.setBookDescriptionId(rs.getInt(Constants.FIELD_BOOK_DESCRIPTION_ID));
 		realBook.setInventoryNumber(rs.getInt(Constants.FIELD_INVENTORY_NUMBER));
 		realBook.setCost(rs.getInt(Constants.FIELD_COST));
-		realBook.setName(rs.getString(Constants.FIELD_NAME));
-		realBook.setAuthor(rs.getString(Constants.FIELD_AUTHOR));
+
 		SimpleBean bookCategory =  new SimpleBean();
 		bookCategory.setId(rs.getInt(Constants.FIELD_BOOK_CATEGORIES_ID));
 		bookCategory.setName(rs.getString(Constants.FIELD_BOOK_CATEGORY));
-		realBook.setBookCategory(bookCategory);
-		realBook.setPublicationPlace(rs.getString(Constants.FIELD_PUBLICATION_PLACE));
-		realBook.setPublicationYear(rs.getInt(Constants.FIELD_PUBLICATION_YEAR));
-		realBook.setSize(rs.getInt(Constants.FIELD_SIZE));
 		SimpleBean language =  new SimpleBean();
 		language.setId(rs.getInt(Constants.FIELD_LANGUAGE_ID));
 		language.setName(rs.getString(Constants.FIELD_LANGUAGE));
-		realBook.setLanguage(language);
-		
+
 		realBook.setAvailable(rs.getBoolean(Constants.FIELD_AVAILABLE));
 		return realBook;
 	}

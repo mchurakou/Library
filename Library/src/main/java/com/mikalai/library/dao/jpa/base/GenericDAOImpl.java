@@ -1,8 +1,9 @@
-package com.mikalai.library.dao.jpa;
+package com.mikalai.library.dao.jpa.base;
 
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.ajax_json.Rule;
 import com.mikalai.library.beans.base.BasicEntity;
+import com.mikalai.library.dao.jpa.base.GenericDAO;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 
@@ -173,7 +174,8 @@ public abstract class GenericDAOImpl<T extends BasicEntity, ID extends Serializa
         return em.createQuery(c).getSingleResult();
     }
 
-    public void makeTransient(T instance) {
+    @Override
+    public void remove(T instance) {
         em.remove(instance);
     }
 

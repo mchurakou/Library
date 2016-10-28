@@ -6,6 +6,7 @@ import com.mikalai.library.beans.dictionary.Role;
 import com.mikalai.library.utils.Constants;
 
 import javax.persistence.*;
+import java.util.*;
 
 /**
  * Class contain information about user
@@ -18,7 +19,7 @@ import javax.persistence.*;
 @NamedQueries({
 		@NamedQuery(
 				name =  "User.login",
-				query = "select u from User u join fetch u.category c join fetch u.division d join fetch d.department  " +
+				query = "select u from User u join fetch u.userCategory c left join fetch u.division d left join fetch d.department  " +
                         "where u.login = :login and u.password = :password"
 		),
 
@@ -51,38 +52,38 @@ public class User extends BasicEntity {
 
 	@ManyToOne
 	@JoinColumn(name="categoryId")
-	private Category category;
-
-	@Transient
-	private boolean haveDebt;
-
+	private UserCategory userCategory;
 
 	@ManyToOne
 	@JoinColumn(name="divisionId")
 	private Division division;
 
+	@OneToMany(mappedBy="user")
+	private List<Debt> debts;
+
+	@OneToMany(mappedBy="user")
+	private List<Comment> comments;
+
+
+	@OneToMany(mappedBy="user")
+	private List<Queue> queues;
+
+
+
 	public User(String login, String password, String firstName,
-			String secondName, String email,int divisionId) {
+				String secondName, String email, int divisionId) {
 		this.login = login;
 		this.password = password;
 		this.firstName = firstName;
 		this.secondName = secondName;
 		this.email = email;
 		this.role = Role.NEW;
-		this.category = new Category(Constants.CATEGORY_STUDENT);
+		this.userCategory = new UserCategory(Constants.CATEGORY_STUDENT);
 
 		this.division = new Division(divisionId);
 
 	}
 	public User() {
-	}
-
-	public boolean isHaveDebt() {
-		return haveDebt;
-	}
-
-	public void setHaveDebt(boolean haveDebt) {
-		this.haveDebt = haveDebt;
 	}
 
 	public String getLogin() {
@@ -141,12 +142,38 @@ public class User extends BasicEntity {
 		this.division = division;
 	}
 
-	public Category getCategory() {
-		return category;
+	public UserCategory getUserCategory() {
+		return userCategory;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setUserCategory(UserCategory userCategory) {
+		this.userCategory = userCategory;
+	}
+
+	public List<Debt> getDebts() {
+		return debts;
+	}
+
+	public void setDebts(List<Debt> debts) {
+		this.debts = debts;
+	}
+
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+
+	public List<Queue> getQueues() {
+		return queues;
+	}
+
+	public void setQueues(List<Queue> queues) {
+		this.queues = queues;
 	}
 	
 }

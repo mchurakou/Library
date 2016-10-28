@@ -1,37 +1,61 @@
 package com.mikalai.library.beans;
+
+import com.mikalai.library.beans.base.BasicEntity;
+import com.mikalai.library.beans.base.NamedEntity;
+
+import javax.persistence.*;
+
 /**
  * Class contain information about real book
  * 
  * @author Mikalai_Churakou
  */
-public class RealBook extends BookDescription{
-	private int bookDescriptionId;
+
+@Entity
+@Table(name="real_books")
+public class RealBook extends BasicEntity {
+	@ManyToOne
+	@JoinColumn(name="bookDescriptionId")
+	private BookDescription bookDescription;
 	private int inventoryNumber;
 	private int cost;
+
+	@Transient
 	private boolean available;
-	public boolean isAvailable() {
-		return available;
+
+	public BookDescription getBookDescription() {
+		return bookDescription;
 	}
-	public void setAvailable(boolean available) {
-		this.available = available;
+
+	public void setBookDescription(BookDescription bookDescription) {
+		this.bookDescription = bookDescription;
 	}
-	public int getBookDescriptionId() {
-		return bookDescriptionId;
-	}
-	public void setBookDescriptionId(int bookDescriptionId) {
-		this.bookDescriptionId = bookDescriptionId;
-	}
+
 	public int getInventoryNumber() {
 		return inventoryNumber;
 	}
+
 	public void setInventoryNumber(int inventoryNumber) {
 		this.inventoryNumber = inventoryNumber;
 	}
+
 	public int getCost() {
 		return cost;
 	}
+
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+
+
+
 
 }

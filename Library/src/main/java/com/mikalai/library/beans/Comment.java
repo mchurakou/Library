@@ -3,50 +3,34 @@ package com.mikalai.library.beans;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import com.mikalai.library.beans.base.BasicEntity;
 import com.mikalai.library.utils.Constants;
+
+import javax.persistence.*;
 
 /**
  * Class contain information about comment
  * 
  * @author Mikalai_Churakou
  */
-public class Comment {
-	private int id;
-	private long userId;
-	private String firstName;
-	private String secondName;
-	
+
+@Entity
+@Table(name="comments")
+public class Comment extends BasicEntity {
+
+
+	@ManyToOne
+	@JoinColumn(name="userId")
+	private User user;
+
+
+	@Transient
 	SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_FORMAT);
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getSecondName() {
-		return secondName;
-	}
-	public void setSecondName(String secondName) {
-		this.secondName = secondName;
-	}
+
 	private int electronicBookId;
 	private Timestamp date;
 	private String message;
-	public Comment() {
-		super();
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public long getUserId() {
-		return userId;
-	}
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+
 	public int getElectronicBookId() {
 		return electronicBookId;
 	}
@@ -64,6 +48,14 @@ public class Comment {
 	}
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 

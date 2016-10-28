@@ -124,7 +124,7 @@ public class Constants {
 	public static final String DATE_FORMAT_REPORT = "dd.MM.yyyy";
 
 
-	public static int CATEGORY_STUDENT = 1;
+	public static long CATEGORY_STUDENT = 1;
 	
 	
 }

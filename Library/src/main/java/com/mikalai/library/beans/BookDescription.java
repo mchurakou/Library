@@ -1,63 +1,44 @@
 package com.mikalai.library.beans;
+
+import com.mikalai.library.beans.base.NamedEntity;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * Class contain information about book
  * 
  * @author Mikalai_Churakou
  */
-public class BookDescription {
-	private int id;
-	private String name;
+
+@Entity
+@Table(name="book_descriptions")
+public class BookDescription extends NamedEntity {
 	private String author;
-	private SimpleBean bookCategory;
+
+
+	@ManyToOne
+	@JoinColumn(name="bookCategoryId")
+	private BookCategory bookCategory;
+
+
+	@ManyToOne
+	@JoinColumn(name="languageId")
+	private Language language;
+
 	
 	private String publicationPlace;
 	private int publicationYear;
 	private int size;
-	private SimpleBean language;
-	
-	
-	
-	
-	public BookDescription() {
-		super();
-		
-	}
-	public BookDescription(int id, String name, String author,
-			SimpleBean bookCategory, String publicationPlace,
-			int publicationYear, int size, SimpleBean language) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.author = author;
-		this.bookCategory = bookCategory;
-		this.publicationPlace = publicationPlace;
-		this.publicationYear = publicationYear;
-		this.size = size;
-		this.language = language;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+
+
 	public String getAuthor() {
 		return author;
 	}
 	public void setAuthor(String author) {
 		this.author = author;
-	}
-	public SimpleBean getBookCategory() {
-		return bookCategory;
-	}
-	public void setBookCategory(SimpleBean bookCategory) {
-		this.bookCategory = bookCategory;
 	}
 	public String getPublicationPlace() {
 		return publicationPlace;
@@ -77,10 +58,20 @@ public class BookDescription {
 	public void setSize(int size) {
 		this.size = size;
 	}
-	public SimpleBean getLanguage() {
+
+	public BookCategory getBookCategory() {
+		return bookCategory;
+	}
+
+	public void setBookCategory(BookCategory bookCategory) {
+		this.bookCategory = bookCategory;
+	}
+
+	public Language getLanguage() {
 		return language;
 	}
-	public void setLanguage(SimpleBean language) {
+
+	public void setLanguage(Language language) {
 		this.language = language;
 	}
 	
