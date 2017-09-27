@@ -20,13 +20,13 @@
     </appender>
 
     <root>
-        <level value="ERROR" />
+        <level value="INFO" />
         <appender-ref ref="file" />
         <appender-ref ref="console" />
     </root>
 
     <logger name="com.opensymphony.xwork2" >
-        <level value="INFO" />
+        <level value="DEBUG" />
         <appender-ref ref="console" />
         <appender-ref ref="file" />
     </logger>
@@ -49,11 +49,20 @@
         <appender-ref ref="file" />
     </logger>
 
-    <logger name="org.springframework.beans.factory" >
+    <logger name="org.springframework.beans.factory" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+    </logger>
+
+    <logger name="org.springframework.boot.web.servlet" additivity="false" >
         <level value="DEBUG" />
         <appender-ref ref="console" />
         <appender-ref ref="file" />
     </logger>
+
+
+
 
     <logger name="com.mikalai.library" additivity="false">
         <level value="INFO" />

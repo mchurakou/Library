@@ -1,15 +1,13 @@
 package com.mikalai.library.beans;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 /**
  * Created by mikalai on 24.04.2016.
  */
 
 @MappedSuperclass
+@Access(value = AccessType.FIELD)
 public class BasicEntity {
 
     @Id

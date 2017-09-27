@@ -1,0 +1,16 @@
+table.realBook input{
+	width:110px;
+}
+
+.information, .error {
+	width:100%;
+	max-width: 168px;
+}
+
+.notSelected{
+	color:red;
+}
+
+.selected{
+	color:green;
+}

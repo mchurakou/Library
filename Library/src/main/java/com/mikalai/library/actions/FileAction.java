@@ -9,7 +9,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import org.apache.log4j.Logger;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,7 +20,7 @@ import java.io.InputStream;
 public class FileAction extends ActionSupport {
 	private static final Logger LOG = Logger.getLogger(FileAction.class);
 	private static final long serialVersionUID = 1L;
-	@Inject
+	@Autowired
 	private ElectronicBookDAO electronicBookDAO;
 	private int bookDescriptionId;
 	private int id;

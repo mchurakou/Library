@@ -17,7 +17,7 @@
 	</definition>
 
 	<definition name="tiles_login" extends="base">
-		<put-attribute name="head" value="/WEB-INF/view/login_head.tile" />
+		<put-attribute name="head" value="/WEB-INF/view/login_head.jsp" />
 		<put-attribute name="navigation" value="" />
 		<put-attribute name="topBlock" value="" />
 		<put-attribute name="middleBlock" value="/WEB-INF/view/login.jsp" />
@@ -25,7 +25,7 @@
 	</definition>
 	
 	<definition name="tiles_registration" extends="base">
-		<put-attribute name="head" value="/WEB-INF/view/login_head.tile" />
+		<put-attribute name="head" value="/WEB-INF/view/login_head.jsp" />
 		<put-attribute name="navigation" value="" />
 		<put-attribute name="topBlock" value="" />
 		<put-attribute name="middleBlock" value="/WEB-INF/view/registration.jsp" />
@@ -33,7 +33,7 @@
 	</definition>
 		
 	<definition name="tiles_profile" extends="base">
-		<put-attribute name="head" value="/WEB-INF/view/menu_head.tile" />
+		<put-attribute name="head" value="/WEB-INF/view/menu_head.jsp" />
 		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
 		<put-attribute name="topBlock" value="" />
 		<put-attribute name="middleBlock" value="/WEB-INF/view/profile.jsp" />
@@ -57,7 +57,7 @@
 	</definition>
 	
 	<definition name="tiles_information" extends="base">
-		<put-attribute name="head" value="/WEB-INF/view/menu_head.tile" />
+		<put-attribute name="head" value="/WEB-INF/view/menu_head.jsp" />
 		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
 		<put-attribute name="topBlock" value="" />
 		<put-attribute name="middleBlock" value="/WEB-INF/view/information.jsp" />
@@ -129,7 +129,7 @@
 	</definition>
 	
 	<definition name="tiles_statistic" extends="base">
-		<put-attribute name="head" value="/WEB-INF/view/statistic_head.tile" />
+		<put-attribute name="head" value="/WEB-INF/view/statistic_head.jsp" />
 		<put-attribute name="navigation" value="/WEB-INF/view/header.jsp" />
 		<put-attribute name="topBlock" value="" />
 		<put-attribute name="middleBlock" value="/WEB-INF/view/statistic.jsp" />

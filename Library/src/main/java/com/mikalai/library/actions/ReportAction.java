@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.StrutsStatics;
 import org.apache.struts2.interceptor.RequestAware;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.ServletContext;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -34,7 +34,7 @@ public class ReportAction  extends ActionSupport implements RequestAware{
 	private static final Logger LOG = Logger.getLogger(ReportAction.class);
 	SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_FORMAT_REPORT);
 	List<LibrarianReportRecord> records;
-	@Inject
+	@Autowired
 	private ReportDAO reportDAO;
 	private ActionContext ac = ActionContext.getContext();
 	private ServletContext sc =  (ServletContext)ac.get(StrutsStatics.SERVLET_CONTEXT);

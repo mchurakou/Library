@@ -18,9 +18,8 @@ import com.opensymphony.xwork2.ActionSupport;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.ejb.EJB;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,16 +33,16 @@ import java.util.Map;
 public class UserAction extends ActionSupport implements SessionAware, RequestAware{
 	private static final Logger LOG = Logger.getLogger(UserAction.class);
 
-	@Inject
+	@Autowired
 	private UserDAO userDAO;
 
-	@Inject
+	@Autowired
 	private DivisionDAO divisionDAO;
 
-	@Inject
+	@Autowired
 	private DepartmentDAO departmentDAO;
 
-	@EJB
+	@Autowired
 	private UserService userService;
 
 	private String login;

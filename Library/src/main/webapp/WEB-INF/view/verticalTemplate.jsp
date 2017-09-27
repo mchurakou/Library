@@ -9,7 +9,7 @@
 	
 	<link href="css/base.css" rel="stylesheet" />
 	<link type="text/css" href="css/jquery-ui-1.8.5.custom.css" rel="stylesheet" />
-	<link type="text/css" href="css/jquery.alerts.css" rel="stylesheet" />	
+	<link type="text/css" href="css/jquery.alerts.css" rel="stylesheet" />
 	<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.8.5.custom.min.js"></script>
 	<script type="text/javascript" src="js/jquery.alerts.js"></script>

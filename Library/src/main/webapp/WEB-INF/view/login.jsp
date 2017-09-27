@@ -21,7 +21,7 @@
 			</div>
 		</s:if>
 	</center>
-	<form action="loginConfirm" method="Post" onSubmit="return check();">
+	<form action="loginConfirm.action" method="Post" onSubmit="return check();">
 	<table align="center">
 		<tr><td><s:text name="login.Login" />:</td><td><input id="login" name="login" value="<s:property value="login"/>"/></td></tr>
 		<tr><td><s:text name="login.Password" />:</td><td><input type="password" id="password" name="password"/></td></tr>

@@ -13,7 +13,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +28,9 @@ public class CommentAction extends ActionSupport  implements SessionAware{
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	@Inject
+	@Autowired
 	private ElectronicBookDAO electronicBookDAO;
-	@Inject
+	@Autowired
 	private CommentDAO commentDAO;
 	private int electronicBookId;
 	private ElectronicBook electronicBook;

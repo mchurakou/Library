@@ -14,7 +14,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,7 @@ public class QueueAction extends ActionSupport implements SessionAware{
 	 *
 	 */
 	private static final long serialVersionUID = -8358452265769880826L;
-	@Inject
+	@Autowired
 	private QueueDAO queueDAO;
 	private Map<String, Object> session;
 	private AjaxResult result;

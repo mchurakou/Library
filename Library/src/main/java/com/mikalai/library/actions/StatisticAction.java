@@ -8,7 +8,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,7 @@ public class StatisticAction extends ActionSupport implements  RequestAware{
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	@Inject
+	@Autowired
 	private StatisticDAO statisticDAO;
 	private String error;
 	
