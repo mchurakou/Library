@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,15 +43,15 @@ public class DebtAction extends ActionSupport implements RequestAware, SessionAw
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	@Inject
+	@Autowired
 	private UserDAO userDAO;
-	@Inject
+	@Autowired
 	private QueueDAO queueDAO;
-	@Inject
+	@Autowired
 	private DivisionDAO divisionDAO;
-	@Inject
+	@Autowired
 	private DepartmentDAO departmentDAO;
-	@Inject
+	@Autowired
 	private DebtDAO debtDAO;
 	private AjaxResult result;
 	private int realBookId;

@@ -4,7 +4,7 @@ import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.dao.jpa.GenericDAO;
 import com.mikalai.library.utils.Pagination;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public abstract class BasicService<T, S extends GenericDAO> {
-    @Inject
+    @Autowired
     protected S dao;
 
     public Long getCount(Filter filter) {

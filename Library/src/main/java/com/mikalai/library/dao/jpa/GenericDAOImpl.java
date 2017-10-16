@@ -20,7 +20,7 @@ import java.util.List;
 public abstract class GenericDAOImpl<T extends BasicEntity, ID extends Serializable> implements GenericDAO<T, ID> {
     protected final Class<T> entityClass;
 
-    //@Inject
+    //@Autowired
     //@Autowired
     @PersistenceContext
     protected EntityManager em;

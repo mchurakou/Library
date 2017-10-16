@@ -16,8 +16,9 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class BookDescriptionAction extends ActionSupport implements RequestAware
 	 */
 	private static final long serialVersionUID = 1L;
 	Logger LOG = Logger.getLogger(BookDescriptionAction.class);
-	@Inject
+	@Autowired
 	private BookDescriptionDAO bookDescriptionDAO;
 	private AjaxResult result;
 	private AjaxTableResult tableResult;

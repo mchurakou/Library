@@ -30,7 +30,7 @@ public class Application{
         StrutsPrepareAndExecuteFilter struts = new StrutsPrepareAndExecuteFilter();
         registrationBean.setFilter(struts);
         registrationBean.setOrder(1);
-        registrationBean.setUrlPatterns(Arrays.asList("/*.action"));
+        registrationBean.setUrlPatterns(Arrays.asList("*.action"));
 
         return registrationBean;
     }

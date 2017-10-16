@@ -14,7 +14,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,15 +30,15 @@ public class HandBookAction extends ActionSupport implements RequestAware{
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	@Inject
+	@Autowired
 	private UserCategoryDAO userCategoryDAO;
-	@Inject
+	@Autowired
 	private LanguageDAO languageDAO;
-	@Inject
+	@Autowired
 	private DivisionDAO divisionDAO;
-	@Inject
+	@Autowired
 	private DepartmentDAO departmentDAO;
-	@Inject
+	@Autowired
 	private BookCategoryDAO bookCategoryDAO;
 	private AjaxTableResult tableResult;
 	private int count;

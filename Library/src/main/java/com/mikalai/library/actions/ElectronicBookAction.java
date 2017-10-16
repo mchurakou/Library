@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +30,11 @@ import java.util.Map;
 public class ElectronicBookAction extends ActionSupport implements SessionAware, RequestAware{
 	private static final Logger LOG = Logger.getLogger(ElectronicBookAction.class);
 	private static final long serialVersionUID = 1L;
-	@Inject
+	@Autowired
 	private UserCategoryDAO userCategoryDAO;
-	@Inject
+	@Autowired
 	private ElectronicBookDAO electronicBookDAO;
-	@Inject
+	@Autowired
 	private BookDescriptionDAO bookDescriptionDAO;
 	private List<SimpleBean> bookCategories;
 	private List<SimpleBean> languages;

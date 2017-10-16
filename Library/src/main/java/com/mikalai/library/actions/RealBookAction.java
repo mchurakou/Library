@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +32,11 @@ public class RealBookAction extends ActionSupport implements SessionAware,Reques
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	@Inject
+	@Autowired
 	private UserCategoryDAO userCategoryDAO;
-	@Inject
+	@Autowired
 	private RealBookDAO realBookDAO;
-	@Inject
+	@Autowired
 	private BookDescriptionDAO bookDescriptionDAO;
 	private AjaxResult result;
 	private AjaxTableResult tableResult;
