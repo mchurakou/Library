@@ -9,6 +9,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.Arrays;
 
@@ -16,6 +17,7 @@ import java.util.Arrays;
 @SpringBootApplication
 @ComponentScan("com.mikalai.library")
 @EntityScan("com.mikalai.library.beans")
+@EnableJpaRepositories(basePackages = "com.mikalai.library.dao.data")
 public class Application{
 
 

@@ -26,22 +26,6 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAOI 
     }
 
     @Override
-    public User getUser(String login, String password) {
-        TypedQuery<User> query = em.createNamedQuery("User.login", User.class);
-        query.setParameter("login", login);
-        query.setParameter("password", password);
-
-        User result = null;
-        try {
-            result = query.getSingleResult();
-        } catch (NoResultException e) {
-            LOG.warn("Duplicate user", e);
-        }
-        return result;
-
-    }
-
-    @Override
     public User getUser(String login) {
         TypedQuery<User> query = em.createNamedQuery("User.byLogin", User.class);
         query.setParameter("login", login);

@@ -2,8 +2,10 @@ package com.mikalai.library.service;
 
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.User;
+import com.mikalai.library.dao.data.UserRepository;
 import com.mikalai.library.dao.jpa.UserDAOI;
 import com.mikalai.library.utils.Pagination;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,10 @@ import java.util.List;
 @Service
 @Transactional
 public class UserService extends BasicService<User, UserDAOI> {
+
+
+    @Autowired
+    private UserRepository userRepository;
 
     public boolean add(User user){
         if(dao.getUser(user.getLogin()) != null){
@@ -30,7 +36,7 @@ public class UserService extends BasicService<User, UserDAOI> {
 
 
     public User getUser(String login, String password){
-        return dao.getUser(login, password);
+        return userRepository.getByLoginAndPassword(login, password);
     }
 
 

@@ -16,11 +16,6 @@ import javax.persistence.*;
 
 @NamedQueries({
 		@NamedQuery(
-				name =  "User.login",
-				query = "select u from User u where u.login = :login and u.password = :password"
-		),
-
-		@NamedQuery(
 				name =  "User.byLogin",
 				query = "select u from User u where u.login = :login"
 		),
