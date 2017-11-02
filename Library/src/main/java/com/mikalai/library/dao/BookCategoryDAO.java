@@ -12,6 +12,7 @@ import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.beans.SimpleBean;
 
 import com.mikalai.library.ajax_json.Filter;
+import org.springframework.stereotype.Repository;
 ;
 
 /**
@@ -19,6 +20,7 @@ import com.mikalai.library.ajax_json.Filter;
  * 
  * @author Mikalai_Churakou
  */
+@Repository
 public class BookCategoryDAO extends GenericDAO{
 	
 	/**

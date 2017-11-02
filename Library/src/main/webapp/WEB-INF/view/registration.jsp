@@ -11,7 +11,7 @@
 			</s:if>
 		</center>
 				
-			<form action="registrationConfirm" method="Post" onSubmit="return check();">
+			<form action="registrationConfirm.action" method="Post" onSubmit="return check();">
 			<table align="center">
 				<tr><td><s:text name="registration.Login" />*:</td><td><input id="login" name="login" value="<s:property value="login"/>"/></td></tr>
 				<tr><td><s:text name="registration.Password" />*:</td><td><input id="password" type="password" name="password"/></td></tr>
@@ -52,7 +52,7 @@
 	
 	
 			<center>
-				<a href="loginPage"><s:text name="registration.Return_To_Login"/></a>
+				<a href="loginPage.action"><s:text name="registration.Return_To_Login"/></a>
 			</center>	
 
 <script type="text/javascript">
@@ -90,7 +90,7 @@
 
 	function selectDepartment(){
 		if ($("#departmentId").val() != 0){
-			Ajax.post("prepareDivisions",{departmentId: $("#departmentId").val()}, successGetDivisions );
+			Ajax.post("prepareDivisions.action",{departmentId: $("#departmentId").val()}, successGetDivisions );
 		}			
 	}
 

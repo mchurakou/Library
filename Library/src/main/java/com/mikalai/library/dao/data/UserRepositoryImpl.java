@@ -1,13 +1,11 @@
-package com.mikalai.library.dao.jpa;
+package com.mikalai.library.dao.data;
 
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.User;
 import com.mikalai.library.utils.Pagination;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Repository;
 
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
@@ -17,26 +15,11 @@ import java.util.List;
 /**
  * Created by mikalai on 24.04.2016.
  */
-@Repository
-public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAOI {
-    private static final Logger LOG = Logger.getLogger(UserDAOImpl.class);
+public class UserRepositoryImpl extends GenericDaoImpl<User, Long> implements UserDao {
+    private static final Logger LOG = Logger.getLogger(UserRepositoryImpl.class);
 
-    public UserDAOImpl() {
+    public UserRepositoryImpl() {
         super(User.class);
-    }
-
-    @Override
-    public User getUser(String login) {
-        TypedQuery<User> query = em.createNamedQuery("User.byLogin", User.class);
-        query.setParameter("login", login);
-
-        User result = null;
-        try {
-            result = query.getSingleResult();
-        } catch (NoResultException e) {
-            LOG.warn("no user");
-        }
-        return result;
     }
 
     @Override

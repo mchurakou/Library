@@ -1,9 +1,8 @@
-package com.mikalai.library.service;
+package com.mikalai.library.service.user;
 
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.User;
 import com.mikalai.library.dao.data.UserRepository;
-import com.mikalai.library.dao.jpa.UserDAOI;
 import com.mikalai.library.utils.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,17 +16,17 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserService extends BasicService<User, UserDAOI> {
+public class UserServiceImpl implements UserService {
 
 
     @Autowired
     private UserRepository userRepository;
 
     public boolean add(User user){
-        if(dao.getUser(user.getLogin()) != null){
+        if(userRepository.getByLogin(user.getLogin()) != null){
             return false;
         } else {
-            dao.save(user);
+            userRepository.save(user);
             return true;
         }
 
@@ -47,7 +46,7 @@ public class UserService extends BasicService<User, UserDAOI> {
      *
      */
     public List<User> getActiveUsersForTable(Pagination pagination, Filter filter){
-        return dao.getActiveUsersForTable(pagination, filter);
+        return userRepository.getActiveUsersForTable(pagination, filter);
     }
 
     /**
@@ -56,8 +55,27 @@ public class UserService extends BasicService<User, UserDAOI> {
      *
      */
     public int getCountOfActiveUsers(){
-        return dao.getCountOfActiveUsers();
+        return userRepository.getCountOfActiveUsers();
+    }
+
+    @Override
+    public boolean deleteUser(long id) {
+        throw new RuntimeException("not migrated");
     }
 
 
+    @Override
+    public Long getCount(Filter filter) {
+        return userRepository.getCount(filter);
+    }
+
+    @Override
+    public List<User> getListForTable(Pagination pagination, Filter f) {
+        return userRepository.getListForTable(pagination, f);
+    }
+
+    @Override
+    public User save(User entity) {
+        return userRepository.save(entity);
+    }
 }

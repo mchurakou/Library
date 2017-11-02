@@ -4,6 +4,8 @@ import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +20,8 @@ import java.util.List;
  * 
  * @author Mikalai_Churakou
  */
+
+@Repository
 public class UserCategoryDAO extends GenericDAO {
 	
 	/**

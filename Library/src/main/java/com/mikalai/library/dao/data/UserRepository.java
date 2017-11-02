@@ -1,8 +1,9 @@
 package com.mikalai.library.dao.data;
 
 import com.mikalai.library.beans.User;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends Repository<User, Long> {
-    User getByLoginAndPassword( String login, String password);
+public interface UserRepository extends CrudRepository<User, Long>, UserDao {
+    User getByLoginAndPassword(String login, String password);
+    User getByLogin(String login);
 }

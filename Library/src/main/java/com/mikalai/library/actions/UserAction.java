@@ -9,7 +9,7 @@ import com.mikalai.library.beans.dictionary.Role;
 import com.mikalai.library.dao.DepartmentDAO;
 import com.mikalai.library.dao.DivisionDAO;
 import com.mikalai.library.dao.UserDAO;
-import com.mikalai.library.service.UserService;
+import com.mikalai.library.service.user.UserService;
 import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 import com.mikalai.library.utils.StringBuilder;

@@ -91,7 +91,7 @@ if ($("#divisionId option").length > 1)
 
 	function selectDepartment(){
 		if ($("#departmentId").val() != 0){
-			Ajax.post("prepareDivisions",{departmentId: $("#departmentId").val()}, successGetDivisions );
+			Ajax.post("prepareDivisions.action",{departmentId: $("#departmentId").val()}, successGetDivisions );
 		}			
 	}
 

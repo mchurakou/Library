@@ -16,10 +16,6 @@ import javax.persistence.*;
 
 @NamedQueries({
 		@NamedQuery(
-				name =  "User.byLogin",
-				query = "select u from User u where u.login = :login"
-		),
-		@NamedQuery(
 				name =  "User.getActiveUsers",
 				query = "select count(u) from User u where u.role not in ('NEW', 'ADMINISTRATOR')"
 		)

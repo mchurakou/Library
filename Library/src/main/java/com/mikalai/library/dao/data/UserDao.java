@@ -1,4 +1,4 @@
-package com.mikalai.library.dao.jpa;
+package com.mikalai.library.dao.data;
 
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.beans.User;
@@ -9,8 +9,7 @@ import java.util.List;
 /**
  * Created by mikalai on 24.04.2016.
  */
-public interface UserDAOI extends GenericDAO<User, Long>{
-    User getUser(String login);
+public interface UserDao extends GenericDao<User, Long> {
     int getCountOfActiveUsers();
     List<User> getActiveUsersForTable(Pagination pagination, Filter filter);
 }

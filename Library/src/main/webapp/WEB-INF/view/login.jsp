@@ -28,7 +28,7 @@
 		<tr><td><button type="submit" ><s:text name="login.Enter" /></button></td><td></td></tr>
 	</table>
 	</form>
-	<center><a href="registrationPage"><s:text name="login.Registration"/></a></center>
+	<center><a href="registrationPage.action"><s:text name="login.Registration"/></a></center>
 	
 <script type="text/javascript">
 /*check fields*/

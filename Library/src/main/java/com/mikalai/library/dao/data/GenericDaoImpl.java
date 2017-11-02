@@ -1,4 +1,4 @@
-package com.mikalai.library.dao.jpa;
+package com.mikalai.library.dao.data;
 
 import com.mikalai.library.ajax_json.Filter;
 import com.mikalai.library.ajax_json.Rule;
@@ -7,7 +7,6 @@ import com.mikalai.library.utils.Constants;
 import com.mikalai.library.utils.Pagination;
 
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
@@ -17,28 +16,18 @@ import java.util.List;
 /**
  * Created by mikalai on 24.04.2016.
  */
-public abstract class GenericDAOImpl<T extends BasicEntity, ID extends Serializable> implements GenericDAO<T, ID> {
+public abstract class GenericDaoImpl<T extends BasicEntity, ID extends Serializable> implements GenericDao<T, ID> {
     protected final Class<T> entityClass;
 
-    //@Autowired
-    //@Autowired
+
     @PersistenceContext
     protected EntityManager em;
 
-    protected GenericDAOImpl(Class<T> entityClass) {
+    protected GenericDaoImpl(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
     public void setEntityManager(EntityManager em) {
         this.em = em;
-    }
-    public T save(T instance) {
-        T res = instance;
-        if (instance.getId() != 0){
-            res= em.merge(instance);
-        } else {
-            em.persist(instance);
-        }
-        return res;
     }
 
 
@@ -149,23 +138,6 @@ public abstract class GenericDAOImpl<T extends BasicEntity, ID extends Serializa
         return tq;
     }
 
-
-    /**/
-    public T findById(ID id) {
-        return findById(id, LockModeType.NONE);
-    }
-    public T findById(ID id, LockModeType lockModeType) {
-        return em.find(entityClass, id, lockModeType);
-    }
-    public T findReferenceById(ID id) {
-        return em.getReference(entityClass, id);
-    }
-    public List<T> findAll() {
-        CriteriaQuery<T> c =
-                em.getCriteriaBuilder().createQuery(entityClass);
-        c.select(c.from(entityClass));
-        return em.createQuery(c).getResultList();
-    }
     public Long getCount() {
         CriteriaQuery<Long> c =
                 em.getCriteriaBuilder().createQuery(Long.class);
@@ -173,18 +145,4 @@ public abstract class GenericDAOImpl<T extends BasicEntity, ID extends Serializa
         return em.createQuery(c).getSingleResult();
     }
 
-    public void makeTransient(T instance) {
-        em.remove(instance);
-    }
-
-
-
-    public void checkVersion(T entity, boolean forceUpdate) {
-        em.lock(
-                entity,
-                forceUpdate
-                        ? LockModeType.OPTIMISTIC_FORCE_INCREMENT
-                        : LockModeType.OPTIMISTIC
-        );
-    }
 }
