@@ -15,12 +15,9 @@
 		<global-exception-mappings>
 			<exception-mapping exception="java.lang.Exception"	result="error" />
 		</global-exception-mappings>
-			
-		<action name="loginPage"  >
-			<result type="tiles">tiles_login</result>
-		</action>
+
 		
-		<action name="loginConfirm" class="com.mikalai.library.actions.UserAction" method="loginConfirm">
+		<action name="loginConfirm" class="com.mikalai.library.web.controller.UserController" method="loginConfirm">
 			<result name="input" type="tiles">tiles_login</result>
 			<result name="user" type="redirectAction">
 				<param name="actionName">profile</param>
@@ -34,17 +31,13 @@
 			
 		</action>
 		
-		<action name="registrationConfirm" class="com.mikalai.library.actions.UserAction" method="registrationConfirm">
+		<action name="registrationConfirm" class="com.mikalai.library.web.controller.UserController" method="registrationConfirm">
 			<result name="input" type="tiles">tiles_registration</result>
 			<result name="success" type="tiles">tiles_login</result>
 		</action>
 		
-		<action name="registrationPage" class="com.mikalai.library.actions.UserAction" method="loadDepartments">
+		<action name="registrationPage" class="com.mikalai.library.web.controller.UserController" method="loadDepartments">
 			<result type="tiles">tiles_registration</result>
-		</action>
-		
-		<action name="changeLanguage" >
-				<result type="tiles">tiles_login</result>
 		</action>
 		
 		<action name="exit"  class="com.mikalai.library.actions.ExitAction">
@@ -109,11 +102,11 @@
 			<exception-mapping exception="java.lang.Exception"	result="error" />
 		</global-exception-mappings>
 		
-		<action name="profile" class="com.mikalai.library.actions.UserAction" method="profile">
+		<action name="profile" class="com.mikalai.library.web.controller.UserController" method="profile">
 			<result name="success" type="tiles">tiles_profile</result>
 		</action>
 		
-		<action name="changeProfile" class="com.mikalai.library.actions.UserAction" method="changeProfile">
+		<action name="changeProfile" class="com.mikalai.library.web.controller.UserController" method="changeProfile">
 			<result name="success" type="tiles">tiles_profile</result>
 		</action>
 		
@@ -251,7 +244,7 @@
 			<exception-mapping exception="java.lang.Exception"	result="error" />
 		</global-exception-mappings>
 		
-		<action name="userAdministration" class="com.mikalai.library.actions.UserAction" >
+		<action name="userAdministration" class="com.mikalai.library.web.controller.UserController" >
 			<result name="success" type="tiles">tiles_users</result>
 		</action>
 		
@@ -307,7 +300,7 @@
 			<exception-mapping exception="java.lang.Exception"	result="error" />
 		</global-exception-mappings>
 		
-		<action name="getUsers" class="com.mikalai.library.actions.UserAction" method="prepareUsers">
+		<action name="getUsers" class="com.mikalai.library.web.controller.UserController" method="prepareUsers">
 			<result type="json">
 				<param name="root">tableResult</param>
 			</result>
@@ -319,7 +312,7 @@
 			</result>
 		</action>
 		
-		<action name="editUser" class="com.mikalai.library.actions.UserAction" method="editUser">
+		<action name="editUser" class="com.mikalai.library.web.controller.UserController" method="editUser">
 			<result type="json">
 				<param name="root">result</param>
 			</result>
@@ -534,7 +527,7 @@
 			</result>
 		</action>
 		
-		<action name="getUsersForLibrarian" class="com.mikalai.library.actions.UserAction" method="prepareActiveUsers">
+		<action name="getUsersForLibrarian" class="com.mikalai.library.web.controller.UserController" method="prepareActiveUsers">
 			<result type="json">
 				<param name="root">tableResult</param>
 			</result>

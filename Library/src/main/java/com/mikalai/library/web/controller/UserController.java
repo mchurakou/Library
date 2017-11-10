@@ -1,4 +1,4 @@
-package com.mikalai.library.actions;
+package com.mikalai.library.web.controller;
 
 
 import com.mikalai.library.ajax_json.*;
@@ -20,6 +20,8 @@ import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +33,10 @@ import java.util.Map;
  * 
  * @author Mikalai_Churakou
  */
-public class UserAction extends ActionSupport implements SessionAware, RequestAware{
-	private static final Logger LOG = Logger.getLogger(UserAction.class);
+
+@Controller
+public class UserController extends ActionSupport implements SessionAware, RequestAware {
+	private static final Logger LOG = Logger.getLogger(UserController.class);
 
 	@Autowired
 	private UserDAO userDAO;
@@ -154,10 +158,20 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		}
 	}
 	
+
+
+
+	@RequestMapping(path="/loginPage")
+	public String loginPage(){
+		return "tiles_login";
+	}
+
+
 	/**
 	 * Login and password confirmation
-	 * 
-	 */	
+	 *
+	 */
+	@RequestMapping(path="/loginConfirm")
 	public String loginConfirm()  {
 		
 		

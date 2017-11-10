@@ -17,7 +17,9 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-  mvc:
+
+  messages:
+    basename: i18n
 
 management:
   security:

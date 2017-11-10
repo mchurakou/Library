@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -23,14 +23,14 @@
 			$( "button, input[type=submit]").button();
 			
 			$( ".datepicker" ).datepicker({firstDay : 1,
-				monthNames:    ['<s:text name="datepicker.January" />', '<s:text name="datepicker.February" />', '<s:text name="datepicker.March" />', '<s:text name="datepicker.April" />', '<s:text name="datepicker.May" />', '<s:text name="datepicker.June" />', '<s:text name="datepicker.July" />', '<s:text name="datepicker.August" />', '<s:text name="datepicker.September" />', '<s:text name="datepicker.October" />', '<s:text name="datepicker.November" />', '<s:text name="datepicker.December" />'],
-				dayNamesMin:     ['<s:text name="datepicker.Su" />', '<s:text name="datepicker.Mo" />', '<s:text name="datepicker.Tu" />', '<s:text name="datepicker.We" />', '<s:text name="datepicker.Th" />', '<s:text name="datepicker.Fr" />', '<s:text name="datepicker.Sa" />'],
+				monthNames:    ['<spring:message code="datepicker.January" />', '<spring:message code="datepicker.February" />', '<spring:message code="datepicker.March" />', '<spring:message code="datepicker.April" />', '<spring:message code="datepicker.May" />', '<spring:message code="datepicker.June" />', '<spring:message code="datepicker.July" />', '<spring:message code="datepicker.August" />', '<spring:message code="datepicker.September" />', '<spring:message code="datepicker.October" />', '<spring:message code="datepicker.November" />', '<spring:message code="datepicker.December" />'],
+				dayNamesMin:     ['<spring:message code="datepicker.Su" />', '<spring:message code="datepicker.Mo" />', '<spring:message code="datepicker.Tu" />', '<spring:message code="datepicker.We" />', '<spring:message code="datepicker.Th" />', '<spring:message code="datepicker.Fr" />', '<spring:message code="datepicker.Sa" />'],
 				dateFormat: "dd.mm.yy"
 				});	
 			
 		});
 	
-	var MSG_ALERT = '<s:text name="alert.alert" />';	
+	var MSG_ALERT = '<spring:message code="alert.alert" />';	
 	
 
 

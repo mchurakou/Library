@@ -55,11 +55,7 @@ public class UserServiceImpl implements UserService {
      *
      */
     public List<User> getActiveUsersForTable(Pagination pagination, Filter filter){
-//        return userRepository.getActiveUsersForTable(pagination, filter);
-
-        PageRequest pageRequest = new PageRequest(pagination.getPage(), pagination.getCount());
-        Page<User> page = userRepository.findAll(pageRequest);
-        return page.getContent();
+        return userRepository.getActiveUsersForTable(pagination, filter);
     }
 
     /**
