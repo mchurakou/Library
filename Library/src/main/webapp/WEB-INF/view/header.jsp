@@ -90,7 +90,7 @@ $(document).ready(function(){
             
             <li><a href="statistic"><s:text name="header.Statistic" /></a></li>
             <li><a href="information"><s:text name="header.Information" /></a></li>
-            <li><a href="exit"><s:text name="header.Exit" /></a></li>
+            <li><a href="exit.action"><s:text name="header.Exit" /></a></li>
         </ul>
     </div>
     

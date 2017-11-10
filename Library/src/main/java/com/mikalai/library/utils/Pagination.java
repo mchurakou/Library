@@ -7,13 +7,26 @@ package com.mikalai.library.utils;
 public class Pagination {
 	private String sidx;// number of field for sort
 	private int rows;// number of rows
+
+	//TODO: remove this
 	private int count;//count rows in db
 	private int totalPages;//count of pages
 	private int page;// number of pages
 	private String sord;// way for sort
 	private int start;// number of start row
 	private int end;// number of end row
-	
+
+	public Pagination(String sidx, int rows, int count, int page, String sord) {
+		if(sidx.equals(""))
+			this.sidx = Constants.FIELD_ID;
+		else
+			this.sidx = sidx;
+		this.rows = rows;
+		this.count = count;
+		this.page = page;
+		this.sord = sord;
+	}
+
 	public String getSord() {
 		return sord;
 	}
@@ -64,30 +77,7 @@ public class Pagination {
 		this.count = count;
 	}
 
-	public Pagination(String sidx, int rows, int count, int page, String sord) {
-		if(sidx.equals("")) 
-			this.sidx = Constants.FIELD_ID;
-		else
-			this.sidx = sidx;
-		this.rows = rows;
-		this.count = count;
-		this.sord = sord;
-		
-		if( count > 0 && rows > 0) 
-			totalPages = (count % rows > 0) ? (count / rows + 1) : (count / rows);
-		else
-			totalPages = 0;
-		
-		this.page = page;
-		if (page > totalPages)
-			this.page = totalPages;
-		
-		start = rows*page - rows + 1; 
-		
-		if(start <= 0) 
-			start = 1;
-		end =  start + rows - 1;
-	}
+
 	
 	public Pagination( int rows, int count, int page) {
 		

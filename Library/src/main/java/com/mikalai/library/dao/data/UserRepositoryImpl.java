@@ -22,13 +22,6 @@ public class UserRepositoryImpl extends GenericDaoImpl<User, Long> implements Us
         super(User.class);
     }
 
-    @Override
-    public int getCountOfActiveUsers() {
-        Query query = em.createNamedQuery("User.getActiveUsers");
-        int result = ((Long)query.getSingleResult()).intValue();
-        return result;
-    }
-
     /**
      * List of active users for table with searching
      * @return list of users

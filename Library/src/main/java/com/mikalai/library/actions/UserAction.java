@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +102,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 		String departmentValue = "";
 		String divisionValue = "";
 		try {
-			userCategories = userDAO.getUserCategories();
+			userCategories = userService.getUserCategories();
 			userCategoryValue = StringBuilder.generateValueForList(userCategories);
 			
 			userRoles = userDAO.getUserRoles();
@@ -253,19 +254,11 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 	 */
 	public String prepareUsers()  {
 			
-		Pagination pagination = null;
-		try {
-					
-			count = userService.getCount(filters).intValue();
-			pagination = new Pagination(sidx,rows,count,page,sord);
-			if (!_search)	  
-				users = userService.getListForTable(pagination,null);
-			else
-				users = userService.getListForTable(pagination,filters);
-		} catch (Exception e) {
-			LOG.error(e.getMessage(),e);
-			result = new AjaxResult(false, Constants.MSG_DB_PROBLEM);
-		}
+		Pagination pagination = new Pagination(sidx,rows,count,page,sord);
+		Page<User> page = userService.getListForTable(pagination, filters);
+
+		users = page.getContent();
+
 				
 		List<Row> listRows = new ArrayList<>();
 		for (int i = 0;i < users.size();i++){
@@ -283,7 +276,7 @@ public class UserAction extends ActionSupport implements SessionAware, RequestAw
 			listRows.add(row);
 		}
 		
-		tableResult = new AjaxTableResult(page,pagination.getTotalPages(),count,listRows);
+		tableResult = new AjaxTableResult(page.getNumber() + 1,page.getTotalPages(), (int)page.getTotalElements(),listRows);
 		return SUCCESS;
 	}
 	

@@ -96,7 +96,7 @@ if (firstShowUser){
 	});	
 
 	$('#tableUsers').jqGrid({
-		url : 'getUsersForLibrarian',
+		url : 'getUsersForLibrarian.action',
 			datatype: 'json',
 			mtype: 'POST',
 			colNames:['Id','<s:text name="registration.Login" />','<s:text name="registration.First_name" />','<s:text name="registration.Second_name" />','<s:text name="registration.Email" />','<s:text name="header.Role" />','<s:text name="header.Category" />','Have debt','<s:text name="registration.Department" />','<s:text name="registration.Division" />'],

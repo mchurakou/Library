@@ -13,16 +13,6 @@ import javax.persistence.*;
  */
 
 
-
-@NamedQueries({
-		@NamedQuery(
-				name =  "User.getActiveUsers",
-				query = "select count(u) from User u where u.role not in ('NEW', 'ADMINISTRATOR')"
-		)
-
-})
-
-
 @Entity
 @Table(name="users")
 public class User extends BasicEntity {

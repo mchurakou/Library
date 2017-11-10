@@ -1,6 +1,7 @@
 package com.mikalai.library.service.user;
 
 import com.mikalai.library.ajax_json.Filter;
+import com.mikalai.library.beans.SimpleBean;
 import com.mikalai.library.beans.User;
 import com.mikalai.library.service.base.BasicService;
 import com.mikalai.library.utils.Pagination;
@@ -20,4 +21,6 @@ public interface UserService extends BasicService<User> {
     int getCountOfActiveUsers();
 
     boolean deleteUser(long id);
+
+    List<SimpleBean> getUserCategories() throws Exception;
 }
